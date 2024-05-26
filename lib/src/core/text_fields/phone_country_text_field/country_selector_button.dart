@@ -1,0 +1,70 @@
+import 'package:country_flags/country_flags.dart' show CountryFlag;
+import 'package:flutter/material.dart' show AnimationController, BoxDecoration, BuildContext, Color, CrossAxisAlignment, EdgeInsets, GlobalKey, Icon, Icons, Ink, InkWell, ListenableBuilder, Material, MaterialType, OverlayPortalController, Row, SizedBox, State, StatefulWidget, StatelessWidget, Text, TextStyle, Widget;
+
+import 'phone_field_notifier.dart';
+
+class CountrySelectorButton extends StatelessWidget {
+  const CountrySelectorButton({
+    super.key,
+    required this.buttonRectKey,
+    required this.overlayController,
+    required this.animationController,
+    required this.phoneValueNotifier,
+    required this.codePickerDecoration,
+    required this.codePickerArrowColor,
+    required this.codePickerTextStyle,
+    this.codePadding = EdgeInsets.zero,
+  });
+
+  final GlobalKey<State<StatefulWidget>> buttonRectKey;
+  final OverlayPortalController overlayController;
+  final AnimationController animationController;
+  final PhoneFieldNotifier phoneValueNotifier;
+  final BoxDecoration? codePickerDecoration;
+  final EdgeInsets codePadding;
+  final Color? codePickerArrowColor;
+  final TextStyle? codePickerTextStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        key: buttonRectKey,
+        onTap: () {
+          overlayController.show();
+          animationController.forward();
+        },
+        child: Ink(
+          padding: codePadding,
+          decoration: codePickerDecoration,
+          child: ListenableBuilder(
+            listenable: phoneValueNotifier.countryListener,
+            builder: (context, _) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CountryFlag.fromCountryCode(
+                    phoneValueNotifier.country.countryCode,
+                    height: 20,
+                    width: 28,
+                    borderRadius: 4,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    phoneValueNotifier.country.phoneCode,
+                    style: codePickerTextStyle,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: codePickerArrowColor,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

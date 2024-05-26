@@ -1,0 +1,22 @@
+{
+  "retry": "Retry",
+  "fullName": "Full Name",
+  "emptyName": "Name cannot be empty",
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "smallName": "Name must be more than two characters",
+  "weakPassword": "Password must be more than 8 characters and contain at least:\nA capital letter\nA small letter\nA number",
+  "wrongEmail": "Email is invalid",
+  "emptyPassword": "Password cannot be empty",
+  "emptyEmail": "Email cannot be empty",
+  "emptyPhone": "Phone number cannot be empty",
+  "wrongPhone": "Phone number is invalid",
+  "wrongConfirmPassword": "Passwords do not match",
+  "address": "Address",
+  "phoneNumber": "Phone Number",
+  "requiredField": "This Field is Required",
+  "firstName": "First Name",
+  "secondName":"Second Name",
+  "lastName": "Last Name"
+}

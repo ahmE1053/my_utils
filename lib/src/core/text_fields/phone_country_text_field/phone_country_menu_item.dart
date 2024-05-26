@@ -1,0 +1,68 @@
+import 'package:country_flags/country_flags.dart' show CountryFlag;
+import 'package:flutter/material.dart' show AlignmentDirectional, AnimationController, BorderRadius, BoxFit, BuildContext, Colors, EdgeInsets, Expanded, FittedBox, Ink, InkWell, Material, MaterialType, OverlayPortalController, Padding, Row, SizedBox, StatelessWidget, Text, TextStyle, Widget;
+
+import 'country_info.dart';
+import 'phone_field_notifier.dart';
+
+class PhoneCountryCodeMenuItem extends StatelessWidget {
+  const PhoneCountryCodeMenuItem({
+    super.key,
+    required this.countryInfo,
+    required this.phoneFieldNotifier,
+    required this.animationController,
+    required this.overlayController,
+  });
+
+  final CountryInfo countryInfo;
+  final PhoneFieldNotifier phoneFieldNotifier;
+  final AnimationController animationController;
+  final OverlayPortalController overlayController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      width: 100,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () async {
+            phoneFieldNotifier.country = countryInfo;
+            await animationController.reverse();
+            overlayController.hide();
+          },
+          child: Ink(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  CountryFlag.fromCountryCode(
+                    countryInfo.countryCode,
+                    height: 20,
+                    width: 28,
+                    borderRadius: 3,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        countryInfo.phoneCode,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
