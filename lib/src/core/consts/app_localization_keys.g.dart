@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const retry = 'retry';
   static const fullName = 'fullName';
   static const emptyName = 'emptyName';
@@ -21,4 +21,8 @@ abstract class  LocaleKeys {
   static const firstName = 'firstName';
   static const secondName = 'secondName';
   static const lastName = 'lastName';
+  static const areYouSure = 'areYouSure';
+  static const no = 'no';
+  static const yes = 'yes';
+  static const errorOccurred = 'errorOccurred';
 }

@@ -18,5 +18,9 @@
   "requiredField": "This Field is Required",
   "firstName": "First Name",
   "secondName":"Second Name",
-  "lastName": "Last Name"
+  "lastName": "Last Name",
+  "areYouSure":"Are You Sure?",
+  "no":"No",
+  "yes":"Yes",
+  "errorOccurred": "An error occurred. Please try again later."
 }
