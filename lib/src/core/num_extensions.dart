@@ -50,10 +50,11 @@ extension Range<T extends double> on num {
   }
 }
 
-extension DurationExtension on int {
+extension DurationExtension on num {
   String get getDurationFromMinutesArabic {
-    int mins = this % 60;
-    int hours = this ~/ 60;
+    final value = toInt();
+    int mins = value % 60;
+    int hours = value ~/ 60;
     StringBuffer result = StringBuffer();
     if (hours == 1) {
       result.write('ساعة');
@@ -80,8 +81,9 @@ extension DurationExtension on int {
   }
 
   String get getDurationFromMinutesEnglish {
-    int mins = this % 60;
-    int hours = this ~/ 60;
+    final value = toInt();
+    int mins = value % 60;
+    int hours = value ~/ 60;
     StringBuffer result = StringBuffer();
     if (hours == 1) {
       result.write('Hour');
@@ -97,5 +99,13 @@ extension DurationExtension on int {
       result.write('$mins Minutes');
     }
     return result.toString();
+  }
+
+  String get toKFormat {
+    if (this >= 1000) {
+      return '${(this / 1000).toStringAsFixed(1)}K';
+    } else {
+      return toString();
+    }
   }
 }

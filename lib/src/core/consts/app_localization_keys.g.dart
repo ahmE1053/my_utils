@@ -25,4 +25,6 @@ abstract class LocaleKeys {
   static const no = 'no';
   static const yes = 'yes';
   static const errorOccurred = 'errorOccurred';
+  static const goBack = 'goBack';
+  static const goHome = 'goHome';
 }

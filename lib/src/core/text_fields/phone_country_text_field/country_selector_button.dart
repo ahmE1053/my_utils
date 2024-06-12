@@ -1,5 +1,5 @@
 import 'package:country_flags/country_flags.dart' show CountryFlag;
-import 'package:flutter/material.dart' show AnimationController, BoxDecoration, BuildContext, Color, CrossAxisAlignment, EdgeInsets, GlobalKey, Icon, Icons, Ink, InkWell, ListenableBuilder, Material, MaterialType, OverlayPortalController, Row, SizedBox, State, StatefulWidget, StatelessWidget, Text, TextStyle, Widget;
+import 'package:flutter/material.dart';
 
 import 'phone_field_notifier.dart';
 
@@ -27,9 +27,13 @@ class CountrySelectorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final givenRadius = codePickerDecoration?.borderRadius;
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
+        borderRadius: givenRadius is BorderRadius
+            ? givenRadius
+            : BorderRadius.circular(12),
         key: buttonRectKey,
         onTap: () {
           overlayController.show();

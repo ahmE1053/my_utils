@@ -7,11 +7,13 @@ class MyRatingBar extends StatelessWidget {
     required this.numOfStars,
     this.padding,
     this.size,
+    this.starColor,
   });
 
   final num numOfStars;
   final EdgeInsets? padding;
   final double? size;
+  final Color? starColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +26,24 @@ class MyRatingBar extends StatelessWidget {
           if (currentNumber > -0.2) {
             child = SvgPicture.asset(
               'assets/icons/star.svg',
-              colorFilter: const ColorFilter.mode(
-                Colors.amber,
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else if (currentNumber < -0.2 && currentNumber > -0.8) {
             child = SvgPicture.asset(
               'assets/icons/half_star.svg',
-              colorFilter: const ColorFilter.mode(
-                Colors.amber,
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else {
             child = SvgPicture.asset(
               'assets/icons/empty_star.svg',
-              colorFilter: const ColorFilter.mode(
-                Colors.amber,
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
@@ -66,11 +68,13 @@ class MyRatingBarSelection extends StatelessWidget {
     required this.rating,
     this.padding,
     this.size,
+    this.starColor,
   });
 
   final ValueNotifier<int> rating;
   final EdgeInsets? padding;
   final double? size;
+  final Color? starColor;
 
   @override
   Widget build(BuildContext context) {
@@ -86,24 +90,24 @@ class MyRatingBarSelection extends StatelessWidget {
               if (currentNumber > -0.2) {
                 child = SvgPicture.asset(
                   'assets/icons/star.svg',
-                  colorFilter: const ColorFilter.mode(
-                    Colors.amber,
+                  colorFilter: ColorFilter.mode(
+                    starColor ?? Colors.amber,
                     BlendMode.srcIn,
                   ),
                 );
               } else if (currentNumber < -0.2 && currentNumber > -0.8) {
                 child = SvgPicture.asset(
                   'assets/icons/half_star.svg',
-                  colorFilter: const ColorFilter.mode(
-                    Colors.amber,
+                  colorFilter: ColorFilter.mode(
+                    starColor ?? Colors.amber,
                     BlendMode.srcIn,
                   ),
                 );
               } else {
                 child = SvgPicture.asset(
                   'assets/icons/empty_star.svg',
-                  colorFilter: const ColorFilter.mode(
-                    Colors.amber,
+                  colorFilter: ColorFilter.mode(
+                    starColor ?? Colors.amber,
                     BlendMode.srcIn,
                   ),
                 );

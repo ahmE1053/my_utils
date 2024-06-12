@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show AnimationController, BorderRadius, BuildContext, ClipRRect, ColoredBox, Colors, Column, FadeTransition, FocusScope, GestureDetector, GlobalKey, OverlayPortalController, Positioned, SizeTransition, SizedBox, Stack, StackFit, StatelessWidget, Widget;
+import 'package:flutter/cupertino.dart';
 
 import '../../context_extensions.dart';
 import 'country_info.dart';
@@ -11,12 +11,14 @@ class CountriesOverlay extends StatelessWidget {
     required this.buttonRectKey,
     required this.animationController,
     required this.overlayController,
+    this.overlayDecoration,
     required this.phoneFieldNotifier,
   });
 
   final GlobalKey buttonRectKey;
   final PhoneFieldNotifier phoneFieldNotifier;
   final AnimationController animationController;
+  final BoxDecoration? overlayDecoration;
   final OverlayPortalController overlayController;
 
   @override
@@ -39,14 +41,14 @@ class CountriesOverlay extends StatelessWidget {
         Positioned(
           top: buttonRect.top - 2,
           left: buttonRect.left - 2,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+          child: Container(
+            decoration: overlayDecoration,
             child: FadeTransition(
               opacity: animationController,
               child: SizeTransition(
                 sizeFactor: animationController,
-                child: ColoredBox(
-                  color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     children: getPopupMenuItems,
                   ),

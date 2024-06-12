@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'
-    show BoxConstraints, Color, EdgeInsets, FocusNode, FormFieldState, GlobalKey, TextAlign, TextDirection, TextEditingController, TextInputAction, TextInputType, TextStyle, ValueNotifier, Widget;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show TextInputFormatter;
 
 import '../phone_country_text_field/phone_field_notifier.dart';
@@ -8,6 +7,8 @@ class TextFieldModel {
   final bool isPassword;
   final ValueNotifier<bool>? obscureText;
   final String? Function(String? value)? validator;
+  final AutovalidateMode? validationMode;
+  final void Function()? onTap;
   final void Function(String? value)? onChanged;
   final String? label, hint;
   final TextStyle? style;
@@ -28,7 +29,7 @@ class TextFieldModel {
   final EdgeInsets? contentPadding;
   final bool? isDense;
   final bool useLabel;
-  final bool useHint;
+  final bool? useHint;
   final FocusNode? focusNode;
   final TextAlign? textAlign;
   final Color? textColor;
@@ -43,7 +44,7 @@ class TextFieldModel {
     required this.controller,
     this.isPassword = false,
     this.useLabel = false,
-    this.useHint = false,
+    this.useHint,
     this.validator,
     this.obscureText,
     this.onChanged,
@@ -54,8 +55,10 @@ class TextFieldModel {
     this.style,
     this.inputFormatters,
     this.action,
+    this.onTap,
     this.textInputType,
     this.fillColor,
+    this.validationMode,
     this.hintStyle,
     this.labelStyle,
     this.floatingLabelStyle,
@@ -83,7 +86,8 @@ class TextFieldModel {
     required PhoneFieldNotifier phoneFieldNotifier,
     this.isPassword = false,
     this.useLabel = false,
-    this.useHint = false,
+    this.useHint,
+    this.onTap,
     this.validator,
     this.obscureText,
     this.onChanged,
@@ -110,6 +114,7 @@ class TextFieldModel {
     this.isDense,
     this.focusNode,
     this.textAlign,
+    this.validationMode,
     this.textColor,
     this.enabled,
     this.focusedBorder,
@@ -129,6 +134,7 @@ class TextFieldModel {
     String? hint,
     TextStyle? style,
     TextStyle? errorStyle,
+    AutovalidateMode? validationMode,
     GlobalKey<FormFieldState>? fieldFormStateKey,
     List<TextInputFormatter>? inputFormatters,
     TextInputAction? action,
@@ -159,45 +165,45 @@ class TextFieldModel {
       TextFieldModel(
         controller: controller,
         isPassword: isPassword ?? this.isPassword,
-        validator: validator ?? this.validator,
-        onChanged: onChanged ?? this.onChanged,
-        label: label ?? this.label,
-        hint: hint ?? this.hint,
+        validator: this.validator ?? validator,
+        onChanged: this.onChanged ?? onChanged,
+        label: this.label ?? label,
+        hint: this.hint ?? hint,
         useLabel: useLabel ?? this.useLabel,
         useHint: useHint ?? this.useHint,
-        style: style ?? this.style,
-        errorStyle: errorStyle ?? this.errorStyle,
-        fieldFormStateKey: fieldFormStateKey ?? this.fieldFormStateKey,
-        inputFormatters: inputFormatters ?? this.inputFormatters,
-        action: action ?? this.action,
-        textInputType: textInputType ?? this.textInputType,
-        fillColor: fillColor ?? this.fillColor,
-        hintStyle: hintStyle ?? this.hintStyle,
-        labelStyle: labelStyle ?? this.labelStyle,
-        floatingLabelStyle: floatingLabelStyle ?? this.floatingLabelStyle,
-        suffix: suffix ?? this.suffix,
-        prefix: prefix ?? this.prefix,
+        style: this.style ?? style,
+        validationMode: this.validationMode ?? validationMode,
+        errorStyle: this.errorStyle ?? errorStyle,
+        fieldFormStateKey: this.fieldFormStateKey ?? fieldFormStateKey,
+        inputFormatters: this.inputFormatters ?? inputFormatters,
+        action: this.action ?? action,
+        textInputType: this.textInputType ?? textInputType,
+        fillColor: this.fillColor ?? fillColor,
+        hintStyle: this.hintStyle ?? hintStyle,
+        labelStyle: this.labelStyle ?? labelStyle,
+        floatingLabelStyle: this.floatingLabelStyle ?? floatingLabelStyle,
+        suffix: this.suffix ?? suffix,
+        prefix: this.prefix ?? prefix,
         maxLines: maxLines ?? this.maxLines,
-        minLines: minLines ?? this.minLines,
-        textDirection: textDirection ?? this.textDirection,
-        suffixBoxConstraints: suffixBoxConstraints ?? this.suffixBoxConstraints,
-        padding: padding ?? this.padding,
-        contentPadding: contentPadding ?? this.contentPadding,
-        isDense: isDense ?? this.isDense,
-        focusNode: focusNode ?? this.focusNode,
-        textAlign: textAlign ?? this.textAlign,
-        textColor: textColor ?? this.textColor,
-        enabled: enabled ?? this.enabled,
-        focusedBorder: focusedBorder ?? this.focusedBorder,
-        enabledBorder: enabledBorder ?? this.enabledBorder,
-        autofillHints: autofillHints ?? this.autofillHints,
-        onTapOutside: onTapOutside ?? this.onTapOutside,
-        onEditingComplete: onEditingComplete ?? this.onEditingComplete,
+        minLines: this.minLines ?? minLines,
+        textDirection: this.textDirection ?? textDirection,
+        suffixBoxConstraints: this.suffixBoxConstraints ?? suffixBoxConstraints,
+        padding: this.padding ?? padding,
+        contentPadding: this.contentPadding ?? contentPadding,
+        isDense: this.isDense ?? isDense,
+        focusNode: this.focusNode ?? focusNode,
+        textAlign: this.textAlign ?? textAlign,
+        textColor: this.textColor ?? textColor,
+        enabled: this.enabled ?? enabled,
+        focusedBorder: this.focusedBorder ?? focusedBorder,
+        enabledBorder: this.enabledBorder ?? enabledBorder,
+        autofillHints: this.autofillHints ?? autofillHints,
+        onTapOutside: this.onTapOutside ?? onTapOutside,
+        onEditingComplete: this.onEditingComplete ?? onEditingComplete,
       );
 
-  TextInputFormatter get getNameFormatter =>
-      TextInputFormatter.withFunction(
-            (oldValue, newValue) {
+  TextInputFormatter get getNameFormatter => TextInputFormatter.withFunction(
+        (oldValue, newValue) {
           bool returnNew = true;
           for (int i = 0; i < newValue.text.length; i++) {
             if (newValue.text[i].contains(

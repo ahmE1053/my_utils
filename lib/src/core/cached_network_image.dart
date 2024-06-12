@@ -18,6 +18,7 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
   final double? borderRadius;
   final Widget? error;
   final bool useInk;
+  static Widget Function(BuildContext, String, Object)? errorWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +26,18 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
       // imageUrl: imageUrl,
       imageUrl: imageUrl,
       imageBuilder: useInk
-          ? (context, imageProvider) => Material(
-                type: MaterialType.transparency,
-                child: Ink.image(
-                  image: imageProvider,
-                  fit: fit,
-                ),
-              )
+          ? (context, imageProvider) =>
+          Ink.image(
+            image: imageProvider,
+            fit: fit,
+          )
           : null,
       fit: fit,
-      progressIndicatorBuilder: (context, url, progress) => BaseShimmer(
-        borderRadius: borderRadius,
-      ),
+      errorWidget: error != null ? (_, __, ___) => error! : errorWidget,
+      progressIndicatorBuilder: (context, url, progress) =>
+          BaseShimmer(
+            borderRadius: borderRadius,
+          ),
     );
   }
 }

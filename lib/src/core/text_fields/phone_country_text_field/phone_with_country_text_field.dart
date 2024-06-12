@@ -1,6 +1,37 @@
 import 'package:easy_localization/easy_localization.dart'
     show StringTranslateExtension;
-import 'package:flutter/material.dart' show AnimationController, BoxDecoration, BuildContext, Color, Colors, Column, CrossAxisAlignment, Directionality, EdgeInsets, EdgeInsetsDirectional, Expanded, FormField, FormFieldState, GlobalKey, MediaQuery, OverlayPortal, OverlayPortalController, Padding, Row, SingleTickerProviderStateMixin, SizedBox, State, StatefulWidget, Text, TextDirection, TextStyle, Widget;
+import 'package:flutter/material.dart'
+    show
+    AnimationController,
+    BoxDecoration,
+    BuildContext,
+    Color,
+    Colors,
+    Column,
+    CrossAxisAlignment,
+    Directionality,
+    EdgeInsets,
+    EdgeInsetsDirectional,
+    Expanded,
+    FormField,
+    FormFieldState,
+    GlobalKey,
+    MediaQuery,
+    OverlayPortal,
+    OverlayPortalController,
+    Padding,
+    Row,
+    SingleTickerProviderStateMixin,
+    SizedBox,
+    State,
+    StatefulWidget,
+    Text,
+    TextDirection,
+    TextStyle,
+    Widgetn,
+        TextStyle,
+        Widget;
+import 'package:my_utils/src/core/consts/app_localization_keys.g.dart';
 
 import '../../context_extensions.dart';
 import '../phone.dart';
@@ -18,6 +49,7 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
     this.codePickerDecoration,
     this.codePickerArrowColor,
     this.codePickerTextStyle,
+    this.overlayDecoration,
     this.codePadding = EdgeInsets.zero,
   });
 
@@ -25,6 +57,7 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
   final TextFieldModel textFieldModel;
   final double height;
   final BoxDecoration? codePickerDecoration;
+  final BoxDecoration? overlayDecoration;
   final EdgeInsets codePadding;
   final Color? codePickerArrowColor;
   final TextStyle? codePickerTextStyle;
@@ -71,12 +104,15 @@ class _MyPhoneWithCountryTextFieldState
         controller: overlayController,
         overlayChildBuilder: (context) => CountriesOverlay(
           buttonRectKey: buttonRectKey,
+          overlayDecoration: widget.overlayDecoration,
           animationController: animationController,
           overlayController: overlayController,
           phoneFieldNotifier: widget.phoneValueNotifier,
         ),
         child: FormField(
-          validator: (value) => phoneValueNotifier.validator,
+          validator: (value) {
+            return phoneValueNotifier.validator;
+          },
           builder: (field) {
             if (!field.hasError) return buttonWithTextField;
             textFieldKey.currentState?.validate();
@@ -85,13 +121,17 @@ class _MyPhoneWithCountryTextFieldState
               children: [
                 buttonWithTextField,
                 const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 12.0),
-                  child: Text(
-                    field.errorText?.tr() ?? '',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.redAccent,
+                Directionality(
+                  textDirection:
+                      context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 12.0),
+                    child: Text(
+                      field.errorText?.tr() ?? '',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.redAccent,
+                      ),
                     ),
                   ),
                 ),
@@ -120,13 +160,19 @@ class _MyPhoneWithCountryTextFieldState
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: MyPhoneTextField(
-                textFieldModel: widget.textFieldModel.replaceIfNull(
-                  fieldFormStateKey: textFieldKey,
-                  isDense: false,
-                  validator: (value) => phoneValueNotifier.validator,
-                  errorStyle: const TextStyle(
-                    fontSize: 0,
+              child: Directionality(
+                textDirection:
+                    context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+                child: MyPhoneTextField(
+                  textFieldModel: widget.textFieldModel.replaceIfNull(
+
+                    fieldFormStateKey: textFieldKey,
+                    focusNode: phoneValueNotifier.focusNode,
+                    isDense: false,
+                    validator: (value) => phoneValueNotifier.validator,
+                    errorStyle: const TextStyle(
+                      fontSize: 0,
+                    ),
                   ),
                 ),
               ),

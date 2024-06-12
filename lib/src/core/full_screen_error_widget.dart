@@ -12,9 +12,11 @@ class FullScreenError extends StatelessWidget {
     super.key,
     required this.exception,
     required this.onTap,
+    this.stackTrace,
   });
 
   final Object exception;
+  final StackTrace? stackTrace;
   final void Function() onTap;
 
   @override

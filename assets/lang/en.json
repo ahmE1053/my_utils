@@ -22,5 +22,7 @@
   "areYouSure":"Are You Sure?",
   "no":"No",
   "yes":"Yes",
-  "errorOccurred": "An error occurred. Please try again later."
+  "errorOccurred": "An error occurred. Please try again later.",
+  "goBack": "Go Back",
+  "goHome": "Go Home"
 }

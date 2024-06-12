@@ -6,8 +6,6 @@ extension MediaQueryHelper on BuildContext {
 
   double get width => MediaQuery.sizeOf(this).width;
 
-  double get topPadding => MediaQuery.viewPaddingOf(this).top;
-
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
 
   Color get primaryColor => colorScheme.primary;

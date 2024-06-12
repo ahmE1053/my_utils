@@ -12,6 +12,7 @@ class StateModelWidget<T> extends StatelessWidget {
     this.onFail,
     this.customError,
     this.customLoading,
+    this.errorTextColor,
     this.showError = true,
   });
 
@@ -20,6 +21,7 @@ class StateModelWidget<T> extends StatelessWidget {
   final Widget child;
   final bool showError;
   final Widget? customError;
+  final Color? errorTextColor;
   final Widget? customLoading;
 
   @override
@@ -32,12 +34,14 @@ class StateModelWidget<T> extends StatelessWidget {
     }
     return switch (state) {
       StateInitial<T>() || StateSuccess<T>() => child,
-      StateError<T>() => customError ??
+      StateError<T>() =>
+      customError ??
           (showError
               ? ErrorColumn(
-                  text: state.errorMessage,
-                  child: child,
-                )
+            text: state.errorMessage,
+            child: child,
+            errorTextColor: errorTextColor,
+          )
               : child),
       StateLoading<T>() => customLoading ?? const MyUtilLoadingIndicator(),
     };

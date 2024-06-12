@@ -1,8 +1,22 @@
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:my_utils/my_utils.dart';
 
 @immutable
 sealed class PaginationStateModel<T> {
   const PaginationStateModel();
+
+  factory PaginationStateModel.fromException(dynamic l) {
+    return PaginationStateError(
+      l is GeneralException ? l.message : 'errorOccurred',
+    );
+  }
+
+  factory PaginationStateModel.fromExceptionWithData(List<T> oldData, dynamic l) {
+    return PaginationStateErrorWithData(
+      oldData,
+      l is GeneralException ? l.message : 'errorOccurred',
+    );
+  }
 
   const factory PaginationStateModel.initial() = PaginationStateInitial;
 

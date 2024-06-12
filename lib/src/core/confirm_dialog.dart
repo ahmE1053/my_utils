@@ -8,11 +8,11 @@ import 'string_extensions.dart';
 class ConfirmDialog extends StatelessWidget {
   const ConfirmDialog({
     super.key,
-    required this.toDo,
+    this.toDo,
     this.text,
   });
 
-  final void Function() toDo;
+  final void Function()? toDo;
   final String? text;
 
   @override
@@ -43,7 +43,7 @@ class ConfirmDialog extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     },
                     child: Text(
                       LocaleKeys.no.tr(),
@@ -54,8 +54,8 @@ class ConfirmDialog extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
-                      toDo();
+                      Navigator.pop(context, true);
+                      toDo?.call();
                     },
                     child: Text(
                       LocaleKeys.yes.tr(),

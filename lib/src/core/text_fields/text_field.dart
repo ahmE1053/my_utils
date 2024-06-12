@@ -2,24 +2,24 @@ import 'package:easy_localization/easy_localization.dart'
     show StringTranslateExtension;
 import 'package:flutter/material.dart'
     show
-        BorderSide,
-        BuildContext,
-        Colors,
-        EdgeInsets,
-        IconButton,
-        InputDecoration,
-        Listenable,
-        ListenableBuilder,
-        State,
-        StatefulWidget,
-        Text,
-        TextAlign,
-        TextDirection,
-        TextFormField,
-        TextStyle,
-        Theme,
-        ValueNotifier,
-        Widget;
+    BorderSide,
+    BuildContext,
+    Colors,
+    EdgeInsets,
+    IconButton,
+    InputDecoration,
+    Listenable,
+    ListenableBuilder,
+    State,
+    StatefulWidget,
+    Text,
+    TextAlign,
+    TextDirection,
+    TextFormField,
+    TextStyle,
+    Theme,
+    ValueNotifier,
+    Widget;
 import 'package:flutter_svg/flutter_svg.dart' show SvgPicture;
 
 import '../consts/app_localization_keys.g.dart';
@@ -42,7 +42,7 @@ class _MyTextFieldState extends State<MyTextField> {
   late final ValueNotifier<TextDirection> textFieldDirection;
   late final ValueNotifier<bool> obscureText;
   late final void Function() textFieldDirectionListener;
-  late final TextFieldModel textFieldModel;
+  late TextFieldModel textFieldModel;
 
   TextDirection get getInitDirection {
     String value = textFieldModel.controller.text.trim();
@@ -88,18 +88,23 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
+    final inputDecorationTheme = Theme
+        .of(context)
+        .inputDecorationTheme;
+    textFieldModel = widget.textFieldModel;
     return ListenableBuilder(
       listenable: Listenable.merge([textFieldDirection, obscureText]),
       builder: (context, _) {
         return TextFormField(
+          onTap: textFieldModel.onTap,
           key: textFieldModel.fieldFormStateKey,
           onTapOutside: textFieldModel.onTapOutside,
           focusNode: textFieldModel.focusNode,
           textDirection:
-              textFieldModel.textDirection ?? textFieldDirection.value,
+          textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
           validator: textFieldModel.validator,
+          autovalidateMode: textFieldModel.validationMode,
           onEditingComplete: () {
             if (textFieldModel.onEditingComplete != null) {
               textFieldModel.onEditingComplete!(textFieldModel.controller);
@@ -126,61 +131,72 @@ class _MyTextFieldState extends State<MyTextField> {
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,
             floatingLabelStyle: textFieldModel.floatingLabelStyle,
             fillColor:
-                textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
+            textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
             errorStyle: textFieldModel.errorStyle,
             filled:
-                (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
-                    null,
+            (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
+                null,
             isDense: textFieldModel.isDense ?? true,
             border: inputDecorationTheme.border,
             disabledBorder: inputDecorationTheme.disabledBorder,
             errorBorder: inputDecorationTheme.errorBorder,
             focusedErrorBorder: inputDecorationTheme.focusedErrorBorder,
             focusedBorder:
-                Theme.of(context).inputDecorationTheme.focusedBorder!.copyWith(
-                      borderSide: BorderSide(
-                        color: textFieldModel.focusedBorder ??
-                            Theme.of(context)
-                                .inputDecorationTheme
-                                .focusedBorder!
-                                .borderSide
-                                .color,
-                      ),
-                    ),
+            Theme
+                .of(context)
+                .inputDecorationTheme
+                .focusedBorder!
+                .copyWith(
+              borderSide: BorderSide(
+                color: textFieldModel.focusedBorder ??
+                    Theme
+                        .of(context)
+                        .inputDecorationTheme
+                        .focusedBorder!
+                        .borderSide
+                        .color,
+              ),
+            ),
             enabledBorder:
-                Theme.of(context).inputDecorationTheme.enabledBorder!.copyWith(
-                      borderSide: BorderSide(
-                        color: textFieldModel.enabledBorder ??
-                            Theme.of(context)
-                                .inputDecorationTheme
-                                .enabledBorder!
-                                .borderSide
-                                .color,
-                      ),
-                    ),
+            Theme
+                .of(context)
+                .inputDecorationTheme
+                .enabledBorder!
+                .copyWith(
+              borderSide: BorderSide(
+                color: textFieldModel.enabledBorder ??
+                    Theme
+                        .of(context)
+                        .inputDecorationTheme
+                        .enabledBorder!
+                        .borderSide
+                        .color,
+              ),
+            ),
             errorMaxLines: 5,
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
-            hintText: textFieldModel.useHint ? textFieldModel.hint : null,
+            hintText:
+            textFieldModel.useHint == false ? null : textFieldModel.hint,
             label: textFieldModel.label == null || !textFieldModel.useLabel
                 ? null
                 : Text(textFieldModel.label!),
             hintStyle:
-                textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
+            textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
-                textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
+            textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
             suffixIcon:
-                textFieldModel.isPassword && textFieldModel.suffix == null
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          obscureText.value = !obscureText.value;
-                        },
-                        icon: SvgPicture.asset(
-                          'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
-                        ),
-                      )
-                    : textFieldModel.suffix,
+            textFieldModel.isPassword && textFieldModel.suffix == null
+                ? IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                obscureText.value = !obscureText.value;
+              },
+              icon: SvgPicture.asset(
+                'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
+              ),
+            )
+                : textFieldModel.suffix,
           ),
         );
       },

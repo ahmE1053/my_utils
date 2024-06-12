@@ -6,25 +6,19 @@ class MyUtilAppConsts {
   static final borderRadius4 = BorderRadius.circular(4);
   static final borderRadius12 = BorderRadius.circular(12);
   static final buttonBorderRadius = BorderRadius.circular(12);
-  // static final primaryGradient = LinearGradient(
-  //   colors: [
-  //     LightAppColors.primary,
-  //   ],
-  //   begin: Alignment.topRight,
-  //   end: Alignment.bottomLeft,
-  // );
-  static final lightShadow = BoxShadow(
-    color: Colors.black.withOpacity(0.07),
+
+  static const lightShadow = BoxShadow(
+    color: Color(0xffe8e8e8),
     spreadRadius: 2,
     blurRadius: 10,
   );
-  static final veryLightShadow = BoxShadow(
-    color: Colors.black.withOpacity(0.04),
+  static const veryLightShadow = BoxShadow(
+    color: Color(0xffefefef),
     spreadRadius: 2,
     blurRadius: 2,
   );
-  static final heavyShadow = BoxShadow(
-    color: Colors.black.withOpacity(0.1),
+  static const heavyShadow = BoxShadow(
+    color: Color(0xffdadada),
     spreadRadius: 2,
     blurRadius: 10,
   );

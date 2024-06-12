@@ -1,4 +1,3 @@
-
 import '../../string_extensions.dart';
 
 class CountryInfo {
