@@ -176,24 +176,26 @@ class _PaginationStateModelWidgetState<T>
                 exception: GeneralException(state.errorMessage),
               ),
         ),
-      PaginationStateSuccess<T>(data: var data) => getChildWidget(data, false),
-      PaginationStateLoadingWithData<T>(oldData: var data) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            getChildWidget(data, true),
+      PaginationStateSuccess<T>(data: var data) => getChildWidget(
+          data: data,
+          disableBottomInsets: false,
+        ),
+      PaginationStateLoadingWithData<T>(oldData: var data) => getChildWidget(
+          data: data,
+          disableBottomInsets: true,
+          additionalWidgets: [
             const SizedBox(height: 8),
             const MyUtilLoadingIndicator(),
-            SizedBox(height: widget.bottomInset),
           ],
         ),
       PaginationStateErrorWithData<T>(
         oldData: var data,
         errorMessage: var error
       ) =>
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            getChildWidget(data, true),
+        getChildWidget(
+          data: data,
+          disableBottomInsets: true,
+          additionalWidgets: [
             const SizedBox(height: 8),
             Text(
               error.tr(),
@@ -209,17 +211,76 @@ class _PaginationStateModelWidgetState<T>
                 ),
               ),
             ),
-            SizedBox(height: widget.bottomInset),
           ],
         ),
     };
-    if (widget.upperScrollController != null) {
-      return thisWidget;
+    return thisWidget;
+  }
+
+  EdgeInsets getScrollablePadding(disableBottomInsets) =>
+      widget.scrollablePadding ??
+      EdgeInsets.only(
+        top: widget.topInset ?? 0.0,
+        bottom: disableBottomInsets ? 0.0 : widget.bottomInset ?? 0.0,
+      );
+
+  Widget getChildWidget({
+    required List<T> data,
+    required bool disableBottomInsets,
+    List<Widget>? additionalWidgets,
+  }) {
+    if (data.isEmpty) {
+      return widget.emptyState ??
+          const Text(
+            'No Data',
+          );
     }
-    return SingleChildScrollView(
-      controller: scrollController,
+    if (widget.sliverGridDelegate == null) {
+      final list = ListView.builder(
+        key: additionalWidgets != null ? null : widget.pageStorageKey,
+        controller: additionalWidgets != null ? null : scrollController,
+        physics: additionalWidgets != null
+            ? const NeverScrollableScrollPhysics()
+            : null,
+        shrinkWrap: additionalWidgets != null,
+        itemCount: data.length,
+        itemBuilder: (context, index) => widget.child(data[index]),
+        itemExtent: widget.useItemExtent ? widget.shimmerExtent! + 8 : null,
+        padding: additionalWidgets != null
+            ? EdgeInsets.zero
+            : getScrollablePadding(disableBottomInsets),
+        scrollDirection: widget.scrollDirection,
+      );
+      if (additionalWidgets == null) return list;
+      return ListView(
+        key: widget.pageStorageKey,
+        controller: scrollController,
+        scrollDirection: widget.scrollDirection,
+        padding: getScrollablePadding(disableBottomInsets),
+        children: [
+          list,
+          ...additionalWidgets,
+        ],
+      );
+    }
+    final grid = GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       scrollDirection: widget.scrollDirection,
-      child: thisWidget,
+      itemCount: data.length,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) => widget.child(data[index]),
+      gridDelegate: widget.sliverGridDelegate!,
+    );
+    return ListView(
+      key: widget.pageStorageKey,
+      controller: scrollController,
+      padding: getScrollablePadding(disableBottomInsets),
+      scrollDirection: widget.scrollDirection,
+      children: [
+        grid,
+        ...?additionalWidgets,
+      ],
     );
   }
 
@@ -237,18 +298,15 @@ class _PaginationStateModelWidgetState<T>
                 child: widget.initialLoadingWidget ?? const BaseShimmer(),
               ),
         itemCount: 10,
-        shrinkWrap: true,
         padding: widget.scrollablePadding ??
             EdgeInsets.only(
               top: widget.topInset ?? 0.0,
               bottom: widget.bottomInset ?? 0.0,
             ),
         scrollDirection: widget.scrollDirection,
-        physics: const NeverScrollableScrollPhysics(),
       );
     }
     return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
       itemCount: 10,
       itemBuilder: (context, index) =>
           widget.initialLoadingWidget ?? const BaseShimmer(),
@@ -258,49 +316,6 @@ class _PaginationStateModelWidgetState<T>
             top: widget.topInset ?? 0.0,
             bottom: widget.bottomInset ?? 0.0,
           ),
-      shrinkWrap: true,
-    );
-  }
-
-  Widget getChildWidget(
-    List<T> data,
-    bool disableBottomInsets,
-  ) {
-    if (data.isEmpty) {
-      return widget.emptyState ??
-          const Text(
-            'No Data',
-          );
-    }
-    if (widget.sliverGridDelegate == null) {
-      return ListView.builder(
-        key: widget.pageStorageKey,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: data.length,
-        itemBuilder: (context, index) => widget.child(data[index]),
-        itemExtent: widget.useItemExtent ? widget.shimmerExtent! + 8 : null,
-        padding: widget.scrollablePadding ??
-            EdgeInsets.only(
-              top: widget.topInset ?? 0.0,
-              bottom: disableBottomInsets ? 0.0 : widget.bottomInset ?? 0.0,
-            ),
-        scrollDirection: widget.scrollDirection,
-        shrinkWrap: true,
-      );
-    }
-    return GridView.builder(
-      key: widget.pageStorageKey,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: data.length,
-      padding: widget.scrollablePadding ??
-          EdgeInsets.only(
-            top: widget.topInset ?? 0.0,
-            bottom: widget.bottomInset ?? 0.0,
-          ),
-      scrollDirection: widget.scrollDirection,
-      itemBuilder: (context, index) => widget.child(data[index]),
-      gridDelegate: widget.sliverGridDelegate!,
-      shrinkWrap: true,
     );
   }
 }
