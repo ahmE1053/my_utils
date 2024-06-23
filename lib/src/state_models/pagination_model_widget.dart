@@ -194,7 +194,7 @@ class _PaginationStateModelWidgetState<T>
       ) =>
         getChildWidget(
           data: data,
-          disableBottomInsets: true,
+          disableBottomInsets: false,
           additionalWidgets: [
             const SizedBox(height: 8),
             Text(
