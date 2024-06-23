@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_utils/src/core/consts/app_localization_keys.g.dart';
 
-import 'consts/text_styles.dart';
-
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
     super.key,
@@ -34,7 +32,7 @@ class EmptyWidget extends StatelessWidget {
         Text(
           title.tr(),
           textAlign: TextAlign.center,
-          style: MyUtilAppTextStyle.getTextStyle(
+          style: TextStyle(
             fontSize: 14,
           ),
         ),

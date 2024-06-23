@@ -7,9 +7,9 @@ import 'consts/text_styles.dart';
 class ErrorColumn extends StatelessWidget {
   const ErrorColumn({
     super.key,
-    required this.child,
     required this.text,
     this.errorTextColor,
+    required this.child,
   });
 
   final Color? errorTextColor;
