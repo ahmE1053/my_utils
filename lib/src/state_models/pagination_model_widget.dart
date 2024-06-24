@@ -157,6 +157,7 @@ class _PaginationStateModelWidgetState<T>
           widget.onRequestNewData(state.data);
         }
       }
+    // ignore: empty_catches
     } catch (e) {}
   }
 
