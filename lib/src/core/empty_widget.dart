@@ -32,7 +32,7 @@ class EmptyWidget extends StatelessWidget {
         Text(
           title.tr(),
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
           ),
         ),

@@ -34,14 +34,13 @@ class StateModelWidget<T> extends StatelessWidget {
     }
     return switch (state) {
       StateInitial<T>() || StateSuccess<T>() => child,
-      StateError<T>() =>
-      customError ??
+      StateError<T>() => customError ??
           (showError
               ? ErrorColumn(
-            text: state.errorMessage,
-            child: child,
-            errorTextColor: errorTextColor,
-          )
+                  text: state.errorMessage,
+                  errorTextColor: errorTextColor,
+                  child: child,
+                )
               : child),
       StateLoading<T>() => customLoading ?? const MyUtilLoadingIndicator(),
     };
