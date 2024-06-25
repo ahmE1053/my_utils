@@ -1,4 +1,4 @@
-import 'dart:ui' show TextDirection;
+import 'dart:ui';
 
 TextDirection getDirection(String v) {
   final string = v.trim();

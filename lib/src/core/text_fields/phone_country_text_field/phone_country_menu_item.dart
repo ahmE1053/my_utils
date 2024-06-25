@@ -1,5 +1,5 @@
-import 'package:country_flags/country_flags.dart' show CountryFlag;
-import 'package:flutter/material.dart' show AlignmentDirectional, AnimationController, BorderRadius, BoxFit, BuildContext, Colors, EdgeInsets, Expanded, FittedBox, Ink, InkWell, Material, MaterialType, OverlayPortalController, Padding, Row, SizedBox, StatelessWidget, Text, TextStyle, Widget;
+import 'package:country_flags/country_flags.dart';
+import 'package:flutter/material.dart' ;
 
 import 'country_info.dart';
 import 'phone_field_notifier.dart';
@@ -41,7 +41,7 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                     countryInfo.countryCode,
                     height: 20,
                     width: 28,
-                    borderRadius: 3,
+                    shape: const RoundedRectangle(3),
                   ),
                   const SizedBox(width: 8),
                   Expanded(

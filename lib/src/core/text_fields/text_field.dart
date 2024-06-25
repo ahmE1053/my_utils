@@ -1,27 +1,6 @@
-import 'package:easy_localization/easy_localization.dart'
-    show StringTranslateExtension;
-import 'package:flutter/material.dart'
-    show
-    BorderSide,
-    BuildContext,
-    Colors,
-    EdgeInsets,
-    IconButton,
-    InputDecoration,
-    Listenable,
-    ListenableBuilder,
-    State,
-    StatefulWidget,
-    Text,
-    TextAlign,
-    TextDirection,
-    TextFormField,
-    TextStyle,
-    Theme,
-    ValueNotifier,
-    Widget;
-import 'package:flutter_svg/flutter_svg.dart' show SvgPicture;
-
+import 'package:easy_localization/easy_localization.dart' as ez;
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../consts/app_localization_keys.g.dart';
 import 'utils/full_text_field_model.dart';
 import 'utils/get_text_field_direction.dart';

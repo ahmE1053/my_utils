@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart'
-    show StringTranslateExtension;
-import 'package:flutter/material.dart' show BuildContext, StatelessWidget, TextDirection, TextInputType, Widget;
-import 'package:flutter/services.dart' show FilteringTextInputFormatter;
-
+import 'package:easy_localization/easy_localization.dart' as ez;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../consts/app_localization_keys.g.dart';
 import 'text_field.dart';
 import 'utils/full_text_field_model.dart';

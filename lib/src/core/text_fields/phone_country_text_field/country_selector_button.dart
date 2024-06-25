@@ -1,4 +1,4 @@
-import 'package:country_flags/country_flags.dart' show CountryFlag;
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 
 import 'phone_field_notifier.dart';
@@ -52,7 +52,7 @@ class CountrySelectorButton extends StatelessWidget {
                     phoneValueNotifier.country.countryCode,
                     height: 20,
                     width: 28,
-                    borderRadius: 4,
+                    shape: const RoundedRectangle(4),
                   ),
                   const SizedBox(width: 8),
                   Text(

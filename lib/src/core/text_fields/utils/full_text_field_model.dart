@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show TextInputFormatter;
+import 'package:flutter/services.dart';
 
 import '../phone_country_text_field/phone_field_notifier.dart';
 

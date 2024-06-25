@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart';
 import 'package:my_utils/my_utils.dart';
 
 @immutable

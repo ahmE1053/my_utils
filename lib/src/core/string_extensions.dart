@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show Color, FlutterError;
+import 'package:flutter/material.dart';
 
 extension Validation on String {
   bool isValidEmail() {
