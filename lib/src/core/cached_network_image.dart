@@ -20,7 +20,7 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
   final BorderRadiusGeometry? inkImageBorder;
   final Widget? error;
   final bool useInk;
-  static Widget Function(BuildContext, String, Object)? errorWidget;
+  static Widget? errorWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,8 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
           )
           : null,
       fit: fit,
-      errorWidget: error != null ? (_, __, ___) => error! : errorWidget,
+      errorWidget: error == null && errorWidget == null ? null : (_, __,
+          ___) => error ?? errorWidget!,
       progressIndicatorBuilder: (context, url, progress) =>
           BaseShimmer(
             borderRadius: borderRadius,

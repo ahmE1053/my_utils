@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_utils/my_utils.dart';
+
 import '../consts/app_localization_keys.g.dart';
-import 'utils/full_text_field_model.dart';
 import 'utils/get_text_field_direction.dart';
 
 class MyTextField extends StatefulWidget {
@@ -67,9 +68,7 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final inputDecorationTheme = Theme
-        .of(context)
-        .inputDecorationTheme;
+    final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
     textFieldModel = widget.textFieldModel;
     return ListenableBuilder(
       listenable: Listenable.merge([textFieldDirection, obscureText]),
@@ -80,7 +79,7 @@ class _MyTextFieldState extends State<MyTextField> {
           onTapOutside: textFieldModel.onTapOutside,
           focusNode: textFieldModel.focusNode,
           textDirection:
-          textFieldModel.textDirection ?? textFieldDirection.value,
+              textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
           validator: textFieldModel.validator,
           autovalidateMode: textFieldModel.validationMode,
@@ -89,6 +88,7 @@ class _MyTextFieldState extends State<MyTextField> {
               textFieldModel.onEditingComplete!(textFieldModel.controller);
             }
           },
+
           autofillHints: textFieldModel.autofillHints,
           onChanged: textFieldModel.onChanged,
           inputFormatters: textFieldModel.inputFormatters,
@@ -100,82 +100,69 @@ class _MyTextFieldState extends State<MyTextField> {
           minLines: textFieldModel.minLines,
           maxLines: textFieldModel.maxLines,
           enabled: textFieldModel.enabled ?? true,
-          style: textFieldModel.style ??
-              const TextStyle(
-                color: Colors.black87,
-                fontSize: 14,
-              ),
+          style: textFieldModel.style,
           textAlign: textFieldModel.textAlign ?? TextAlign.start,
           decoration: InputDecoration(
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,
             floatingLabelStyle: textFieldModel.floatingLabelStyle,
             fillColor:
-            textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
+                textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
             errorStyle: textFieldModel.errorStyle,
             filled:
-            (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
-                null,
+                (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
+                    null,
             isDense: textFieldModel.isDense ?? true,
             border: inputDecorationTheme.border,
             disabledBorder: inputDecorationTheme.disabledBorder,
             errorBorder: inputDecorationTheme.errorBorder,
             focusedErrorBorder: inputDecorationTheme.focusedErrorBorder,
             focusedBorder:
-            Theme
-                .of(context)
-                .inputDecorationTheme
-                .focusedBorder!
-                .copyWith(
-              borderSide: BorderSide(
-                color: textFieldModel.focusedBorder ??
-                    Theme
-                        .of(context)
-                        .inputDecorationTheme
-                        .focusedBorder!
-                        .borderSide
-                        .color,
-              ),
-            ),
+                Theme.of(context).inputDecorationTheme.focusedBorder!.copyWith(
+                      borderSide: BorderSide(
+                        color: textFieldModel.focusedBorder ??
+                            Theme.of(context)
+                                .inputDecorationTheme
+                                .focusedBorder!
+                                .borderSide
+                                .color,
+                      ),
+                    ),
             enabledBorder:
-            Theme
-                .of(context)
-                .inputDecorationTheme
-                .enabledBorder!
-                .copyWith(
-              borderSide: BorderSide(
-                color: textFieldModel.enabledBorder ??
-                    Theme
-                        .of(context)
-                        .inputDecorationTheme
-                        .enabledBorder!
-                        .borderSide
-                        .color,
-              ),
-            ),
+                Theme.of(context).inputDecorationTheme.enabledBorder!.copyWith(
+                      borderSide: BorderSide(
+                        color: textFieldModel.enabledBorder ??
+                            Theme.of(context)
+                                .inputDecorationTheme
+                                .enabledBorder!
+                                .borderSide
+                                .color,
+                      ),
+                    ),
             errorMaxLines: 5,
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
             hintText:
-            textFieldModel.useHint == false ? null : textFieldModel.hint,
-            label: textFieldModel.label == null || !textFieldModel.useLabel
-                ? null
-                : Text(textFieldModel.label!),
+                textFieldModel.useHint == false ? null : textFieldModel.hint,
+            label:
+                textFieldModel.label == null || textFieldModel.useLabel == false
+                    ? null
+                    : Text(textFieldModel.label!),
             hintStyle:
-            textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
+                textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
-            textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
+                textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
             suffixIcon:
-            textFieldModel.isPassword && textFieldModel.suffix == null
-                ? IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {
-                obscureText.value = !obscureText.value;
-              },
-              icon: SvgPicture.asset(
-                'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
-              ),
-            )
-                : textFieldModel.suffix,
+                textFieldModel.isPassword && textFieldModel.suffix == null
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          obscureText.value = !obscureText.value;
+                        },
+                        icon: SvgPicture.asset(
+                          'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
+                        ),
+                      )
+                    : textFieldModel.suffix,
           ),
         );
       },

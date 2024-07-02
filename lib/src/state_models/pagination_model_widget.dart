@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -109,14 +111,31 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
 class _PaginationStateModelWidgetState<T>
     extends State<PaginationStateModelWidget<T>> {
   bool isLoading = false;
-  late final ScrollController scrollController;
+  ScrollController? _scrollController;
+  Timer? timer;
+
+  ScrollController get scrollController =>
+      widget.upperScrollController ?? _scrollController!;
+
+  Timer removeTimer() {
+    return Timer(
+      const Duration(milliseconds: 750),
+      () {
+        timer = null;
+        WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) => scrollListener(),
+        );
+      },
+    );
+  }
 
   void scrollListener() {
-    final scroll = widget.upperScrollController ?? scrollController;
     if (widget.isLastPage?.value ?? false) return;
-    if (scroll.position.maxScrollExtent - scroll.offset < 120) {
+    if (scrollController.position.maxScrollExtent - scrollController.offset <
+        120) {
       final state = widget.stateModel;
-      if (state is PaginationStateSuccess<T>) {
+      if (state is PaginationStateSuccess<T> && timer == null) {
+        timer = removeTimer();
         widget.onRequestNewData(state.data);
       }
     }
@@ -128,36 +147,30 @@ class _PaginationStateModelWidgetState<T>
     Future(
       () => widget.initialCall?.call(),
     );
-    scrollController = ScrollController();
-    if (widget.upperScrollController != null) {
-      widget.upperScrollController!.addListener(scrollListener);
-    } else {
-      scrollController.addListener(scrollListener);
+    if (widget.upperScrollController == null) {
+      _scrollController = ScrollController();
     }
+    scrollController.addListener(scrollListener);
   }
 
   @override
   void dispose() {
-    if (widget.upperScrollController != null) {
-      widget.upperScrollController!.removeListener(scrollListener);
-    } else {
-      scrollController.removeListener(scrollListener);
-    }
-    scrollController.dispose();
+    scrollController.removeListener(scrollListener);
+    _scrollController?.dispose();
     super.dispose();
   }
 
   void checkIfNotScrollable(_) {
     final state = widget.stateModel;
-
     try {
       if (scrollController.hasClients &&
           scrollController.position.maxScrollExtent == 0.0) {
-        if (state is PaginationStateSuccess<T>) {
+        if (state is PaginationStateSuccess<T> && timer == null) {
+          timer = removeTimer();
           widget.onRequestNewData(state.data);
         }
       }
-    // ignore: empty_catches
+      // ignore: empty_catches
     } catch (e) {}
   }
 
@@ -239,11 +252,11 @@ class _PaginationStateModelWidgetState<T>
     if (widget.sliverGridDelegate == null) {
       final list = ListView.builder(
         key: additionalWidgets != null ? null : widget.pageStorageKey,
-        controller: additionalWidgets != null ? null : scrollController,
-        physics: additionalWidgets != null
+        controller: additionalWidgets != null ? null : _scrollController,
+        physics: additionalWidgets != null || _scrollController == null
             ? const NeverScrollableScrollPhysics()
             : null,
-        shrinkWrap: additionalWidgets != null,
+        shrinkWrap: additionalWidgets != null || shrinkWrap,
         itemCount: data.length,
         itemBuilder: (context, index) => widget.child(data[index]),
         itemExtent: widget.useItemExtent ? widget.shimmerExtent! + 8 : null,
@@ -255,8 +268,12 @@ class _PaginationStateModelWidgetState<T>
       if (additionalWidgets == null) return list;
       return ListView(
         key: widget.pageStorageKey,
-        controller: scrollController,
+        controller: _scrollController,
+        shrinkWrap: shrinkWrap,
         scrollDirection: widget.scrollDirection,
+        physics: _scrollController == null
+            ? const NeverScrollableScrollPhysics()
+            : null,
         padding: getScrollablePadding(disableBottomInsets),
         children: [
           list,
@@ -275,7 +292,11 @@ class _PaginationStateModelWidgetState<T>
     );
     return ListView(
       key: widget.pageStorageKey,
-      controller: scrollController,
+      controller: _scrollController,
+      physics: _scrollController == null
+          ? const NeverScrollableScrollPhysics()
+          : null,
+      shrinkWrap: shrinkWrap,
       padding: getScrollablePadding(disableBottomInsets),
       scrollDirection: widget.scrollDirection,
       children: [
@@ -289,6 +310,10 @@ class _PaginationStateModelWidgetState<T>
     if (widget.sliverGridDelegate == null) {
       return ListView.builder(
         itemExtent: widget.shimmerExtent! + 8,
+        shrinkWrap: shrinkWrap,
+        physics: _scrollController == null
+            ? const NeverScrollableScrollPhysics()
+            : null,
         itemBuilder: (context, index) => widget.shimmerPadding == null
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -309,6 +334,10 @@ class _PaginationStateModelWidgetState<T>
     }
     return GridView.builder(
       itemCount: 10,
+      shrinkWrap: shrinkWrap,
+      physics: _scrollController == null
+          ? const NeverScrollableScrollPhysics()
+          : null,
       itemBuilder: (context, index) =>
           widget.initialLoadingWidget ?? const BaseShimmer(),
       gridDelegate: widget.sliverGridDelegate!,
@@ -319,4 +348,6 @@ class _PaginationStateModelWidgetState<T>
           ),
     );
   }
+
+  bool get shrinkWrap => _scrollController == null ? true : false;
 }

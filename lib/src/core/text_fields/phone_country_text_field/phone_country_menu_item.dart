@@ -11,12 +11,14 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
     required this.phoneFieldNotifier,
     required this.animationController,
     required this.overlayController,
+    required this.textStyle,
   });
 
   final CountryInfo countryInfo;
   final PhoneFieldNotifier phoneFieldNotifier;
   final AnimationController animationController;
   final OverlayPortalController overlayController;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         countryInfo.phoneCode,
-                        style: const TextStyle(
+                        style:textStyle?? const TextStyle(
                           color: Colors.black87,
                           fontSize: 14,
                         ),

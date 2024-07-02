@@ -14,22 +14,26 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
     super.key,
     required this.phoneValueNotifier,
     required this.textFieldModel,
-    this.height = 48,
+    this.height,
     this.codePickerDecoration,
+    this.overlayTextStyle,
     this.codePickerArrowColor,
     this.codePickerTextStyle,
     this.overlayDecoration,
     this.codePadding = EdgeInsets.zero,
+    this.enabled = true,
   });
 
   final PhoneFieldNotifier phoneValueNotifier;
   final TextFieldModel textFieldModel;
-  final double height;
+  final double? height;
+  final bool enabled;
   final BoxDecoration? codePickerDecoration;
   final BoxDecoration? overlayDecoration;
   final EdgeInsets codePadding;
   final Color? codePickerArrowColor;
   final TextStyle? codePickerTextStyle;
+  final TextStyle? overlayTextStyle;
 
   @override
   State<MyPhoneWithCountryTextField> createState() =>
@@ -73,6 +77,7 @@ class _MyPhoneWithCountryTextFieldState
         controller: overlayController,
         overlayChildBuilder: (context) => CountriesOverlay(
           buttonRectKey: buttonRectKey,
+          textStyle: widget.overlayTextStyle,
           overlayDecoration: widget.overlayDecoration,
           animationController: animationController,
           overlayController: overlayController,
@@ -112,41 +117,49 @@ class _MyPhoneWithCountryTextFieldState
     );
   }
 
-  Widget get buttonWithTextField => SizedBox(
-        height: widget.height,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CountrySelectorButton(
-              buttonRectKey: buttonRectKey,
-              overlayController: overlayController,
-              animationController: animationController,
-              phoneValueNotifier: phoneValueNotifier,
-              codePickerDecoration: widget.codePickerDecoration,
-              codePickerArrowColor: widget.codePickerArrowColor,
-              codePickerTextStyle: widget.codePickerTextStyle,
-              codePadding: widget.codePadding,
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Directionality(
-                textDirection:
-                    context.isArabic ? TextDirection.rtl : TextDirection.ltr,
-                child: MyPhoneTextField(
-                  textFieldModel: widget.textFieldModel.replaceIfNull(
-
-                    fieldFormStateKey: textFieldKey,
-                    focusNode: phoneValueNotifier.focusNode,
-                    isDense: false,
-                    validator: (value) => phoneValueNotifier.validator,
-                    errorStyle: const TextStyle(
-                      fontSize: 0,
-                    ),
-                  ),
+  Widget get buttonWithTextField {
+    final child = Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CountrySelectorButton(
+          buttonRectKey: buttonRectKey,
+          overlayController: overlayController,
+          animationController: animationController,
+          phoneValueNotifier: phoneValueNotifier,
+          codePickerDecoration: widget.codePickerDecoration,
+          codePickerArrowColor: widget.codePickerArrowColor,
+          codePickerTextStyle: widget.codePickerTextStyle,
+          codePadding: widget.codePadding,
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Directionality(
+            textDirection:
+                context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+            child: MyPhoneTextField(
+              textFieldModel: widget.textFieldModel.replaceIfNull(
+                fieldFormStateKey: textFieldKey,
+                enabled: widget.enabled,
+                focusNode: phoneValueNotifier.focusNode,
+                isDense: false,
+                validator: (value) => phoneValueNotifier.validator,
+                errorStyle: const TextStyle(
+                  fontSize: 0,
                 ),
               ),
             ),
-          ],
+          ),
         ),
+      ],
+    );
+    if (widget.height == null) {
+      return IntrinsicHeight(
+        child: child,
       );
+    }
+    return SizedBox(
+      height: widget.height,
+      child: child,
+    );
+  }
 }

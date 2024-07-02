@@ -23,6 +23,25 @@ void showSnackBar(BuildContext context, String text) {
   );
 }
 
+void showSnackBarMessenger(ScaffoldMessengerState messenger, BuildContext context,String text) {
+  messenger.showSnackBar(
+    SnackBar(
+      margin: EdgeInsets.only(
+        bottom: context.bottomViewInsets + 24,
+        left: 16,
+        right: 16,
+      ),
+      content: Text(
+        text.tr(),
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+    ),
+  );
+}
+
 void showSuccessSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

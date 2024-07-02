@@ -10,8 +10,12 @@ class PhoneFieldNotifier {
 
   PhoneFieldNotifier._(this.controller, this._country, this.focusNode);
 
-  factory PhoneFieldNotifier(CountryInfo? country) => PhoneFieldNotifier._(
-        TextEditingController(),
+  factory PhoneFieldNotifier(CountryInfo? country,
+          [String initialValue = '']) =>
+      PhoneFieldNotifier._(
+        TextEditingController(
+          text: initialValue,
+        ),
         ValueNotifier(
           country ?? CountryInfo.saudiArabia(),
         ),

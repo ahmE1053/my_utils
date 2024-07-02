@@ -28,7 +28,7 @@ class TextFieldModel {
   final EdgeInsets? padding;
   final EdgeInsets? contentPadding;
   final bool? isDense;
-  final bool useLabel;
+  final bool? useLabel;
   final bool? useHint;
   final FocusNode? focusNode;
   final TextAlign? textAlign;
@@ -43,7 +43,7 @@ class TextFieldModel {
   const TextFieldModel({
     required this.controller,
     this.isPassword = false,
-    this.useLabel = false,
+    this.useLabel,
     this.useHint,
     this.validator,
     this.obscureText,
@@ -85,7 +85,7 @@ class TextFieldModel {
   TextFieldModel.fromPhoneNotifier({
     required PhoneFieldNotifier phoneFieldNotifier,
     this.isPassword = false,
-    this.useLabel = false,
+    this.useLabel,
     this.useHint,
     this.onTap,
     this.validator,

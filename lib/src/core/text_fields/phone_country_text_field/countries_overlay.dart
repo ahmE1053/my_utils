@@ -12,6 +12,7 @@ class CountriesOverlay extends StatelessWidget {
     required this.animationController,
     required this.overlayController,
     this.overlayDecoration,
+    required this.textStyle,
     required this.phoneFieldNotifier,
   });
 
@@ -19,6 +20,7 @@ class CountriesOverlay extends StatelessWidget {
   final PhoneFieldNotifier phoneFieldNotifier;
   final AnimationController animationController;
   final BoxDecoration? overlayDecoration;
+  final TextStyle? textStyle;
   final OverlayPortalController overlayController;
 
   @override
@@ -65,6 +67,7 @@ class CountriesOverlay extends StatelessWidget {
       .map(
         (e) => PhoneCountryCodeMenuItem(
           countryInfo: e,
+          textStyle: textStyle,
           phoneFieldNotifier: phoneFieldNotifier,
           animationController: animationController,
           overlayController: overlayController,

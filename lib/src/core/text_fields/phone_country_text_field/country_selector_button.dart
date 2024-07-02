@@ -14,6 +14,7 @@ class CountrySelectorButton extends StatelessWidget {
     required this.codePickerArrowColor,
     required this.codePickerTextStyle,
     this.codePadding = EdgeInsets.zero,
+    this.enabled = true,
   });
 
   final GlobalKey<State<StatefulWidget>> buttonRectKey;
@@ -22,6 +23,7 @@ class CountrySelectorButton extends StatelessWidget {
   final PhoneFieldNotifier phoneValueNotifier;
   final BoxDecoration? codePickerDecoration;
   final EdgeInsets codePadding;
+  final bool enabled;
   final Color? codePickerArrowColor;
   final TextStyle? codePickerTextStyle;
 
@@ -35,10 +37,12 @@ class CountrySelectorButton extends StatelessWidget {
             ? givenRadius
             : BorderRadius.circular(12),
         key: buttonRectKey,
-        onTap: () {
-          overlayController.show();
-          animationController.forward();
-        },
+        onTap: enabled
+            ? () {
+                overlayController.show();
+                animationController.forward();
+              }
+            : null,
         child: Ink(
           padding: codePadding,
           decoration: codePickerDecoration,
