@@ -120,10 +120,10 @@ class _PaginationStateModelWidgetState<T>
   Timer removeTimer() {
     return Timer(
       const Duration(milliseconds: 750),
-      () {
+          () {
         timer = null;
         WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) => scrollListener(),
+              (timeStamp) => scrollListener(),
         );
       },
     );
@@ -131,6 +131,7 @@ class _PaginationStateModelWidgetState<T>
 
   void scrollListener() {
     if (widget.isLastPage?.value ?? false) return;
+    if (!scrollController.hasClients) return;
     if (scrollController.position.maxScrollExtent - scrollController.offset <
         120) {
       final state = widget.stateModel;
@@ -145,7 +146,7 @@ class _PaginationStateModelWidgetState<T>
   void initState() {
     super.initState();
     Future(
-      () => widget.initialCall?.call(),
+          () => widget.initialCall?.call(),
     );
     if (widget.upperScrollController == null) {
       _scrollController = ScrollController();
@@ -166,7 +167,6 @@ class _PaginationStateModelWidgetState<T>
       if (scrollController.hasClients &&
           scrollController.position.maxScrollExtent == 0.0) {
         if (state is PaginationStateSuccess<T> && timer == null) {
-          timer = removeTimer();
           widget.onRequestNewData(state.data);
         }
       }
@@ -181,62 +181,65 @@ class _PaginationStateModelWidgetState<T>
     final thisWidget = switch (state) {
       PaginationStateInitial<T>() ||
       PaginationStateLoading<T>() =>
-        getLoadingCards(),
-      PaginationStateError<T>() => Padding(
-          padding: widget.initialErrorPadding ?? EdgeInsets.zero,
-          child: widget.initialErrorWidget ??
-              FullScreenError(
-                onTap: widget.onError,
-                exception: GeneralException(state.errorMessage),
-              ),
-        ),
-      PaginationStateSuccess<T>(data: var data) => getChildWidget(
-          data: data,
-          disableBottomInsets: false,
-        ),
-      PaginationStateLoadingWithData<T>(oldData: var data) => getChildWidget(
-          data: data,
-          disableBottomInsets: true,
-          additionalWidgets: [
-            const SizedBox(height: 8),
-            const MyUtilLoadingIndicator(),
-          ],
-        ),
+          getLoadingCards(),
+      PaginationStateError<T>() =>
+          Padding(
+            padding: widget.initialErrorPadding ?? EdgeInsets.zero,
+            child: widget.initialErrorWidget ??
+                FullScreenError(
+                  onTap: widget.onError,
+                  exception: GeneralException(state.errorMessage),
+                ),
+          ),
+      PaginationStateSuccess<T>(data: var data) =>
+          getChildWidget(
+            data: data,
+            disableBottomInsets: false,
+          ),
+      PaginationStateLoadingWithData<T>(oldData: var data) =>
+          getChildWidget(
+            data: data,
+            disableBottomInsets: true,
+            additionalWidgets: [
+              const SizedBox(height: 8),
+              const MyUtilLoadingIndicator(),
+            ],
+          ),
       PaginationStateErrorWithData<T>(
-        oldData: var data,
-        errorMessage: var error
+      oldData: var data,
+      errorMessage: var error
       ) =>
-        getChildWidget(
-          data: data,
-          disableBottomInsets: false,
-          additionalWidgets: [
-            const SizedBox(height: 8),
-            Text(
-              error.tr(),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 48,
-              child: ElevatedButton(
-                onPressed: () => widget.onErrorRetry(data),
-                child: Text(
-                  LocaleKeys.retry.tr(),
+          getChildWidget(
+            data: data,
+            disableBottomInsets: false,
+            additionalWidgets: [
+              const SizedBox(height: 8),
+              Text(
+                error.tr(),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () => widget.onErrorRetry(data),
+                  child: Text(
+                    LocaleKeys.retry.tr(),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
     };
     return thisWidget;
   }
 
   EdgeInsets getScrollablePadding(disableBottomInsets) =>
       widget.scrollablePadding ??
-      EdgeInsets.only(
-        top: widget.topInset ?? 0.0,
-        bottom: disableBottomInsets ? 0.0 : widget.bottomInset ?? 0.0,
-      );
+          EdgeInsets.only(
+            top: widget.topInset ?? 0.0,
+            bottom: disableBottomInsets ? 0.0 : widget.bottomInset ?? 0.0,
+          );
 
   Widget getChildWidget({
     required List<T> data,
@@ -314,15 +317,16 @@ class _PaginationStateModelWidgetState<T>
         physics: _scrollController == null
             ? const NeverScrollableScrollPhysics()
             : null,
-        itemBuilder: (context, index) => widget.shimmerPadding == null
+        itemBuilder: (context, index) =>
+        widget.shimmerPadding == null
             ? Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: widget.initialLoadingWidget ?? const BaseShimmer(),
-              )
+          padding: const EdgeInsets.only(bottom: 8),
+          child: widget.initialLoadingWidget ?? const BaseShimmer(),
+        )
             : Padding(
-                padding: widget.shimmerPadding!,
-                child: widget.initialLoadingWidget ?? const BaseShimmer(),
-              ),
+          padding: widget.shimmerPadding!,
+          child: widget.initialLoadingWidget ?? const BaseShimmer(),
+        ),
         itemCount: 10,
         padding: widget.scrollablePadding ??
             EdgeInsets.only(
@@ -339,7 +343,7 @@ class _PaginationStateModelWidgetState<T>
           ? const NeverScrollableScrollPhysics()
           : null,
       itemBuilder: (context, index) =>
-          widget.initialLoadingWidget ?? const BaseShimmer(),
+      widget.initialLoadingWidget ?? const BaseShimmer(),
       gridDelegate: widget.sliverGridDelegate!,
       padding: widget.scrollablePadding ??
           EdgeInsets.only(
