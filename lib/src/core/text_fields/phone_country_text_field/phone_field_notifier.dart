@@ -22,6 +22,24 @@ class PhoneFieldNotifier {
         FocusNode(),
       );
 
+  factory PhoneFieldNotifier.fromPrevious(String previousValue) {
+    final country = CountryInfo.getPhoneCountries.where(
+      (element) {
+        final pattern = RegExp('^\\${element.phoneCode}\\d+\$');
+        return pattern.hasMatch(previousValue);
+      },
+    ).first;
+    final value = previousValue.replaceAll(
+      country.phoneCode,
+      '',
+    );
+    return PhoneFieldNotifier._(
+      TextEditingController(text: value),
+      ValueNotifier(country),
+      FocusNode(),
+    );
+  }
+
   void dispose() {
     controller.dispose();
     _country.dispose();

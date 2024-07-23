@@ -14,6 +14,7 @@ extension Validation on String {
   bool isPhoneValidWithCountryCodeEgypt() {
     return RegExp(r'^(\+201)[0125]\d{8}$').hasMatch(this);
   }
+
   bool isPhoneValidWithCountryCodeQatar() {
     return RegExp(r'^(\+974)\d{8}$').hasMatch(this);
   }
@@ -41,6 +42,15 @@ extension Validation on String {
   bool isSaudiPhoneValidWithCountryCode() {
     return RegExp(r'^\+966(9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$')
         .hasMatch(this);
+  }
+
+  bool isQatarPhoneWithCountryCode() {
+    return RegExp(r'^\+974\d{8}$').hasMatch(this);
+  }
+
+  bool isYemenPhoneWithCountryCode() {
+    // return RegExp(r'^(((\+|00)9677|0?7)[01378]\d{7}|((\+|00)967|0)[1-7]\d{6})$').hasMatch(this);
+    return true;
   }
 }
 

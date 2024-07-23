@@ -31,10 +31,34 @@ class CountryInfo {
         phonePrefix: '+966',
       );
 
-  static List<CountryInfo> get getPhoneCountries => [
-        CountryInfo.egypt(),
-        CountryInfo.saudiArabia(),
-      ];
+  factory CountryInfo.yemen() => CountryInfo(
+        countryCode: 'ye',
+        phoneCode: '+967',
+        validator: (value) => value.isYemenPhoneWithCountryCode(),
+        hintText: 'XXXXXXXXX',
+        phonePrefix: '+967',
+      );
+
+  factory CountryInfo.qatar() => CountryInfo(
+        countryCode: 'qa',
+        phoneCode: '+974',
+        validator: (value) => value.isQatarPhoneWithCountryCode(),
+        hintText: 'XXXXXXXX',
+        phonePrefix: '+974',
+      );
+
+  static var _phoneNumbersList = <CountryInfo>[
+    CountryInfo.egypt(),
+    CountryInfo.saudiArabia(),
+    CountryInfo.qatar(),
+    CountryInfo.yemen(),
+  ];
+
+  static set phoneNumbersList(List<CountryInfo> list) {
+    _phoneNumbersList = list;
+  }
+
+  static List<CountryInfo> get getPhoneCountries => _phoneNumbersList;
 
   @override
   bool operator ==(Object other) =>

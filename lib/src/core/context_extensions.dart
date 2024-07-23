@@ -51,6 +51,17 @@ extension MediaQueryHelper on BuildContext {
     );
     return position;
   }
+
+  Rect? get globalPaintBounds {
+    final renderObject = findRenderObject();
+    final translation = renderObject?.getTransformTo(null).getTranslation();
+    if (translation != null && renderObject?.paintBounds != null) {
+      final offset = Offset(translation.x, translation.y);
+      return renderObject!.paintBounds.shift(offset);
+    } else {
+      return null;
+    }
+  }
 // void setToArabic() => setLocale(const Locale('ar'));
 // void setToEnglish() => setLocale(const Locale('en'));
 }

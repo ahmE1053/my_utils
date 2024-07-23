@@ -50,7 +50,7 @@ extension Range<T extends double> on num {
   }
 }
 
-extension DurationExtension on num {
+extension NumDurationExtension on num {
   String get getDurationFromMinutesArabic {
     final value = toInt();
     int mins = value % 60;

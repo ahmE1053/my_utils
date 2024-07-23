@@ -1,6 +1,7 @@
 library my_utils;
 
 export 'src/core/context_extensions.dart';
+export 'src/core/duration_extension.dart';
 export 'src/core/string_extensions.dart';
 export 'src/core/text_fields/email.dart';
 export 'src/core/text_fields/names.dart';
