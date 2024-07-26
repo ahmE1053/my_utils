@@ -8,10 +8,12 @@ class SmallErrorWidget extends StatelessWidget {
   const SmallErrorWidget({
     super.key,
     this.errorMessage,
+    this.errorTextStyle,
     required this.onTap,
   });
 
   final String? errorMessage;
+  final TextStyle? errorTextStyle;
   final void Function() onTap;
 
   @override
@@ -23,7 +25,7 @@ class SmallErrorWidget extends StatelessWidget {
         Text(
           errorMessage ?? LocaleKeys.errorOccurred.tr(),
           textAlign: TextAlign.center,
-          style: MyUtilAppTextStyle.getTextStyle(
+          style: errorTextStyle ?? MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
             fontWeight: 500,
           ),
