@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:my_utils/my_utils.dart';
 
 @immutable
@@ -11,7 +11,8 @@ sealed class PaginationStateModel<T> {
     );
   }
 
-  factory PaginationStateModel.fromExceptionWithData(List<T> oldData, dynamic l) {
+  factory PaginationStateModel.fromExceptionWithData(
+      List<T> oldData, dynamic l) {
     return PaginationStateErrorWithData(
       oldData,
       l is GeneralException ? l.message : 'errorOccurred',

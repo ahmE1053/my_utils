@@ -2,13 +2,54 @@ import 'package:flutter/foundation.dart';
 
 import '../core/exceptions/general_exception.dart';
 
+abstract class StateModelWithListenable<T> extends ChangeNotifier {
+  StateModel<T> currentModel;
+
+  void init(void Function()? listener) {
+    if (listener != null) {
+      addListener(listener);
+    }
+  }
+
+  StateModelWithListenable({
+    this.currentModel = const StateInitial(),
+  });
+
+  void changeValue(StateModel<T> model) {
+    currentModel = model;
+    notifyListeners();
+  }
+
+  void toLoading() => changeValue(const StateLoading());
+
+  void toSuccess([T? data]) => changeValue(StateSuccess(data));
+
+  void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
+
+  void toErrorFromException(Exception exc) => changeValue(
+        StateError.fromException(exc),
+      );
+
+  bool get isError => currentModel is StateError;
+
+  String get getErrorMessage => (currentModel as StateError).errorMessage;
+
+  bool get isSuccess => currentModel is StateSuccess;
+
+  bool get isLoading => currentModel is StateLoading;
+
+  T get value => (currentModel as StateSuccess).data!;
+
+  T? get tryGetValue => (currentModel as StateSuccess).data;
+}
+
 @immutable
 sealed class StateModel<T> {
   const StateModel();
 
   @override
   String toString() {
-    return 'StateModel{}';
+    return 'StateModel';
   }
 }
 
@@ -17,7 +58,7 @@ class StateInitial<T> extends StateModel<T> {
 
   @override
   String toString() {
-    return 'StateInitial{}';
+    return 'StateInitial';
   }
 }
 
@@ -28,7 +69,7 @@ class StateSuccess<T> extends StateModel<T> {
 
   @override
   String toString() {
-    return 'StateSuccess{data: $data}';
+    return 'StateSuccess{ data: $data }';
   }
 }
 
