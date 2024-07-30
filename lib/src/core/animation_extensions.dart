@@ -1,6 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
+extension AnimationStatusExtension on AnimationStatus {
+  bool get isForwardOrCompleted => switch (this) {
+        AnimationStatus.forward || AnimationStatus.completed => true,
+        AnimationStatus.reverse || AnimationStatus.dismissed => false,
+      };
+}
+
 extension DoubleAnimationExtensions on Animation<double> {
+  bool get isForwardOrCompleted => status.isForwardOrCompleted;
+
   Animation<Offset> getOffsetPageLikeAnimation(MovementDirection direction) {
     late Offset usedOffset;
     late Offset tempOffset;
