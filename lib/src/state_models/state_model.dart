@@ -11,6 +11,13 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     }
   }
 
+  void myDispose(void Function()? listener) {
+    if (listener != null) {
+      removeListener(listener);
+    }
+    super.dispose();
+  }
+
   StateModelWithListenable({
     this.currentModel = const StateInitial(),
   });
@@ -26,7 +33,8 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorFromException(Exception exc) => changeValue(
+  void toErrorFromException(Object exc) =>
+      changeValue(
         StateError.fromException(exc),
       );
 
@@ -80,7 +88,7 @@ class StateError<T> extends StateModel<T> {
     String? errorMessage,
   ]) : errorMessage = errorMessage ?? 'errorOccurred';
 
-  factory StateError.fromException(Exception exception) {
+  factory StateError.fromException(Object exception) {
     return StateError(
       exception is GeneralException ? exception.message : 'errorOccurred',
     );

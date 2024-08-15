@@ -22,6 +22,12 @@ class MyUtilAppConsts {
     spreadRadius: 2,
     blurRadius: 10,
   );
+  static const elevationShadow = BoxShadow(
+    blurRadius: 2,
+    color: Colors.black12,
+    spreadRadius: 0.8,
+    offset: Offset(0, 3.0),
+  );
   static const borderRadiusOnlyTop24 = BorderRadius.only(
     topLeft: Radius.circular(24),
     topRight: Radius.circular(24),

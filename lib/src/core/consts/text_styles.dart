@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
 
-abstract class MyUtilAppTextStyle {
-
-  static TextStyle getTextStyle({
-    double? fontSize,
-    Color? color,
+class MyUtilAppTextStyle extends TextStyle {
+  const MyUtilAppTextStyle.getTextStyle({
+    super.fontSize,
+    super.color,
     bool? underlineDecoration,
     int fontWeight = 400,
-  }) =>
-      TextStyle(
-        color: color,
-        fontSize: fontSize,
-        fontWeight: _getWeight(fontWeight),
-        decorationColor: color,
-        decoration:
-        underlineDecoration ?? false ? TextDecoration.underline : null,
-      );
-
-  static FontWeight _getWeight(int weightNumber) {
-    assert(
-    weightNumber == 100 ||
-        weightNumber == 200 ||
-        weightNumber == 300 ||
-        weightNumber == 400 ||
-        weightNumber == 500 ||
-        weightNumber == 600 ||
-        weightNumber == 700 ||
-        weightNumber == 800 ||
-        weightNumber == 900,
-    );
-    return FontWeight.values.firstWhere(
-          (element) => element.value == weightNumber,
-    );
-  }
+  })  : assert(fontWeight >= 100 && fontWeight <= 900 && fontWeight % 100 == 0,
+            'fontWeight must be between 100 and 900 in increments of 100'),
+        super(
+          fontFamily: 'Nunito',
+          fontFamilyFallback: const ['NotoKufiArabic'],
+          fontWeight: fontWeight == 100
+              ? FontWeight.w100
+              : fontWeight == 200
+                  ? FontWeight.w200
+                  : fontWeight == 300
+                      ? FontWeight.w300
+                      : fontWeight == 400
+                          ? FontWeight.w400
+                          : fontWeight == 500
+                              ? FontWeight.w600
+                              : fontWeight == 700
+                                  ? FontWeight.w700
+                                  : fontWeight == 800
+                                      ? FontWeight.w800
+                                      : FontWeight.w900,
+          decorationColor: color,
+          decoration:
+              underlineDecoration ?? false ? TextDecoration.underline : null,
+        );
 }

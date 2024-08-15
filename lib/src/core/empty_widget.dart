@@ -7,13 +7,20 @@ class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
     super.key,
     required this.title,
+    this.subtitle,
     this.goBack,
     this.goBackText,
+    this.titleStyle,
+    this.subtitleStyle, this.imageWidget,
   });
 
   final String title;
   final void Function()? goBack;
   final String? goBackText;
+  final String? subtitle;
+  final Widget? imageWidget;
+  final TextStyle? titleStyle;
+  final TextStyle? subtitleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class EmptyWidget extends StatelessWidget {
         const SizedBox(height: 24),
         SizedBox(
           height: 300,
-          child: Lottie.asset(
+          child:imageWidget?? Lottie.asset(
             'assets/lottie/empty.json',
             fit: BoxFit.fill,
           ),
@@ -32,10 +39,20 @@ class EmptyWidget extends StatelessWidget {
         Text(
           title.tr(),
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: titleStyle ?? const TextStyle(
             fontSize: 14,
           ),
         ),
+        if(subtitle != null)...[
+          const SizedBox(height: 8),
+          Text(
+            subtitle!.tr(),
+            textAlign: TextAlign.center,
+            style: subtitleStyle ?? const TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ],
         if (goBack != null) ...[
           const SizedBox(height: 8),
           Center(
