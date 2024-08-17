@@ -12,6 +12,7 @@ class TextFieldModel {
   final void Function(String? value)? onChanged;
   final String? label, hint;
   final TextStyle? style;
+  static TextStyle? globalTextStyle;
   final TextStyle? errorStyle;
   final GlobalKey<FormFieldState>? fieldFormStateKey;
   final List<TextInputFormatter>? inputFormatters;

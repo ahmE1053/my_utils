@@ -39,14 +39,16 @@ class ErrorColumn extends StatelessWidget {
 class FormErrorColumn extends StatelessWidget {
   const FormErrorColumn({
     super.key,
-    required this.child,
     required this.text,
     this.errorTextColor,
+    this.errorPadding,
+    required this.child,
   });
 
-  final Color? errorTextColor;
   final Widget child;
   final String text;
+  final Color? errorTextColor;
+  final EdgeInsetsGeometry? errorPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +57,18 @@ class FormErrorColumn extends StatelessWidget {
       children: [
         child,
         const SizedBox(height: 8),
-        Text(
-          text.tr(),
-          style: MyUtilAppTextStyle.getTextStyle(
-            fontSize: 12,
-            color: errorTextColor ?? Colors.redAccent,
-          ),
-        ),
+        Builder(builder: (context) {
+          final child = Text(
+            text.tr(),
+            style: MyUtilAppTextStyle.getTextStyle(
+              fontSize: 12,
+              color: errorTextColor ?? Colors.redAccent,
+            ),
+          );
+          if (errorPadding == null) return child;
+          return Padding(padding: errorPadding!, child: child,);
+        },),
+
       ],
     );
   }

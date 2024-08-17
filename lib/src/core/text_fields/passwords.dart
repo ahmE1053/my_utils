@@ -79,8 +79,8 @@ class MyConfirmPasswordField extends StatelessWidget {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
         textDirection: TextDirection.ltr,
-        label: LocaleKeys.password.tr(),
-        hint: LocaleKeys.password.tr(),
+        label: LocaleKeys.confirmPassword.tr(),
+        hint: LocaleKeys.confirmPassword.tr(),
         textInputType: TextInputType.visiblePassword,
         isPassword: true,
         validator: (value) {

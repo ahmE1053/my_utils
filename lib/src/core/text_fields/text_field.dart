@@ -88,7 +88,6 @@ class _MyTextFieldState extends State<MyTextField> {
               textFieldModel.onEditingComplete!(textFieldModel.controller);
             }
           },
-
           autofillHints: textFieldModel.autofillHints,
           onChanged: textFieldModel.onChanged,
           inputFormatters: textFieldModel.inputFormatters,
@@ -100,7 +99,7 @@ class _MyTextFieldState extends State<MyTextField> {
           minLines: textFieldModel.minLines,
           maxLines: textFieldModel.maxLines,
           enabled: textFieldModel.enabled ?? true,
-          style: textFieldModel.style,
+          style: textFieldModel.style ?? TextFieldModel.globalTextStyle,
           textAlign: textFieldModel.textAlign ?? TextAlign.start,
           decoration: InputDecoration(
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,

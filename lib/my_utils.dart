@@ -1,5 +1,11 @@
 library my_utils;
 
+import 'package:flutter/material.dart';
+import 'package:my_utils/src/core/text_fields/phone_country_text_field/country_info.dart';
+import 'package:my_utils/src/core/text_fields/utils/full_text_field_model.dart';
+
+import 'src/core/cached_network_image.dart';
+
 export "src/core/animated_text.dart";
 export 'src/core/animation_extensions.dart';
 export "src/core/base_shimmer.dart";
@@ -8,6 +14,7 @@ export "src/core/confirm_dialog.dart";
 export "src/core/consts/app_consts.dart";
 export "src/core/consts/text_styles.dart";
 export 'src/core/context_extensions.dart';
+export 'src/core/datetime_extensions.dart';
 export 'src/core/duration_extension.dart';
 export "src/core/empty_widget.dart";
 export "src/core/error_column.dart";
@@ -38,3 +45,19 @@ export "src/state_models/state_model.dart";
 export "src/state_models/state_model_listener_widget.dart";
 export "src/state_models/state_model_overlay_loading.dart";
 export "src/state_models/state_model_widget.dart";
+
+void setMyUtils({
+  TextStyle? globalTextFieldTextStyle,
+  Widget? cachedNetworkImageErrorWidget,
+  List<CountryInfo>? allowedCountriesInPhoneTextField,
+}) {
+  if (globalTextFieldTextStyle != null) {
+    TextFieldModel.globalTextStyle = globalTextFieldTextStyle;
+  }
+  if (cachedNetworkImageErrorWidget != null) {
+    CachedNetworkImageWithLoader.errorWidget = cachedNetworkImageErrorWidget;
+  }
+  if (allowedCountriesInPhoneTextField != null) {
+    CountryInfo.phoneNumbersList = allowedCountriesInPhoneTextField;
+  }
+}
