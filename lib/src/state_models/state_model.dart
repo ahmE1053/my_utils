@@ -1,19 +1,25 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../core/exceptions/general_exception.dart';
 
 abstract class StateModelWithListenable<T> extends ChangeNotifier {
   StateModel<T> currentModel;
+  void Function()? wrappedInPostFrameCallBack;
 
   void init(void Function()? listener) {
     if (listener != null) {
-      addListener(listener);
+      wrappedInPostFrameCallBack = () {
+        WidgetsBinding.instance.addPostFrameCallback(
+          (timeStamp) => listener(),
+        );
+      };
+      addListener(wrappedInPostFrameCallBack!);
     }
   }
 
   void myDispose(void Function()? listener) {
     if (listener != null) {
-      removeListener(listener);
+      removeListener(wrappedInPostFrameCallBack!);
     }
     super.dispose();
   }
@@ -33,8 +39,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorFromException(Object exc) =>
-      changeValue(
+  void toErrorFromException(Object exc) => changeValue(
         StateError.fromException(exc),
       );
 

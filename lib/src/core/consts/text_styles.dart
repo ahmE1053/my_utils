@@ -9,8 +9,6 @@ class MyUtilAppTextStyle extends TextStyle {
   })  : assert(fontWeight >= 100 && fontWeight <= 900 && fontWeight % 100 == 0,
             'fontWeight must be between 100 and 900 in increments of 100'),
         super(
-          fontFamily: 'Nunito',
-          fontFamilyFallback: const ['NotoKufiArabic'],
           fontWeight: fontWeight == 100
               ? FontWeight.w100
               : fontWeight == 200
