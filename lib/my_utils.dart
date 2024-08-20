@@ -1,11 +1,11 @@
 library my_utils;
 
 import 'package:flutter/material.dart';
-import 'package:my_utils/src/core/text_fields/phone_country_text_field/country_info.dart';
-import 'package:my_utils/src/core/text_fields/utils/full_text_field_model.dart';
 
 import 'src/core/cached_network_image.dart';
-
+import 'src/core/text_fields/phone_country_text_field/country_info.dart';
+import 'src/core/text_fields/utils/full_text_field_model.dart';
+import 'src/state_models/state_model_overlay_loading.dart';
 export "src/core/animated_text.dart";
 export 'src/core/animation_extensions.dart';
 export "src/core/base_shimmer.dart";
@@ -49,6 +49,7 @@ export "src/state_models/state_model_widget.dart";
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,
   Widget? cachedNetworkImageErrorWidget,
+  Widget? stateModelLoadingIndicator,
   List<CountryInfo>? allowedCountriesInPhoneTextField,
 }) {
   if (globalTextFieldTextStyle != null) {
@@ -59,5 +60,8 @@ void setMyUtils({
   }
   if (allowedCountriesInPhoneTextField != null) {
     CountryInfo.phoneNumbersList = allowedCountriesInPhoneTextField;
+  }
+  if (stateModelLoadingIndicator != null) {
+    StateModelOverlayLoading.defaultLoadingIndicator = stateModelLoadingIndicator;
   }
 }

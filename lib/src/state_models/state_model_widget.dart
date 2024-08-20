@@ -33,7 +33,10 @@ class StateModelWidget<T> extends StatelessWidget {
       }
     }
     return switch (state) {
-      StateInitial<T>() || StateSuccess<T>() => child,
+      StateInitial<T>() ||
+      StateSuccess<T>() ||
+      StateErrorWithException<T>() =>
+        child,
       StateError<T>() => customError ??
           (showError
               ? ErrorColumn(

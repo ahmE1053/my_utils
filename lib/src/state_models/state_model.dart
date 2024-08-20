@@ -39,11 +39,20 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
+  void toErrorWithException(Object? exc) => changeValue(
+        StateErrorWithException(exc),
+      );
+
   void toErrorFromException(Object exc) => changeValue(
         StateError.fromException(exc),
       );
 
   bool get isError => currentModel is StateError;
+
+  bool get isErrorWithException => currentModel is StateErrorWithException;
+
+  Object? get getException =>
+      (currentModel as StateErrorWithException).exception;
 
   String get getErrorMessage => (currentModel as StateError).errorMessage;
 
@@ -102,6 +111,17 @@ class StateError<T> extends StateModel<T> {
   @override
   String toString() {
     return 'StateError{errorMessage: $errorMessage}';
+  }
+}
+
+class StateErrorWithException<T> extends StateModel<T> {
+  final Object? exception;
+
+  const StateErrorWithException(this.exception);
+
+  @override
+  String toString() {
+    return 'StateErrorWithException{errorMessage: ${exception.toString()}}';
   }
 }
 
