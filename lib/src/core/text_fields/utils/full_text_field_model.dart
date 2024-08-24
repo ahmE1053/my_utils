@@ -33,6 +33,7 @@ class TextFieldModel {
   final bool showPasswordVisibleIcon;
   final bool enableInteractiveSelection;
   final bool enableAutoCorrection;
+  final bool expands;
   final bool? useHint;
   final FocusNode? focusNode;
   final TextAlign? textAlign;
@@ -51,6 +52,7 @@ class TextFieldModel {
     this.showPasswordVisibleIcon = true,
     this.enableInteractiveSelection = true,
     this.enableAutoCorrection = true,
+    this.expands = true,
     this.useLabel,
     this.allBorderRadius,
     this.useHint,
@@ -97,6 +99,7 @@ class TextFieldModel {
     this.showPasswordVisibleIcon = true,
     this.enableInteractiveSelection = true,
     this.enableAutoCorrection = true,
+    this.expands = true,
     this.useLabel,
     this.allBorderRadius,
     this.useHint,
@@ -143,6 +146,7 @@ class TextFieldModel {
     bool? showPasswordVisibleIcon,
     bool? enableInteractiveSelection,
     bool? enableAutoCorrection,
+    bool? expands,
     bool? useHint,
     double? allBorderRadius,
     String? Function(String? value)? validator,
@@ -187,6 +191,7 @@ class TextFieldModel {
         enableInteractiveSelection:
             enableInteractiveSelection ?? this.enableInteractiveSelection,
         enableAutoCorrection: enableAutoCorrection ?? this.enableAutoCorrection,
+        expands: expands ?? this.expands,
         validator: this.validator ?? validator,
         onChanged: this.onChanged ?? onChanged,
         label: this.label ?? label,

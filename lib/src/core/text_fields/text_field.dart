@@ -74,6 +74,7 @@ class _MyTextFieldState extends State<MyTextField> {
       listenable: Listenable.merge([textFieldDirection, obscureText]),
       builder: (context, _) {
         return TextFormField(
+          expands: textFieldModel.expands,
           onTap: textFieldModel.onTap,
           autocorrect: textFieldModel.enableAutoCorrection,
           enableIMEPersonalizedLearning: textFieldModel.enableAutoCorrection,
