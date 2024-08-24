@@ -30,6 +30,9 @@ class TextFieldModel {
   final EdgeInsets? contentPadding;
   final bool? isDense;
   final bool? useLabel;
+  final bool showPasswordVisibleIcon;
+  final bool enableInteractiveSelection;
+  final bool enableAutoCorrection;
   final bool? useHint;
   final FocusNode? focusNode;
   final TextAlign? textAlign;
@@ -37,6 +40,7 @@ class TextFieldModel {
   final bool? enabled;
   final Color? focusedBorder;
   final Color? enabledBorder;
+  final double? allBorderRadius;
   final Iterable<String>? autofillHints;
   final void Function(dynamic event)? onTapOutside;
   final void Function(TextEditingController value)? onEditingComplete;
@@ -44,7 +48,11 @@ class TextFieldModel {
   const TextFieldModel({
     required this.controller,
     this.isPassword = false,
+    this.showPasswordVisibleIcon = true,
+    this.enableInteractiveSelection = true,
+    this.enableAutoCorrection = true,
     this.useLabel,
+    this.allBorderRadius,
     this.useHint,
     this.validator,
     this.obscureText,
@@ -86,7 +94,11 @@ class TextFieldModel {
   TextFieldModel.fromPhoneNotifier({
     required PhoneFieldNotifier phoneFieldNotifier,
     this.isPassword = false,
+    this.showPasswordVisibleIcon = true,
+    this.enableInteractiveSelection = true,
+    this.enableAutoCorrection = true,
     this.useLabel,
+    this.allBorderRadius,
     this.useHint,
     this.onTap,
     this.validator,
@@ -128,7 +140,11 @@ class TextFieldModel {
   TextFieldModel replaceIfNull({
     bool? isPassword,
     bool? useLabel,
+    bool? showPasswordVisibleIcon,
+    bool? enableInteractiveSelection,
+    bool? enableAutoCorrection,
     bool? useHint,
+    double? allBorderRadius,
     String? Function(String? value)? validator,
     void Function(String? value)? onChanged,
     String? label,
@@ -166,10 +182,16 @@ class TextFieldModel {
       TextFieldModel(
         controller: controller,
         isPassword: isPassword ?? this.isPassword,
+        showPasswordVisibleIcon:
+            showPasswordVisibleIcon ?? this.showPasswordVisibleIcon,
+        enableInteractiveSelection:
+            enableInteractiveSelection ?? this.enableInteractiveSelection,
+        enableAutoCorrection: enableAutoCorrection ?? this.enableAutoCorrection,
         validator: this.validator ?? validator,
         onChanged: this.onChanged ?? onChanged,
         label: this.label ?? label,
         hint: this.hint ?? hint,
+        allBorderRadius: this.allBorderRadius ?? allBorderRadius,
         useLabel: useLabel ?? this.useLabel,
         useHint: useHint ?? this.useHint,
         style: this.style ?? style,

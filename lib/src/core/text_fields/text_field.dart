@@ -75,6 +75,9 @@ class _MyTextFieldState extends State<MyTextField> {
       builder: (context, _) {
         return TextFormField(
           onTap: textFieldModel.onTap,
+          autocorrect: textFieldModel.enableAutoCorrection,
+          enableIMEPersonalizedLearning: textFieldModel.enableAutoCorrection,
+          enableSuggestions: textFieldModel.enableAutoCorrection,
           key: textFieldModel.fieldFormStateKey,
           onTapOutside: textFieldModel.onTapOutside,
           focusNode: textFieldModel.focusNode,
@@ -96,6 +99,7 @@ class _MyTextFieldState extends State<MyTextField> {
           keyboardType: textFieldModel.textInputType,
           obscureText: obscureText.value,
           obscuringCharacter: '•',
+          enableInteractiveSelection: textFieldModel.enableInteractiveSelection,
           minLines: textFieldModel.minLines,
           maxLines: textFieldModel.maxLines,
           enabled: textFieldModel.enabled ?? true,
@@ -111,32 +115,32 @@ class _MyTextFieldState extends State<MyTextField> {
                 (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
                     null,
             isDense: textFieldModel.isDense ?? true,
-            border: inputDecorationTheme.border,
-            disabledBorder: inputDecorationTheme.disabledBorder,
-            errorBorder: inputDecorationTheme.errorBorder,
-            focusedErrorBorder: inputDecorationTheme.focusedErrorBorder,
-            focusedBorder:
-                Theme.of(context).inputDecorationTheme.focusedBorder!.copyWith(
-                      borderSide: BorderSide(
-                        color: textFieldModel.focusedBorder ??
-                            Theme.of(context)
-                                .inputDecorationTheme
-                                .focusedBorder!
-                                .borderSide
-                                .color,
-                      ),
-                    ),
-            enabledBorder:
-                Theme.of(context).inputDecorationTheme.enabledBorder!.copyWith(
-                      borderSide: BorderSide(
-                        color: textFieldModel.enabledBorder ??
-                            Theme.of(context)
-                                .inputDecorationTheme
-                                .enabledBorder!
-                                .borderSide
-                                .color,
-                      ),
-                    ),
+            border: changeBorderDetails(
+              inputDecorationTheme.border!,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
+            disabledBorder: changeBorderDetails(
+              inputDecorationTheme.disabledBorder!,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
+            errorBorder: changeBorderDetails(
+              inputDecorationTheme.errorBorder!,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
+            focusedErrorBorder: changeBorderDetails(
+              inputDecorationTheme.focusedErrorBorder!,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
+            focusedBorder: changeBorderDetails(
+              inputDecorationTheme.enabledBorder!,
+              newColor: textFieldModel.focusedBorder,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
+            enabledBorder: changeBorderDetails(
+              inputDecorationTheme.enabledBorder!,
+              newColor: textFieldModel.enabledBorder,
+              newBorderRadius: textFieldModel.allBorderRadius,
+            ),
             errorMaxLines: 5,
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
@@ -150,23 +154,38 @@ class _MyTextFieldState extends State<MyTextField> {
                 textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
                 textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
-            suffixIcon:
-                textFieldModel.isPassword && textFieldModel.suffix == null
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          obscureText.value = !obscureText.value;
-                        },
-                        icon: SvgPicture.asset(
-                          'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
-                        ),
-                      )
-                    : textFieldModel.suffix,
+            suffixIcon: textFieldModel.isPassword &&
+                    textFieldModel.suffix == null &&
+                    textFieldModel.showPasswordVisibleIcon
+                ? IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      obscureText.value = !obscureText.value;
+                    },
+                    icon: SvgPicture.asset(
+                      'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
+                    ),
+                  )
+                : textFieldModel.suffix,
           ),
         );
       },
     );
   }
+
+  InputBorder changeBorderDetails(
+    InputBorder defaultDecoration, {
+    Color? newColor,
+    double? newBorderRadius,
+  }) =>
+      (defaultDecoration as OutlineInputBorder).copyWith(
+        borderRadius: newBorderRadius == null
+            ? defaultDecoration.borderRadius
+            : BorderRadius.circular(newBorderRadius),
+        borderSide: BorderSide(
+          color: newColor ?? defaultDecoration.borderSide.color,
+        ),
+      );
 }
 
 class TextFieldValidators {
