@@ -75,7 +75,24 @@ class _MyTextFieldState extends State<MyTextField> {
       builder: (context, _) {
         return TextFormField(
           expands: textFieldModel.expands,
-          onTap: textFieldModel.onTap,
+          onTap: () {
+            if (textFieldDirection.value == TextDirection.rtl) {
+              final controller = textFieldModel.controller;
+              final tryToSelectLastChar = controller.selection ==
+                  TextSelection.fromPosition(
+                    TextPosition(offset: controller.text.length - 1),
+                  );
+              if (tryToSelectLastChar) {
+                controller.selection = TextSelection.fromPosition(
+                  TextPosition(offset: controller.text.length),
+                );
+                setState(() {});
+              }
+            }
+            if (textFieldModel.onTap != null) {
+              textFieldModel.onTap!();
+            }
+          },
           autocorrect: textFieldModel.enableAutoCorrection,
           enableIMEPersonalizedLearning: textFieldModel.enableAutoCorrection,
           enableSuggestions: textFieldModel.enableAutoCorrection,
@@ -117,28 +134,29 @@ class _MyTextFieldState extends State<MyTextField> {
                     null,
             isDense: textFieldModel.isDense ?? true,
             border: changeBorderDetails(
-              inputDecorationTheme.border!,
+              inputDecorationTheme.border,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             disabledBorder: changeBorderDetails(
-              inputDecorationTheme.disabledBorder!,
+              inputDecorationTheme.disabledBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             errorBorder: changeBorderDetails(
-              inputDecorationTheme.errorBorder!,
+              inputDecorationTheme.errorBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             focusedErrorBorder: changeBorderDetails(
-              inputDecorationTheme.focusedErrorBorder!,
+              inputDecorationTheme.focusedErrorBorder,
+              newColor: textFieldModel.enabledBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             focusedBorder: changeBorderDetails(
-              inputDecorationTheme.enabledBorder!,
+              inputDecorationTheme.enabledBorder,
               newColor: textFieldModel.focusedBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             enabledBorder: changeBorderDetails(
-              inputDecorationTheme.enabledBorder!,
+              inputDecorationTheme.enabledBorder,
               newColor: textFieldModel.enabledBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
@@ -175,18 +193,23 @@ class _MyTextFieldState extends State<MyTextField> {
   }
 
   InputBorder changeBorderDetails(
-    InputBorder defaultDecoration, {
+    InputBorder? defaultDecoration, {
     Color? newColor,
     double? newBorderRadius,
   }) =>
-      (defaultDecoration as OutlineInputBorder).copyWith(
-        borderRadius: newBorderRadius == null
-            ? defaultDecoration.borderRadius
-            : BorderRadius.circular(newBorderRadius),
-        borderSide: BorderSide(
-          color: newColor ?? defaultDecoration.borderSide.color,
-        ),
-      );
+      defaultDecoration == null
+          ? OutlineInputBorder(
+              borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
+              borderSide: BorderSide(color: newColor ?? Colors.black),
+            )
+          : (defaultDecoration as OutlineInputBorder).copyWith(
+              borderRadius: newBorderRadius == null
+                  ? defaultDecoration.borderRadius
+                  : BorderRadius.circular(newBorderRadius),
+              borderSide: BorderSide(
+                color: newColor ?? defaultDecoration.borderSide.color,
+              ),
+            );
 }
 
 class TextFieldValidators {

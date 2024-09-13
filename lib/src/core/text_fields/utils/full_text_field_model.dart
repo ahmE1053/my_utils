@@ -128,7 +128,6 @@ class TextFieldModel {
     this.padding,
     this.contentPadding,
     this.isDense,
-    this.focusNode,
     this.textAlign,
     this.validationMode,
     this.textColor,
@@ -138,7 +137,9 @@ class TextFieldModel {
     this.autofillHints,
     this.onTapOutside,
     this.onEditingComplete,
-  }) : controller = phoneFieldNotifier.controller;
+  })
+      : controller = phoneFieldNotifier.controller,
+        focusNode=phoneFieldNotifier.focusNode;
 
   TextFieldModel replaceIfNull({
     bool? isPassword,
@@ -187,9 +188,9 @@ class TextFieldModel {
         controller: controller,
         isPassword: isPassword ?? this.isPassword,
         showPasswordVisibleIcon:
-            showPasswordVisibleIcon ?? this.showPasswordVisibleIcon,
+        showPasswordVisibleIcon ?? this.showPasswordVisibleIcon,
         enableInteractiveSelection:
-            enableInteractiveSelection ?? this.enableInteractiveSelection,
+        enableInteractiveSelection ?? this.enableInteractiveSelection,
         enableAutoCorrection: enableAutoCorrection ?? this.enableAutoCorrection,
         expands: expands ?? this.expands,
         validator: this.validator ?? validator,
@@ -230,8 +231,9 @@ class TextFieldModel {
         onEditingComplete: this.onEditingComplete ?? onEditingComplete,
       );
 
-  TextInputFormatter get getNameFormatter => TextInputFormatter.withFunction(
-        (oldValue, newValue) {
+  TextInputFormatter get getNameFormatter =>
+      TextInputFormatter.withFunction(
+            (oldValue, newValue) {
           bool returnNew = true;
           for (int i = 0; i < newValue.text.length; i++) {
             if (newValue.text[i].contains(

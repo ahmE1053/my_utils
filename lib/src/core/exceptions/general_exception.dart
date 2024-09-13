@@ -1,8 +1,10 @@
 class GeneralException implements Exception {
   final String message;
+  final int? statusCode;
 
   const GeneralException([
     String? message,
+    this.statusCode,
   ]) : message = message ?? 'errorOccurred';
 
   factory GeneralException.fromException(dynamic l) =>
@@ -10,7 +12,6 @@ class GeneralException implements Exception {
 
   @override
   String toString() {
-    return 'GeneralException{message: $message}';
+    return 'GeneralException{message: $message, statusCode: $statusCode}';
   }
-
 }

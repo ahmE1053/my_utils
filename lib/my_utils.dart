@@ -6,6 +6,7 @@ import 'src/core/cached_network_image.dart';
 import 'src/core/text_fields/phone_country_text_field/country_info.dart';
 import 'src/core/text_fields/utils/full_text_field_model.dart';
 import 'src/state_models/state_model_overlay_loading.dart';
+
 export "src/core/animated_text.dart";
 export 'src/core/animation_extensions.dart';
 export "src/core/base_shimmer.dart";
@@ -45,6 +46,7 @@ export "src/state_models/state_model.dart";
 export "src/state_models/state_model_listener_widget.dart";
 export "src/state_models/state_model_overlay_loading.dart";
 export "src/state_models/state_model_widget.dart";
+export "src/state_models/state_model_with_opacity_widget.dart";
 
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,
@@ -62,6 +64,7 @@ void setMyUtils({
     CountryInfo.phoneNumbersList = allowedCountriesInPhoneTextField;
   }
   if (stateModelLoadingIndicator != null) {
-    StateModelOverlayLoading.defaultLoadingIndicator = stateModelLoadingIndicator;
+    StateModelOverlayLoading.defaultLoadingIndicator =
+        stateModelLoadingIndicator;
   }
 }

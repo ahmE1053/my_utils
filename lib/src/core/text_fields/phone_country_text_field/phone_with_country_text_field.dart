@@ -20,12 +20,14 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
     this.codePickerArrowColor,
     this.codePickerTextStyle,
     this.overlayDecoration,
+    this.textDirection,
     this.codePadding = EdgeInsets.zero,
     this.enabled = true,
   });
 
   final PhoneFieldNotifier phoneValueNotifier;
   final TextFieldModel textFieldModel;
+  final TextDirection? textDirection;
   final double? height;
   final bool enabled;
   final BoxDecoration? codePickerDecoration;
@@ -85,7 +87,11 @@ class _MyPhoneWithCountryTextFieldState
         ),
         child: FormField(
           validator: (value) {
-            return phoneValueNotifier.validator;
+            final validator = widget.textFieldModel.validator;
+            final fullNumber = widget.phoneValueNotifier.numberWithCountryCode;
+            return validator == null
+                ? phoneValueNotifier.validator
+                : validator(fullNumber);
           },
           builder: (field) {
             if (!field.hasError) return buttonWithTextField;
@@ -96,8 +102,10 @@ class _MyPhoneWithCountryTextFieldState
                 buttonWithTextField,
                 const SizedBox(height: 8),
                 Directionality(
-                  textDirection:
-                      context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+                  textDirection: widget.textDirection ??
+                      (context.isArabic
+                          ? TextDirection.rtl
+                          : TextDirection.ltr),
                   child: Padding(
                     padding: const EdgeInsetsDirectional.only(start: 12.0),
                     child: Text(
@@ -134,15 +142,22 @@ class _MyPhoneWithCountryTextFieldState
         const SizedBox(width: 16),
         Expanded(
           child: Directionality(
-            textDirection:
-                context.isArabic ? TextDirection.rtl : TextDirection.ltr,
+            textDirection: widget.textDirection ??
+                (context.isArabic ? TextDirection.rtl : TextDirection.ltr),
             child: MyPhoneTextField(
               textFieldModel: widget.textFieldModel.replaceIfNull(
                 fieldFormStateKey: textFieldKey,
                 enabled: widget.enabled,
                 focusNode: phoneValueNotifier.focusNode,
                 isDense: false,
-                validator: (value) => phoneValueNotifier.validator,
+                validator: (_) {
+                  final validator = widget.textFieldModel.validator;
+                  final fullNumber =
+                      widget.phoneValueNotifier.numberWithCountryCode;
+                  return validator == null
+                      ? phoneValueNotifier.validator
+                      : validator(fullNumber);
+                },
                 errorStyle: const TextStyle(
                   fontSize: 0,
                 ),

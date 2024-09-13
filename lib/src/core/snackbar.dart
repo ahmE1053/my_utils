@@ -23,7 +23,27 @@ void showSnackBar(BuildContext context, String text) {
   );
 }
 
-void showSnackBarMessenger(ScaffoldMessengerState messenger, BuildContext context,String text) {
+void showSnackBarFromState(ScaffoldMessengerState state, String text) {
+  state.showSnackBar(
+    SnackBar(
+      margin: const EdgeInsets.only(
+        bottom: 24,
+        left: 16,
+        right: 16,
+      ),
+      content: Text(
+        text.tr(),
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+    ),
+  );
+}
+
+void showSnackBarMessenger(
+    ScaffoldMessengerState messenger, BuildContext context, String text) {
   messenger.showSnackBar(
     SnackBar(
       margin: EdgeInsets.only(
@@ -53,7 +73,7 @@ void showSuccessSnackBar(BuildContext context, String text) {
       backgroundColor: Colors.green,
       content: Text(
         text.tr(),
-        style: MyUtilAppTextStyle.getTextStyle(
+        style: const MyUtilAppTextStyle.getTextStyle(
           fontSize: 14,
           fontWeight: 500,
           color: Colors.white,
@@ -78,7 +98,7 @@ void showErrorSnackBar(BuildContext context, String text) {
       backgroundColor: Colors.redAccent,
       content: Text(
         text.tr(),
-        style: MyUtilAppTextStyle.getTextStyle(
+        style: const MyUtilAppTextStyle.getTextStyle(
           fontSize: 14,
           fontWeight: 500,
           color: Colors.white,

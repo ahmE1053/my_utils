@@ -32,20 +32,22 @@ extension Range<T extends double> on num {
     final hoursString = hours >= 10
         ? '$hours'
         : hours == 0
-            ? '00'
-            : '0$hours';
+        ? '00'
+        : '0$hours';
     final minutesString = minutes >= 10
         ? '$minutes'
         : minutes == 0
-            ? '00'
-            : '0$minutes';
+        ? '00'
+        : '0$minutes';
     final secondsString = seconds >= 10
         ? '$seconds'
         : seconds == 0
-            ? '00'
-            : '0$seconds';
+        ? '00'
+        : '0$seconds';
     final formattedTime =
-        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
+        '${hoursString == '00'
+        ? ''
+        : '$hoursString:'}$minutesString:$secondsString';
     return formattedTime;
   }
 
@@ -58,20 +60,22 @@ extension Range<T extends double> on num {
     final hoursString = hours >= 10
         ? '$hours'
         : hours == 0
-            ? '00'
-            : '0$hours';
+        ? '00'
+        : '0$hours';
     final minutesString = minutes >= 10
         ? '$minutes'
         : minutes == 0
-            ? '00'
-            : '0$minutes';
+        ? '00'
+        : '0$minutes';
     final secondsString = seconds >= 10
-        ? '$seconds'
+        ? '${seconds.floor()}'
         : seconds == 0
-            ? '00'
-            : '0$seconds';
+        ? '00'
+        : '0${seconds.floor()}';
     final formattedTime =
-        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
+        '${hoursString == '00'
+        ? ''
+        : '$hoursString:'}$minutesString:$secondsString';
     return formattedTime;
   }
 }

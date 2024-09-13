@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../core/exceptions/general_exception.dart';
 
 abstract class StateModelWithListenable<T> extends ChangeNotifier {
-  StateModel<T> currentModel;
+  StateModel<T> currentState;
   void Function()? wrappedInPostFrameCallBack;
 
   void init(void Function()? listener) {
     if (listener != null) {
       wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) => listener(),
+              (timeStamp) => listener(),
         );
       };
       addListener(wrappedInPostFrameCallBack!);
@@ -24,12 +24,18 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     super.dispose();
   }
 
-  StateModelWithListenable({
-    this.currentModel = const StateInitial(),
-  });
+  @override
+  void dispose() {
+    if (wrappedInPostFrameCallBack != null) {
+      removeListener(wrappedInPostFrameCallBack!);
+    }
+    super.dispose();
+  }
+
+  StateModelWithListenable([this.currentState = const StateInitial(),]);
 
   void changeValue(StateModel<T> model) {
-    currentModel = model;
+    currentState = model;
     notifyListeners();
   }
 
@@ -39,30 +45,38 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorWithException(Object? exc) => changeValue(
+  void toErrorWithException(Object? exc) =>
+      changeValue(
         StateErrorWithException(exc),
       );
 
-  void toErrorFromException(Object exc) => changeValue(
+  void toErrorFromException(Object? exc) =>
+      changeValue(
         StateError.fromException(exc),
       );
 
-  bool get isError => currentModel is StateError;
+  bool get isError => currentState is StateError;
 
-  bool get isErrorWithException => currentModel is StateErrorWithException;
+  bool get isErrorWithException => currentState is StateErrorWithException;
 
   Object? get getException =>
-      (currentModel as StateErrorWithException).exception;
+      (currentState as StateErrorWithException).exception;
 
-  String get getErrorMessage => (currentModel as StateError).errorMessage;
+  String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  bool get isSuccess => currentModel is StateSuccess;
+  String? get tryGetErrorMessage =>
+      currentState is StateError
+          ? (currentState as StateError).errorMessage
+          : null;
 
-  bool get isLoading => currentModel is StateLoading;
+  bool get isSuccess => currentState is StateSuccess;
 
-  T get value => (currentModel as StateSuccess).data!;
+  bool get isLoading => currentState is StateLoading;
 
-  T? get tryGetValue => (currentModel as StateSuccess).data;
+  T get value => (currentState as StateSuccess).data!;
+
+  T? get tryGetValue =>
+      currentState is StateSuccess ? (currentState as StateSuccess).data : null;
 }
 
 @immutable
@@ -102,7 +116,8 @@ class StateError<T> extends StateModel<T> {
     String? errorMessage,
   ]) : errorMessage = errorMessage ?? 'errorOccurred';
 
-  factory StateError.fromException(Object exception) {
+  factory StateError.fromException(Object? exception) {
+    print(exception);
     return StateError(
       exception is GeneralException ? exception.message : 'errorOccurred',
     );
