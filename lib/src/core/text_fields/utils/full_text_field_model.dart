@@ -24,6 +24,7 @@ class TextFieldModel {
   final TextEditingController controller;
   final int maxLines;
   final int? minLines;
+  final int? maxLength;
   final TextDirection? textDirection;
   final BoxConstraints? suffixBoxConstraints;
   final EdgeInsets? padding;
@@ -57,6 +58,7 @@ class TextFieldModel {
     this.allBorderRadius,
     this.useHint,
     this.validator,
+    this.maxLength,
     this.obscureText,
     this.onChanged,
     this.label,
@@ -107,6 +109,7 @@ class TextFieldModel {
     this.validator,
     this.obscureText,
     this.onChanged,
+    this.maxLength,
     this.label,
     this.errorStyle,
     this.fieldFormStateKey,
@@ -137,9 +140,8 @@ class TextFieldModel {
     this.autofillHints,
     this.onTapOutside,
     this.onEditingComplete,
-  })
-      : controller = phoneFieldNotifier.controller,
-        focusNode=phoneFieldNotifier.focusNode;
+  })  : controller = phoneFieldNotifier.controller,
+        focusNode = phoneFieldNotifier.focusNode;
 
   TextFieldModel replaceIfNull({
     bool? isPassword,
@@ -169,6 +171,7 @@ class TextFieldModel {
     Widget? prefix,
     int? maxLines,
     int? minLines,
+    int? maxLength,
     TextDirection? textDirection,
     BoxConstraints? suffixBoxConstraints,
     EdgeInsets? padding,
@@ -188,9 +191,9 @@ class TextFieldModel {
         controller: controller,
         isPassword: isPassword ?? this.isPassword,
         showPasswordVisibleIcon:
-        showPasswordVisibleIcon ?? this.showPasswordVisibleIcon,
+            showPasswordVisibleIcon ?? this.showPasswordVisibleIcon,
         enableInteractiveSelection:
-        enableInteractiveSelection ?? this.enableInteractiveSelection,
+            enableInteractiveSelection ?? this.enableInteractiveSelection,
         enableAutoCorrection: enableAutoCorrection ?? this.enableAutoCorrection,
         expands: expands ?? this.expands,
         validator: this.validator ?? validator,
@@ -215,6 +218,7 @@ class TextFieldModel {
         prefix: this.prefix ?? prefix,
         maxLines: maxLines ?? this.maxLines,
         minLines: this.minLines ?? minLines,
+        maxLength: this.maxLength ?? maxLength,
         textDirection: this.textDirection ?? textDirection,
         suffixBoxConstraints: this.suffixBoxConstraints ?? suffixBoxConstraints,
         padding: this.padding ?? padding,
@@ -231,9 +235,8 @@ class TextFieldModel {
         onEditingComplete: this.onEditingComplete ?? onEditingComplete,
       );
 
-  TextInputFormatter get getNameFormatter =>
-      TextInputFormatter.withFunction(
-            (oldValue, newValue) {
+  TextInputFormatter get getNameFormatter => TextInputFormatter.withFunction(
+        (oldValue, newValue) {
           bool returnNew = true;
           for (int i = 0; i < newValue.text.length; i++) {
             if (newValue.text[i].contains(

@@ -37,6 +37,7 @@ export 'src/core/text_fields/phone_country_text_field/phone_field_notifier.dart'
 export 'src/core/text_fields/phone_country_text_field/phone_with_country_text_field.dart';
 export 'src/core/text_fields/text_field.dart';
 export 'src/core/text_fields/utils/full_text_field_model.dart';
+export 'src/core/text_fields/utils/get_text_field_direction.dart';
 export "src/core/validator_extensions.dart";
 export "src/core/very_small_error_widget.dart";
 export "src/core/wait_before_resend.dart";

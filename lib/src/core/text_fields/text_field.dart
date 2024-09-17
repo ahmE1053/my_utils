@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_utils/my_utils.dart';
 
 import '../consts/app_localization_keys.g.dart';
+import 'utils/full_text_field_model.dart';
 import 'utils/get_text_field_direction.dart';
 
 class MyTextField extends StatefulWidget {
@@ -98,6 +98,7 @@ class _MyTextFieldState extends State<MyTextField> {
           enableSuggestions: textFieldModel.enableAutoCorrection,
           key: textFieldModel.fieldFormStateKey,
           onTapOutside: textFieldModel.onTapOutside,
+          maxLength: textFieldModel.maxLength,
           focusNode: textFieldModel.focusNode,
           textDirection:
               textFieldModel.textDirection ?? textFieldDirection.value,
