@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../core/exceptions/general_exception.dart';
@@ -10,7 +11,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     if (listener != null) {
       wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
-              (timeStamp) => listener(),
+          (timeStamp) => listener(),
         );
       };
       addListener(wrappedInPostFrameCallBack!);
@@ -32,7 +33,9 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     super.dispose();
   }
 
-  StateModelWithListenable([this.currentState = const StateInitial(),]);
+  StateModelWithListenable([
+    this.currentState = const StateInitial(),
+  ]);
 
   void changeValue(StateModel<T> model) {
     currentState = model;
@@ -41,17 +44,18 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toLoading() => changeValue(const StateLoading());
 
-  void toSuccess([T? data]) => changeValue(StateSuccess(data));
+  void toSuccess([T? data]) {
+    if (isSuccess) return;
+    changeValue(StateSuccess(data));
+  }
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorWithException(Object? exc) =>
-      changeValue(
+  void toErrorWithException(Object? exc) => changeValue(
         StateErrorWithException(exc),
       );
 
-  void toErrorFromException(Object? exc) =>
-      changeValue(
+  void toErrorFromException(Object? exc) => changeValue(
         StateError.fromException(exc),
       );
 
@@ -64,10 +68,9 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage =>
-      currentState is StateError
-          ? (currentState as StateError).errorMessage
-          : null;
+  String? get tryGetErrorMessage => currentState is StateError
+      ? (currentState as StateError).errorMessage
+      : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
@@ -117,7 +120,9 @@ class StateError<T> extends StateModel<T> {
   ]) : errorMessage = errorMessage ?? 'errorOccurred';
 
   factory StateError.fromException(Object? exception) {
-    print(exception);
+    if (kDebugMode) {
+      print(exception);
+    }
     return StateError(
       exception is GeneralException ? exception.message : 'errorOccurred',
     );
@@ -142,6 +147,8 @@ class StateErrorWithException<T> extends StateModel<T> {
 
 class StateLoading<T> extends StateModel<T> {
   const StateLoading();
+
+  // final int? progress;
 
   @override
   String toString() {

@@ -56,7 +56,7 @@ class _ErrorTextWithAnimationState extends State<ErrorTextWithAnimation>
           if (widget.useTopPadding) const SizedBox(height: 8),
           Text(
             widget.errorText.tr(),
-            style: MyUtilAppTextStyle.getTextStyle(
+            style: const MyUtilAppTextStyle.getTextStyle(
               color: Colors.redAccent,
               fontSize: 13,
               fontWeight: 300,

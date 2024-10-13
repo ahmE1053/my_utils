@@ -24,6 +24,7 @@ void showSnackBar(BuildContext context, String text) {
 }
 
 void showSnackBarFromState(ScaffoldMessengerState state, String text) {
+  state.hideCurrentSnackBar();
   state.showSnackBar(
     SnackBar(
       margin: const EdgeInsets.only(
@@ -42,8 +43,8 @@ void showSnackBarFromState(ScaffoldMessengerState state, String text) {
   );
 }
 
-void showSnackBarMessenger(
-    ScaffoldMessengerState messenger, BuildContext context, String text) {
+void showSnackBarMessenger(ScaffoldMessengerState messenger,
+    BuildContext context, String text) {
   messenger.showSnackBar(
     SnackBar(
       margin: EdgeInsets.only(

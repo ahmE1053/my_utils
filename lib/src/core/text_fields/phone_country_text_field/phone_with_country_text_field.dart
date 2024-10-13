@@ -77,14 +77,15 @@ class _MyPhoneWithCountryTextFieldState
       textDirection: TextDirection.ltr,
       child: OverlayPortal(
         controller: overlayController,
-        overlayChildBuilder: (context) => CountriesOverlay(
-          buttonRectKey: buttonRectKey,
-          textStyle: widget.overlayTextStyle,
-          overlayDecoration: widget.overlayDecoration,
-          animationController: animationController,
-          overlayController: overlayController,
-          phoneFieldNotifier: widget.phoneValueNotifier,
-        ),
+        overlayChildBuilder: (context) =>
+            CountriesOverlay(
+              buttonRectKey: buttonRectKey,
+              textStyle: widget.overlayTextStyle,
+              overlayDecoration: widget.overlayDecoration,
+              animationController: animationController,
+              overlayController: overlayController,
+              phoneFieldNotifier: widget.phoneValueNotifier,
+            ),
         child: FormField(
           validator: (value) {
             final validator = widget.textFieldModel.validator;
@@ -144,11 +145,12 @@ class _MyPhoneWithCountryTextFieldState
           child: Directionality(
             textDirection: widget.textDirection ??
                 (context.isArabic ? TextDirection.rtl : TextDirection.ltr),
-            child: MyPhoneTextField(
+            child: ListenableBuilder(listenable: phoneValueNotifier.countryListener, builder: (context, child) => MyPhoneTextField(
               textFieldModel: widget.textFieldModel.replaceIfNull(
                 fieldFormStateKey: textFieldKey,
                 enabled: widget.enabled,
                 focusNode: phoneValueNotifier.focusNode,
+                hint: phoneValueNotifier.country.hintText,
                 isDense: false,
                 validator: (_) {
                   final validator = widget.textFieldModel.validator;
@@ -162,7 +164,7 @@ class _MyPhoneWithCountryTextFieldState
                   fontSize: 0,
                 ),
               ),
-            ),
+            ),),
           ),
         ),
       ],

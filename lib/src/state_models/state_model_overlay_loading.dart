@@ -68,7 +68,7 @@ class _StateModelOverlayLoadingState<T>
     return OverlayPortal.targetsRootOverlay(
       controller: overlayController,
       overlayChildBuilder: (context) => PopScope(
-        canPop: widget.canPopWhileLoading,
+        canPop: widget.canPopWhileLoading || !stateModel.isLoading,
         child: Stack(
           fit: StackFit.expand,
           children: [

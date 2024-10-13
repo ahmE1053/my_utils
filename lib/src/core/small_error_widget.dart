@@ -25,10 +25,11 @@ class SmallErrorWidget extends StatelessWidget {
         Text(
           errorMessage ?? LocaleKeys.errorOccurred.tr(),
           textAlign: TextAlign.center,
-          style: errorTextStyle ?? MyUtilAppTextStyle.getTextStyle(
-            fontSize: 14,
-            fontWeight: 500,
-          ),
+          style: errorTextStyle ??
+              const MyUtilAppTextStyle.getTextStyle(
+                fontSize: 14,
+                fontWeight: 500,
+              ),
         ),
         const SizedBox(height: 8),
         SizedBox(

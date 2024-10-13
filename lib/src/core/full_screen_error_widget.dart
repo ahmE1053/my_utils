@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_utils/src/core/exceptions/general_exception.dart';
 
-import 'context_extensions.dart';
 import 'consts/app_localization_keys.g.dart';
 import 'consts/text_styles.dart';
+import 'context_extensions.dart';
 
 class FullScreenError extends StatelessWidget {
   const FullScreenError({
@@ -15,7 +15,7 @@ class FullScreenError extends StatelessWidget {
     this.stackTrace,
   });
 
-  final Object exception;
+  final Object? exception;
   final StackTrace? stackTrace;
   final void Function() onTap;
 
@@ -31,6 +31,7 @@ class FullScreenError extends StatelessWidget {
             height: context.height * 0.25,
             child: Lottie.asset(
               'assets/lottie/error.json',
+              repeat: false,
               fit: BoxFit.fill,
             ),
           ),
@@ -41,7 +42,7 @@ class FullScreenError extends StatelessWidget {
               ? (exception as GeneralException).message.tr()
               : LocaleKeys.errorOccurred.tr(),
           textAlign: TextAlign.center,
-          style: MyUtilAppTextStyle.getTextStyle(
+          style: const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
             fontWeight: 500,
           ),
