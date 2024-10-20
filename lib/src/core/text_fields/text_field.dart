@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_utils/my_utils.dart';
 
 import '../consts/app_localization_keys.g.dart';
-import 'utils/full_text_field_model.dart';
-import 'utils/get_text_field_direction.dart';
 
 class MyTextField extends StatefulWidget {
   const MyTextField({
@@ -36,6 +35,8 @@ class _MyTextFieldState extends State<MyTextField> {
     return TextDirection.ltr;
   }
 
+  String? languageCode;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +47,12 @@ class _MyTextFieldState extends State<MyTextField> {
     textFieldDirectionListener = () {
       String value = textFieldModel.controller.text;
       value = value.trim();
+      if (value.isEmpty) {
+        try {
+          textFieldDirection.value =
+          context.isArabic ? TextDirection.rtl : TextDirection.ltr;
+        } catch (e) {}
+      }
       for (int i = 0; i < value.length; i++) {
         if (value[i] == ' ') continue;
         if (double.tryParse(value[i]) == null) {
@@ -66,9 +73,26 @@ class _MyTextFieldState extends State<MyTextField> {
     super.dispose();
   }
 
+  void changeCursorLocation() {
+    try {
+      if (languageCode == null) {
+        languageCode = context.locale.languageCode;
+      } else {
+        if (languageCode != context.locale.languageCode) {
+          languageCode = context.locale.languageCode;
+          textFieldDirectionListener();
+        }
+      }
+    }
+    catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
-    final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
+    changeCursorLocation();
+    final inputDecorationTheme = Theme
+        .of(context)
+        .inputDecorationTheme;
     textFieldModel = widget.textFieldModel;
     return ListenableBuilder(
       listenable: Listenable.merge([textFieldDirection, obscureText]),
@@ -101,7 +125,7 @@ class _MyTextFieldState extends State<MyTextField> {
           maxLength: textFieldModel.maxLength,
           focusNode: textFieldModel.focusNode,
           textDirection:
-              textFieldModel.textDirection ?? textFieldDirection.value,
+          textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
           validator: textFieldModel.validator,
           autovalidateMode: textFieldModel.validationMode,
@@ -128,11 +152,11 @@ class _MyTextFieldState extends State<MyTextField> {
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,
             floatingLabelStyle: textFieldModel.floatingLabelStyle,
             fillColor:
-                textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
+            textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
             errorStyle: textFieldModel.errorStyle,
             filled:
-                (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
-                    null,
+            (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
+                null,
             isDense: textFieldModel.isDense ?? true,
             border: changeBorderDetails(
               inputDecorationTheme.border,
@@ -165,27 +189,27 @@ class _MyTextFieldState extends State<MyTextField> {
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
             hintText:
-                textFieldModel.useHint == false ? null : textFieldModel.hint,
+            textFieldModel.useHint == false ? null : textFieldModel.hint,
             label:
-                textFieldModel.label == null || textFieldModel.useLabel == false
-                    ? null
-                    : Text(textFieldModel.label!),
+            textFieldModel.label == null || textFieldModel.useLabel == false
+                ? null
+                : Text(textFieldModel.label!),
             hintStyle:
-                textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
+            textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
-                textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
+            textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
             suffixIcon: textFieldModel.isPassword &&
-                    textFieldModel.suffix == null &&
-                    textFieldModel.showPasswordVisibleIcon
+                textFieldModel.suffix == null &&
+                textFieldModel.showPasswordVisibleIcon
                 ? IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      obscureText.value = !obscureText.value;
-                    },
-                    icon: SvgPicture.asset(
-                      'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
-                    ),
-                  )
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                obscureText.value = !obscureText.value;
+              },
+              icon: SvgPicture.asset(
+                'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
+              ),
+            )
                 : textFieldModel.suffix,
           ),
         );
@@ -193,24 +217,23 @@ class _MyTextFieldState extends State<MyTextField> {
     );
   }
 
-  InputBorder changeBorderDetails(
-    InputBorder? defaultDecoration, {
+  InputBorder changeBorderDetails(InputBorder? defaultDecoration, {
     Color? newColor,
     double? newBorderRadius,
   }) =>
       defaultDecoration == null
           ? OutlineInputBorder(
-              borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
-              borderSide: BorderSide(color: newColor ?? Colors.black),
-            )
+        borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
+        borderSide: BorderSide(color: newColor ?? Colors.black),
+      )
           : (defaultDecoration as OutlineInputBorder).copyWith(
-              borderRadius: newBorderRadius == null
-                  ? defaultDecoration.borderRadius
-                  : BorderRadius.circular(newBorderRadius),
-              borderSide: BorderSide(
-                color: newColor ?? defaultDecoration.borderSide.color,
-              ),
-            );
+        borderRadius: newBorderRadius == null
+            ? defaultDecoration.borderRadius
+            : BorderRadius.circular(newBorderRadius),
+        borderSide: BorderSide(
+          color: newColor ?? defaultDecoration.borderSide.color,
+        ),
+      );
 }
 
 class TextFieldValidators {

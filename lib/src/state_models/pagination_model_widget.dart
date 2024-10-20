@@ -33,11 +33,13 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     this.sliverGridDelegate,
     this.initialErrorWidget,
     this.pageStorageKey,
+    this.physics,
     this.scrollDirection = Axis.vertical,
   }) : assert(sliverGridDelegate != null || shimmerExtent != null);
 
   ///a notifier to stop this widget from making new requests
   final ValueNotifier<bool>? isLastPage;
+  final ScrollPhysics? physics;
 
   ///the model that data and states will come from
   final PaginationStateModel<T> stateModel;
@@ -258,7 +260,7 @@ class _PaginationStateModelWidgetState<T>
         controller: additionalWidgets != null ? null : _scrollController,
         physics: additionalWidgets != null || _scrollController == null
             ? const NeverScrollableScrollPhysics()
-            : null,
+            : widget.physics,
         shrinkWrap: additionalWidgets != null || shrinkWrap,
         itemCount: data.length,
         itemBuilder: (context, index) => widget.child(data[index]),
@@ -276,7 +278,7 @@ class _PaginationStateModelWidgetState<T>
         scrollDirection: widget.scrollDirection,
         physics: _scrollController == null
             ? const NeverScrollableScrollPhysics()
-            : null,
+            : widget.physics,
         padding: getScrollablePadding(disableBottomInsets),
         children: [
           list,
@@ -289,7 +291,7 @@ class _PaginationStateModelWidgetState<T>
       shrinkWrap: true,
       scrollDirection: widget.scrollDirection,
       itemCount: data.length,
-      padding: EdgeInsets.zero,
+      padding: getScrollablePadding(disableBottomInsets),
       itemBuilder: (context, index) => widget.child(data[index]),
       gridDelegate: widget.sliverGridDelegate!,
     );
@@ -298,7 +300,7 @@ class _PaginationStateModelWidgetState<T>
       controller: _scrollController,
       physics: _scrollController == null
           ? const NeverScrollableScrollPhysics()
-          : null,
+          : widget.physics,
       shrinkWrap: shrinkWrap,
       padding: getScrollablePadding(disableBottomInsets),
       scrollDirection: widget.scrollDirection,
