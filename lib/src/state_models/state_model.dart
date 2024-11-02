@@ -11,7 +11,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     if (listener != null) {
       wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) => listener(),
+              (timeStamp) => listener(),
         );
       };
       addListener(wrappedInPostFrameCallBack!);
@@ -49,13 +49,19 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     changeValue(StateSuccess(data));
   }
 
+  void toSuccessForce([T? data]) {
+    changeValue(StateSuccess(data));
+  }
+
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorWithException(Object? exc) => changeValue(
+  void toErrorWithException(Object? exc) =>
+      changeValue(
         StateErrorWithException(exc),
       );
 
-  void toErrorFromException(Object? exc) => changeValue(
+  void toErrorFromException(Object? exc) =>
+      changeValue(
         StateError.fromException(exc),
       );
 
@@ -68,15 +74,16 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage => currentState is StateError
-      ? (currentState as StateError).errorMessage
-      : null;
+  String? get tryGetErrorMessage =>
+      currentState is StateError
+          ? (currentState as StateError).errorMessage
+          : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
   bool get isLoading => currentState is StateLoading;
 
-  T get value => (currentState as StateSuccess).data!;
+  T get value => (currentState as StateSuccess).data;
 
   T? get tryGetValue =>
       currentState is StateSuccess ? (currentState as StateSuccess).data : null;
@@ -110,6 +117,17 @@ class StateSuccess<T> extends StateModel<T> {
   String toString() {
     return 'StateSuccess{ data: $data }';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is StateSuccess && runtimeType == other.runtimeType &&
+              data == other.data;
+
+  @override
+  int get hashCode => data.hashCode;
+
+
 }
 
 class StateError<T> extends StateModel<T> {

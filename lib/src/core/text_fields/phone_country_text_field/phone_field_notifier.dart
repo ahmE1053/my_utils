@@ -17,7 +17,7 @@ class PhoneFieldNotifier {
           text: initialValue,
         ),
         ValueNotifier(
-          country ?? CountryInfo.saudiArabia(),
+          country ?? CountryInfo.getPhoneCountries.first,
         ),
         FocusNode(),
       );

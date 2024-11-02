@@ -25,6 +25,7 @@ export "src/core/full_screen_error_widget.dart";
 export "src/core/loading_indicator.dart";
 export "src/core/num_extensions.dart";
 export "src/core/rating_bar.dart";
+export "src/core/read_more_text.dart";
 export "src/core/small_error_widget.dart";
 export "src/core/snackbar.dart";
 export 'src/core/string_extensions.dart';
@@ -38,7 +39,6 @@ export 'src/core/text_fields/phone_country_text_field/phone_with_country_text_fi
 export 'src/core/text_fields/text_field.dart';
 export 'src/core/text_fields/utils/full_text_field_model.dart';
 export 'src/core/text_fields/utils/get_text_field_direction.dart';
-export "src/core/validator_extensions.dart";
 export "src/core/very_small_error_widget.dart";
 export "src/core/wait_before_resend.dart";
 export "src/state_models/pagination_model_widget.dart";

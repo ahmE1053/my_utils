@@ -23,7 +23,7 @@ class SmallErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          errorMessage ?? LocaleKeys.errorOccurred.tr(),
+          errorMessage?.tr() ?? LocaleKeys.errorOccurred.tr(),
           textAlign: TextAlign.center,
           style: errorTextStyle ??
               const MyUtilAppTextStyle.getTextStyle(

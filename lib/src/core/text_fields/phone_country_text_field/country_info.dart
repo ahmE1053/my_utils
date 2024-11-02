@@ -55,6 +55,10 @@ class CountryInfo {
   ];
 
   static set phoneNumbersList(List<CountryInfo> list) {
+    assert(
+      list.isNotEmpty,
+      "Country list cannot be empty",
+    );
     _phoneNumbersList = list;
   }
 

@@ -26,7 +26,7 @@ extension Validation on String {
   }
 
   bool isStrongPassword() {
-    return RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}$')
+    return RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$')
         // r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!@$%^&*()_+=])[A-Za-z\d.!@$%^&*()_+=]{8,}$')
         .hasMatch(this);
   }
