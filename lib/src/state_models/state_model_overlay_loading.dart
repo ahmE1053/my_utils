@@ -8,6 +8,7 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
     this.loadingIndicator,
     this.errorTextColor,
     this.backgroundColor,
+    this.errorTextStyle,
     this.canPopWhileLoading = false,
     required this.child,
     this.showError = true,
@@ -16,12 +17,14 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
   final Widget? loadingIndicator;
   final Color? backgroundColor;
   final Color? errorTextColor;
+  final TextStyle? errorTextStyle;
   final Widget child;
   final bool canPopWhileLoading;
   final bool showError;
   final StateModelWithListenable<T> stateModel;
 
   static Widget? defaultLoadingIndicator;
+  static TextStyle? globalStateModelErrorTextStyle;
 
   @override
   State<StateModelOverlayLoading<T>> createState() =>
@@ -89,6 +92,8 @@ class _StateModelOverlayLoadingState<T>
             return ErrorColumn(
               text: stateModel.getErrorMessage,
               errorTextColor: widget.errorTextColor,
+              errorTextStyle: widget.errorTextStyle ??
+                  StateModelOverlayLoading.globalStateModelErrorTextStyle,
               child: child,
             );
           }

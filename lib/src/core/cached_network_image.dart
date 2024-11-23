@@ -10,6 +10,7 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
     this.fit,
     this.borderRadius,
     this.error,
+    this.alignment,
     this.inkImageBorder,
     this.useInk = false,
   });
@@ -21,12 +22,14 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
   final Widget? error;
   final bool useInk;
   static Widget? errorWidget;
+  final Alignment? alignment;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       // imageUrl: imageUrl,
       imageUrl: imageUrl,
+      alignment: alignment ?? Alignment.center,
       imageBuilder: useInk
           ? (context, imageProvider) =>
           Ink(
@@ -35,6 +38,7 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
                 image: DecorationImage(
                   image: imageProvider,
                   fit: fit,
+                  alignment: alignment ?? Alignment.center,
                 )
             ),
           )

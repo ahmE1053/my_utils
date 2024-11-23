@@ -51,6 +51,7 @@ export "src/state_models/state_model_with_opacity_widget.dart";
 
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,
+  TextStyle? globalStateModelErrorTextStyle,
   Widget? cachedNetworkImageErrorWidget,
   Widget? stateModelLoadingIndicator,
   List<CountryInfo>? allowedCountriesInPhoneTextField,
@@ -65,6 +66,10 @@ void setMyUtils({
     CountryInfo.phoneNumbersList = allowedCountriesInPhoneTextField;
   }
   if (stateModelLoadingIndicator != null) {
+    StateModelOverlayLoading.defaultLoadingIndicator =
+        stateModelLoadingIndicator;
+  }
+  if (globalStateModelErrorTextStyle != null) {
     StateModelOverlayLoading.defaultLoadingIndicator =
         stateModelLoadingIndicator;
   }

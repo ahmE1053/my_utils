@@ -9,12 +9,14 @@ class ErrorColumn extends StatelessWidget {
     super.key,
     required this.text,
     this.errorTextColor,
+    this.errorTextStyle,
     required this.child,
   });
 
   final Color? errorTextColor;
   final Widget child;
   final String text;
+  final TextStyle? errorTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class ErrorColumn extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           text.tr(),
-          style: MyUtilAppTextStyle.getTextStyle(
+          style: errorTextStyle??MyUtilAppTextStyle.getTextStyle(
             fontSize: 16,
             color: errorTextColor ?? Colors.redAccent,
           ),
