@@ -95,6 +95,7 @@ class _StateModelOverlayLoadingState<T>
               errorTextStyle: widget.errorTextStyle ??
                   StateModelOverlayLoading.globalStateModelErrorTextStyle,
               child: child,
+              errorTextStyle: widget.errorTextStyle,
             );
           }
           return child;
