@@ -92,7 +92,8 @@ class _StateModelOverlayLoadingState<T>
             return ErrorColumn(
               text: stateModel.getErrorMessage,
               errorTextColor: widget.errorTextColor,
-              errorTextStyle:widget.errorTextStyle?? StateModelOverlayLoading.globalStateModelErrorTextStyle,
+              errorTextStyle: widget.errorTextStyle ??
+                  StateModelOverlayLoading.globalStateModelErrorTextStyle,
               child: child,
             );
           }
