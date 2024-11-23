@@ -24,6 +24,59 @@ class MyUtilAppTextStyle extends TextStyle {
                                   : fontWeight == 800
                                       ? FontWeight.w800
                                       : FontWeight.w900,
+          fontVariations: fontWeight == 100
+              ? const [
+                  FontVariation.weight(
+                    100,
+                  ),
+                ]
+              : fontWeight == 200
+                  ? const [
+                      FontVariation.weight(
+                        200,
+                      ),
+                    ]
+                  : fontWeight == 300
+                      ? const [
+                          FontVariation.weight(
+                            300,
+                          ),
+                        ]
+                      : fontWeight == 400
+                          ? const [
+                              FontVariation.weight(
+                                400,
+                              ),
+                            ]
+                          : fontWeight == 500
+                              ? const [
+                                  FontVariation.weight(
+                                    500,
+                                  ),
+                                ]
+                              : fontWeight == 600
+                                  ? const [
+                                      FontVariation.weight(
+                                        600,
+                                      ),
+                                    ]
+                                  : fontWeight == 700
+                                      ? const [
+                                          FontVariation.weight(
+                                            700,
+                                          ),
+                                        ]
+                                      : fontWeight == 800
+                                          ? const [
+                                              FontVariation.weight(
+                                                800,
+                                              ),
+                                            ]
+                                          : const [
+                                              FontVariation.weight(
+                                                900,
+                                              ),
+                                            ],
           decorationColor: color,
           decoration:
               underlineDecoration ?? false ? TextDecoration.underline : null,

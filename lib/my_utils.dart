@@ -70,7 +70,7 @@ void setMyUtils({
         stateModelLoadingIndicator;
   }
   if (globalStateModelErrorTextStyle != null) {
-    StateModelOverlayLoading.defaultLoadingIndicator =
-        stateModelLoadingIndicator;
+    StateModelOverlayLoading.globalStateModelErrorTextStyle =
+        globalStateModelErrorTextStyle;
   }
 }
