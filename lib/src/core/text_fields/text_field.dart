@@ -128,7 +128,8 @@ class _MyTextFieldState extends State<MyTextField> {
           textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
           validator: textFieldModel.validator,
-          autovalidateMode: textFieldModel.validationMode,
+          autovalidateMode: textFieldModel.validationMode ??
+              AutovalidateMode.onUnfocus,
           onEditingComplete: () {
             if (textFieldModel.onEditingComplete != null) {
               textFieldModel.onEditingComplete!(textFieldModel.controller);

@@ -1,6 +1,7 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart' ;
 
+import '../../../../my_utils.dart';
 import 'country_info.dart';
 import 'phone_field_notifier.dart';
 
@@ -52,7 +53,7 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         countryInfo.phoneCode,
-                        style:textStyle?? const TextStyle(
+                        style:textStyle?? const MyUtilAppTextStyle.getTextStyle(
                           color: Colors.black87,
                           fontSize: 14,
                         ),

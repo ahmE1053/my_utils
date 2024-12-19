@@ -35,6 +35,8 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     this.pageStorageKey,
     this.physics,
     this.scrollDirection = Axis.vertical,
+    this.shimmerBorderRadius = 12,
+    this.animatedSwitcherAlignment = Alignment.topCenter,
   }) : assert(sliverGridDelegate != null || shimmerExtent != null);
 
   ///a notifier to stop this widget from making new requests
@@ -102,8 +104,16 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
   ///The extent for the [BaseShimmer] widget in the given axis
   final double? shimmerExtent;
 
+  ///The circular border radius for the shimemr cards
+  final double shimmerBorderRadius;
+
   ///Page Storage key for the scrollable
   final PageStorageKey? pageStorageKey;
+
+  /// Alignment for the [AnimatedSwitcher] the transitions between the states of the model
+  ///
+  /// Defaults to [Alignment.topCenter]
+  final AlignmentGeometry? animatedSwitcherAlignment;
 
   @override
   State<PaginationStateModelWidget<T>> createState() =>
@@ -233,7 +243,18 @@ class _PaginationStateModelWidgetState<T>
             ],
           ),
     };
-    return thisWidget;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
+      layoutBuilder: (currentChild, previousChildren) =>
+          Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              ...previousChildren,
+              if (currentChild != null) currentChild,
+            ],
+          ),
+      child: thisWidget,
+    );
   }
 
   EdgeInsets getScrollablePadding(disableBottomInsets) =>
@@ -251,6 +272,7 @@ class _PaginationStateModelWidgetState<T>
     if (data.isEmpty) {
       return widget.emptyState ??
           const Text(
+            key: ValueKey('No Data Text'),
             'No Data',
           );
     }
@@ -314,6 +336,7 @@ class _PaginationStateModelWidgetState<T>
   Widget getLoadingCards() {
     if (widget.sliverGridDelegate == null) {
       return ListView.builder(
+        key: ValueKey('LoadingCards'),
         itemExtent: widget.shimmerExtent! + 8,
         shrinkWrap: shrinkWrap,
         physics: _scrollController == null
@@ -323,11 +346,13 @@ class _PaginationStateModelWidgetState<T>
         widget.shimmerPadding == null
             ? Padding(
           padding: const EdgeInsets.only(bottom: 8),
-          child: widget.initialLoadingWidget ?? const BaseShimmer(),
+          child: widget.initialLoadingWidget ??
+              BaseShimmer(borderRadius: widget.shimmerBorderRadius,),
         )
             : Padding(
           padding: widget.shimmerPadding!,
-          child: widget.initialLoadingWidget ?? const BaseShimmer(),
+          child: widget.initialLoadingWidget ??
+              BaseShimmer(borderRadius: widget.shimmerBorderRadius,),
         ),
         itemCount: 10,
         padding: widget.scrollablePadding ??
@@ -339,13 +364,15 @@ class _PaginationStateModelWidgetState<T>
       );
     }
     return GridView.builder(
+      key: ValueKey('LoadingCards'),
       itemCount: 10,
       shrinkWrap: shrinkWrap,
       physics: _scrollController == null
           ? const NeverScrollableScrollPhysics()
           : null,
       itemBuilder: (context, index) =>
-      widget.initialLoadingWidget ?? const BaseShimmer(),
+      widget.initialLoadingWidget ??
+          BaseShimmer(borderRadius: widget.shimmerBorderRadius,),
       gridDelegate: widget.sliverGridDelegate!,
       padding: widget.scrollablePadding ??
           EdgeInsets.only(

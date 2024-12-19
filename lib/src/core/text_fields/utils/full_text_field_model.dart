@@ -27,8 +27,8 @@ class TextFieldModel {
   final int? maxLength;
   final TextDirection? textDirection;
   final BoxConstraints? suffixBoxConstraints;
-  final EdgeInsets? padding;
-  final EdgeInsets? contentPadding;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? contentPadding;
   final bool? isDense;
   final bool? useLabel;
   final bool showPasswordVisibleIcon;

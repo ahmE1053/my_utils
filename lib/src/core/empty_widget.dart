@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_utils/src/core/consts/app_localization_keys.g.dart';
 
+import '../../my_utils.dart';
+
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
     super.key,
@@ -40,7 +42,7 @@ class EmptyWidget extends StatelessWidget {
         Text(
           title.tr(),
           textAlign: TextAlign.center,
-          style: titleStyle ?? const TextStyle(
+          style: titleStyle ?? const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
           ),
         ),
@@ -49,7 +51,7 @@ class EmptyWidget extends StatelessWidget {
           Text(
             subtitle!.tr(),
             textAlign: TextAlign.center,
-            style: subtitleStyle ?? const TextStyle(
+            style: subtitleStyle ?? const MyUtilAppTextStyle.getTextStyle(
               fontSize: 12,
             ),
           ),
@@ -109,7 +111,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
         Text(
           title.tr(),
           textAlign: TextAlign.center,
-          style: titleStyle ?? const TextStyle(
+          style: titleStyle ?? const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
           ),
         ),
@@ -118,7 +120,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
           Text(
             subtitle!.tr(),
             textAlign: TextAlign.center,
-            style: subtitleStyle ?? const TextStyle(
+            style: subtitleStyle ?? const MyUtilAppTextStyle.getTextStyle(
               fontSize: 12,
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart'
     show StringTranslateExtension;
 import 'package:flutter/material.dart';
 
+import '../../../../my_utils.dart';
 import '../../context_extensions.dart';
 import '../phone.dart';
 import '../utils/full_text_field_model.dart';
@@ -111,7 +112,7 @@ class _MyPhoneWithCountryTextFieldState
                     padding: const EdgeInsetsDirectional.only(start: 12.0),
                     child: Text(
                       field.errorText?.tr() ?? '',
-                      style: const TextStyle(
+                      style: const MyUtilAppTextStyle.getTextStyle(
                         fontSize: 12,
                         color: Colors.redAccent,
                       ),
@@ -160,7 +161,7 @@ class _MyPhoneWithCountryTextFieldState
                       ? phoneValueNotifier.validator
                       : validator(fullNumber);
                 },
-                errorStyle: const TextStyle(
+                errorStyle: const MyUtilAppTextStyle.getTextStyle(
                   fontSize: 0,
                 ),
               ),
