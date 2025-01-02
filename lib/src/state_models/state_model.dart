@@ -72,7 +72,10 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   Object? get getException =>
       (currentState as StateErrorWithException).exception;
 
-  String get getErrorMessage => (currentState as StateError).errorMessage;
+  String get getErrorMessage =>
+      (currentState as StateError).errorMessage.length > 200
+          ? 'errorOccurred'
+          : (currentState as StateError).errorMessage;
 
   String? get tryGetErrorMessage =>
       currentState is StateError

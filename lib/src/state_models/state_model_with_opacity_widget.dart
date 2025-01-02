@@ -10,12 +10,14 @@ class StateModelWithOpacityWidget<T> extends StatelessWidget {
     required this.onError,
     required this.onLoading,
     this.customKeyOnSuccess,
+    this.alignment,
   });
 
   final StateModelWithListenable<T> state;
   final Widget Function(T data) onData;
   final Widget Function(String errorMessage) onError;
   final Widget onLoading;
+  final AlignmentGeometry? alignment;
   final dynamic Function(T? data)? customKeyOnSuccess;
 
   ValueKey getKey(StateModel<T> state) {
@@ -35,6 +37,14 @@ class StateModelWithOpacityWidget<T> extends StatelessWidget {
         final currentState = state.currentState;
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
+          layoutBuilder: (currentChild, previousChildren) =>
+              Stack(
+                alignment: alignment ?? Alignment.center,
+                children: <Widget>[
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
+              ),
           child: Builder(
             key: getKey(currentState),
             builder: (context) {
