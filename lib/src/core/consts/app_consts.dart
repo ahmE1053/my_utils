@@ -17,6 +17,11 @@ class MyUtilAppConsts {
     spreadRadius: 2,
     blurRadius: 2,
   );
+  static const veryVeryLightShadow = BoxShadow(
+    color: Color(0x37efefef),
+    spreadRadius: 2,
+    blurRadius: 2,
+  );
   static const heavyShadow = BoxShadow(
     color: Color(0xffdadada),
     spreadRadius: 2,
@@ -25,6 +30,18 @@ class MyUtilAppConsts {
   static const elevationShadow = BoxShadow(
     blurRadius: 2,
     color: Colors.black12,
+    spreadRadius: 0.8,
+    offset: Offset(0, 3.0),
+  );
+  static const lightElevationShadow = BoxShadow(
+    blurRadius: 2,
+    color: Color(0x10000000),
+    spreadRadius: 0.8,
+    offset: Offset(0, 3.0),
+  );
+  static const veryLightElevationShadow = BoxShadow(
+    blurRadius: 2,
+    color: Color(0x07000000),
     spreadRadius: 0.8,
     offset: Offset(0, 3.0),
   );
