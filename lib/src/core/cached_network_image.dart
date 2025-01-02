@@ -27,7 +27,6 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      // imageUrl: imageUrl,
       imageUrl: imageUrl,
       alignment: alignment ?? Alignment.center,
       imageBuilder: useInk
