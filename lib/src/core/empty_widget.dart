@@ -13,10 +13,12 @@ class EmptyWidget extends StatelessWidget {
     this.goBack,
     this.goBackText,
     this.titleStyle,
+    this.header,
     this.subtitleStyle, this.imageWidget,
   });
 
   final String title;
+  final Widget? header;
   final void Function()? goBack;
   final String? goBackText;
   final String? subtitle;
@@ -31,9 +33,9 @@ class EmptyWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 24),
-        SizedBox(
+        header ?? SizedBox(
           height: 300,
-          child:imageWidget?? Lottie.asset(
+          child: imageWidget ?? Lottie.asset(
             'assets/lottie/empty.json',
             fit: BoxFit.fill,
           ),
@@ -101,7 +103,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
         Flexible(
           child: SizedBox(
             height: 300,
-            child:imageWidget?? Lottie.asset(
+            child: imageWidget ?? Lottie.asset(
               'assets/lottie/empty.json',
               fit: BoxFit.fill,
             ),

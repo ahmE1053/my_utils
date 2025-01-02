@@ -8,12 +8,18 @@ class SmallErrorWidget extends StatelessWidget {
   const SmallErrorWidget({
     super.key,
     this.errorMessage,
+    this.buttonMessage,
     this.errorTextStyle,
+    this.buttonTextStyle,
+    this.elevatedErrorButtonStyle,
     required this.onTap,
   });
 
   final String? errorMessage;
+  final String? buttonMessage;
   final TextStyle? errorTextStyle;
+  final TextStyle? buttonTextStyle;
+  final ButtonStyle? elevatedErrorButtonStyle;
   final void Function() onTap;
 
   @override
@@ -35,9 +41,11 @@ class SmallErrorWidget extends StatelessWidget {
         SizedBox(
           height: 48,
           child: ElevatedButton(
+            style: elevatedErrorButtonStyle,
             onPressed: onTap,
             child: Text(
-              LocaleKeys.retry.tr(),
+              (buttonMessage ?? LocaleKeys.retry).tr(),
+              style: buttonTextStyle,
             ),
           ),
         ),

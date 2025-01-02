@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 extension Validation on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 
@@ -21,13 +21,13 @@ extension Validation on String {
 
   bool isLinkValid() {
     return RegExp(
-            r'^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$')
+        r'^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$')
         .hasMatch(this);
   }
 
   bool isStrongPassword() {
     return RegExp(
-            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$')
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$')
         .hasMatch(this);
   }
 
@@ -73,5 +73,27 @@ extension ColorExtractor on String {
     throw FlutterError(
       'Wrong Color Format',
     );
+  }
+
+  Color? get getColorOrNull {
+    try {
+      if (length == 6) {
+        return Color(int.parse('0xff$this'));
+      }
+      if (startsWith('#') && length == 7) {
+        final newColorCode = substring(1);
+        return Color(
+          int.parse('0xff$newColorCode'),
+        );
+      }
+      if (length == 10) {
+        return Color(
+          int.parse(this),
+        );
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
