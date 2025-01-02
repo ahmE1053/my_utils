@@ -3,12 +3,8 @@ import 'package:easy_localization/easy_localization.dart'
 import 'package:flutter/material.dart';
 
 import '../../../../my_utils.dart';
-import '../../context_extensions.dart';
-import '../phone.dart';
-import '../utils/full_text_field_model.dart';
 import 'countries_overlay.dart';
 import 'country_selector_button.dart';
-import 'phone_field_notifier.dart';
 
 class MyPhoneWithCountryTextField extends StatefulWidget {
   const MyPhoneWithCountryTextField({
@@ -78,15 +74,14 @@ class _MyPhoneWithCountryTextFieldState
       textDirection: TextDirection.ltr,
       child: OverlayPortal(
         controller: overlayController,
-        overlayChildBuilder: (context) =>
-            CountriesOverlay(
-              buttonRectKey: buttonRectKey,
-              textStyle: widget.overlayTextStyle,
-              overlayDecoration: widget.overlayDecoration,
-              animationController: animationController,
-              overlayController: overlayController,
-              phoneFieldNotifier: widget.phoneValueNotifier,
-            ),
+        overlayChildBuilder: (context) => CountriesOverlay(
+          buttonRectKey: buttonRectKey,
+          textStyle: widget.overlayTextStyle,
+          overlayDecoration: widget.overlayDecoration,
+          animationController: animationController,
+          overlayController: overlayController,
+          phoneFieldNotifier: widget.phoneValueNotifier,
+        ),
         child: FormField(
           validator: (value) {
             final validator = widget.textFieldModel.validator;
@@ -146,26 +141,29 @@ class _MyPhoneWithCountryTextFieldState
           child: Directionality(
             textDirection: widget.textDirection ??
                 (context.isArabic ? TextDirection.rtl : TextDirection.ltr),
-            child: ListenableBuilder(listenable: phoneValueNotifier.countryListener, builder: (context, child) => MyPhoneTextField(
-              textFieldModel: widget.textFieldModel.replaceIfNull(
-                fieldFormStateKey: textFieldKey,
-                enabled: widget.enabled,
-                focusNode: phoneValueNotifier.focusNode,
-                hint: phoneValueNotifier.country.hintText,
-                isDense: false,
-                validator: (_) {
-                  final validator = widget.textFieldModel.validator;
-                  final fullNumber =
-                      widget.phoneValueNotifier.numberWithCountryCode;
-                  return validator == null
-                      ? phoneValueNotifier.validator
-                      : validator(fullNumber);
-                },
-                errorStyle: const MyUtilAppTextStyle.getTextStyle(
-                  fontSize: 0,
+            child: ListenableBuilder(
+              listenable: phoneValueNotifier.countryListener,
+              builder: (context, child) => MyPhoneTextField(
+                textFieldModel: widget.textFieldModel.replaceIfNull(
+                  fieldFormStateKey: textFieldKey,
+                  enabled: widget.enabled,
+                  focusNode: phoneValueNotifier.focusNode,
+                  hint: phoneValueNotifier.country.hintText,
+                  isDense: false,
+                  validator: (_) {
+                    final validator = widget.textFieldModel.validator;
+                    final fullNumber =
+                        widget.phoneValueNotifier.numberWithCountryCode;
+                    return validator == null
+                        ? phoneValueNotifier.validator
+                        : validator(fullNumber);
+                  },
+                  errorStyle: const MyUtilAppTextStyle.getTextStyle(
+                    fontSize: 0,
+                  ),
                 ),
               ),
-            ),),
+            ),
           ),
         ),
       ],
