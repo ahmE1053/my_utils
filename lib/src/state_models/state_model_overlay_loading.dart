@@ -9,12 +9,14 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
     this.errorTextColor,
     this.backgroundColor,
     this.errorTextStyle,
+    this.loadingIndicatorWithProgress,
     this.canPopWhileLoading = false,
     required this.child,
     this.showError = true,
   });
 
   final Widget? loadingIndicator;
+  final Widget Function(double progress)? loadingIndicatorWithProgress;
   final Color? backgroundColor;
   final Color? errorTextColor;
   final TextStyle? errorTextStyle;
@@ -79,9 +81,21 @@ class _StateModelOverlayLoadingState<T>
               color: backgroundColor ?? Colors.black26,
             ),
             Center(
-              child: loadingIndicator ??
-                  StateModelOverlayLoading.defaultLoadingIndicator ??
-                  const CircularProgressIndicator(),
+              child: ListenableBuilder(
+                listenable: stateModel,
+                builder: (context, child) {
+                  final state = stateModel.currentState;
+                  if (state is StateLoading<T> && state.progress != null) {
+                    return widget.loadingIndicatorWithProgress?.call(
+                          state.progress!,
+                        ) ??
+                        CircularProgressIndicator(value: state.progress);
+                  }
+                  return loadingIndicator ??
+                      StateModelOverlayLoading.defaultLoadingIndicator ??
+                      const CircularProgressIndicator();
+                },
+              ),
             )
           ],
         ),
