@@ -29,7 +29,7 @@ class ConfirmDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              text ?? LocaleKeys.areYouSure.tr(),
+              text?.tr() ?? LocaleKeys.areYouSure.tr(),
               style: MyUtilAppTextStyle.getTextStyle(
                 fontSize: 16,
                 fontWeight: 600,
