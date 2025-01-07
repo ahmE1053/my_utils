@@ -11,7 +11,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     if (listener != null) {
       wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) => listener(),
+              (timeStamp) => listener(),
         );
       };
       addListener(wrappedInPostFrameCallBack!);
@@ -42,7 +42,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toLoading([int? progress]) => changeValue(const StateLoading());
+  void toLoading([double? progress]) => changeValue(StateLoading(progress));
 
   void toSuccess([T? data]) {
     if (isSuccess) return;
@@ -55,11 +55,13 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
 
-  void toErrorWithException(Object? exc) => changeValue(
+  void toErrorWithException(Object? exc) =>
+      changeValue(
         StateErrorWithException(exc),
       );
 
-  void toErrorFromException(Object? exc) => changeValue(
+  void toErrorFromException(Object? exc) =>
+      changeValue(
         StateError.fromException(exc),
       );
 
@@ -75,9 +77,10 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
           ? 'errorOccurred'
           : (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage => currentState is StateError
-      ? (currentState as StateError).errorMessage
-      : null;
+  String? get tryGetErrorMessage =>
+      currentState is StateError
+          ? (currentState as StateError).errorMessage
+          : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
@@ -121,9 +124,9 @@ class StateSuccess<T> extends StateModel<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StateSuccess &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
+          other is StateSuccess &&
+              runtimeType == other.runtimeType &&
+              data == other.data;
 
   @override
   int get hashCode => data.hashCode;
