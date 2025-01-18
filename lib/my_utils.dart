@@ -51,6 +51,7 @@ export "src/state_models/state_model_with_opacity_widget.dart";
 
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,
+  TextStyle? globalDarkTextFieldTextStyle,
   TextStyle? globalStateModelErrorTextStyle,
   Widget? cachedNetworkImageErrorWidget,
   Widget? stateModelLoadingIndicator,
@@ -58,6 +59,9 @@ void setMyUtils({
 }) {
   if (globalTextFieldTextStyle != null) {
     TextFieldModel.globalTextStyle = globalTextFieldTextStyle;
+  }
+  if (globalTextFieldTextStyle != null) {
+    TextFieldModel.globalDarkTextFieldTextStyle = globalDarkTextFieldTextStyle;
   }
   if (cachedNetworkImageErrorWidget != null) {
     CachedNetworkImageWithLoader.errorWidget = cachedNetworkImageErrorWidget;
