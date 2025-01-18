@@ -147,7 +147,7 @@ class _MyTextFieldState extends State<MyTextField> {
           minLines: textFieldModel.expands ? null : textFieldModel.minLines,
           maxLines: textFieldModel.expands ? null : textFieldModel.maxLines,
           enabled: textFieldModel.enabled ?? true,
-          style: textFieldModel.style ?? TextFieldModel.globalTextStyle,
+          style: textFieldModel.style ?? defaultTextStlye,
           textAlign: textFieldModel.textAlign ?? TextAlign.start,
           decoration: InputDecoration(
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,
@@ -177,7 +177,7 @@ class _MyTextFieldState extends State<MyTextField> {
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             focusedBorder: changeBorderDetails(
-              inputDecorationTheme.enabledBorder,
+              inputDecorationTheme.focusedBorder,
               newColor: textFieldModel.focusedBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
@@ -218,6 +218,14 @@ class _MyTextFieldState extends State<MyTextField> {
     );
   }
 
+  TextStyle? get defaultTextStlye {
+    if (TextFieldModel.globalDarkTextFieldTextStyle != null &&
+        context.isDarkMode) {
+      return TextFieldModel.globalDarkTextFieldTextStyle;
+    }
+    return TextFieldModel.globalTextStyle;
+  }
+
   InputBorder changeBorderDetails(InputBorder? defaultDecoration, {
     Color? newColor,
     double? newBorderRadius,
@@ -225,7 +233,7 @@ class _MyTextFieldState extends State<MyTextField> {
       defaultDecoration == null
           ? OutlineInputBorder(
         borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
-        borderSide: BorderSide(color: newColor ?? Colors.black),
+        borderSide: BorderSide(color: newColor ?? Colors.red),
       )
           : (defaultDecoration as OutlineInputBorder).copyWith(
         borderRadius: newBorderRadius == null

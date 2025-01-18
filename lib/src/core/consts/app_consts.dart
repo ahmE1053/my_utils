@@ -12,6 +12,11 @@ class MyUtilAppConsts {
     spreadRadius: 2,
     blurRadius: 10,
   );
+  static const lightShadowDarkMode = BoxShadow(
+    color: Color(0xff2f2f2f),
+    spreadRadius: 2,
+    blurRadius: 10,
+  );
   static const veryLightShadow = BoxShadow(
     color: Color(0xffefefef),
     spreadRadius: 2,
@@ -24,6 +29,11 @@ class MyUtilAppConsts {
   );
   static const heavyShadow = BoxShadow(
     color: Color(0xffdadada),
+    spreadRadius: 2,
+    blurRadius: 10,
+  );
+  static const heavyShadowDarkMode = BoxShadow(
+    color: Color(0xff171717),
     spreadRadius: 2,
     blurRadius: 10,
   );

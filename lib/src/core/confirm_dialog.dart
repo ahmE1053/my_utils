@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'consts/app_localization_keys.g.dart';
 import 'consts/text_styles.dart';
-import 'string_extensions.dart';
+import 'context_extensions.dart';
 
 class ConfirmDialog extends StatelessWidget {
   const ConfirmDialog({
@@ -20,7 +20,7 @@ class ConfirmDialog extends StatelessWidget {
     return Dialog(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.isDarkMode ? Color(0xff1E1E1E) : Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.all(16),
@@ -33,7 +33,8 @@ class ConfirmDialog extends StatelessWidget {
               style: MyUtilAppTextStyle.getTextStyle(
                 fontSize: 16,
                 fontWeight: 600,
-                color: '2b2e59'.getColor,
+                color: context.isDarkMode ? Color(0xfff1f1f1) : Color(
+                    0xff2b2e59),
               ),
               textAlign: TextAlign.center,
             ),

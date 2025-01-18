@@ -13,6 +13,7 @@ class TextFieldModel {
   final String? label, hint;
   final TextStyle? style;
   static TextStyle? globalTextStyle;
+  static TextStyle? globalDarkTextFieldTextStyle;
   final TextStyle? errorStyle;
   final GlobalKey<FormFieldState>? fieldFormStateKey;
   final List<TextInputFormatter>? inputFormatters;

@@ -24,12 +24,15 @@ class SmallErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canShowErrorMessage = errorMessage != null &&
+        errorMessage!.length < 200;
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          errorMessage?.tr() ?? LocaleKeys.errorOccurred.tr(),
+          canShowErrorMessage ? (errorMessage?.tr() ??
+              LocaleKeys.errorOccurred.tr()) : LocaleKeys.errorOccurred.tr(),
           textAlign: TextAlign.center,
           style: errorTextStyle ??
               const MyUtilAppTextStyle.getTextStyle(

@@ -27,7 +27,7 @@ class ErrorColumn extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           text.tr(),
-          style: errorTextStyle??MyUtilAppTextStyle.getTextStyle(
+          style: errorTextStyle ?? MyUtilAppTextStyle.getTextStyle(
             fontSize: 16,
             color: errorTextColor ?? Colors.redAccent,
           ),
