@@ -21,4 +21,4 @@ dependencies:
 
 flutter:
   assets:
-    - packages/my_utils/assets/
+    - lib/assets/
