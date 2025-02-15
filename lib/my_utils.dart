@@ -3,7 +3,6 @@ library my_utils;
 import 'package:flutter/material.dart';
 
 import 'src/core/cached_network_image.dart';
-import 'src/core/text_fields/phone_country_text_field/country_info.dart';
 import 'src/core/text_fields/utils/full_text_field_model.dart';
 import 'src/state_models/state_model_overlay_loading.dart';
 
@@ -33,9 +32,6 @@ export 'src/core/text_fields/email.dart';
 export 'src/core/text_fields/names.dart';
 export 'src/core/text_fields/passwords.dart';
 export 'src/core/text_fields/phone.dart';
-export 'src/core/text_fields/phone_country_text_field/country_info.dart';
-export 'src/core/text_fields/phone_country_text_field/phone_field_notifier.dart';
-export 'src/core/text_fields/phone_country_text_field/phone_with_country_text_field.dart';
 export 'src/core/text_fields/text_field.dart';
 export 'src/core/text_fields/utils/full_text_field_model.dart';
 export 'src/core/text_fields/utils/get_text_field_direction.dart';
@@ -55,7 +51,6 @@ void setMyUtils({
   TextStyle? globalStateModelErrorTextStyle,
   Widget? cachedNetworkImageErrorWidget,
   Widget? stateModelLoadingIndicator,
-  List<CountryInfo>? allowedCountriesInPhoneTextField,
 }) {
   if (globalTextFieldTextStyle != null) {
     TextFieldModel.globalTextStyle = globalTextFieldTextStyle;
@@ -65,9 +60,6 @@ void setMyUtils({
   }
   if (cachedNetworkImageErrorWidget != null) {
     CachedNetworkImageWithLoader.errorWidget = cachedNetworkImageErrorWidget;
-  }
-  if (allowedCountriesInPhoneTextField != null) {
-    CountryInfo.phoneNumbersList = allowedCountriesInPhoneTextField;
   }
   if (stateModelLoadingIndicator != null) {
     StateModelOverlayLoading.defaultLoadingIndicator =
