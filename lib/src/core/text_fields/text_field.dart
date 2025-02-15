@@ -246,6 +246,10 @@ class _MyTextFieldState extends State<MyTextField> {
 }
 
 class TextFieldValidators {
+  final String? message;
+
+  TextFieldValidators([this.message]);
+
   String? requiredField(String? value) =>
-      value!.trim().isEmpty ? LocaleKeys.requiredField.tr() : null;
+      value!.trim().isEmpty ?(message ?? LocaleKeys.requiredField).tr() : null;
 }
