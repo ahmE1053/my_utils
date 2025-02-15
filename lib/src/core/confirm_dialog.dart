@@ -71,3 +71,93 @@ class ConfirmDialog extends StatelessWidget {
     );
   }
 }
+
+class CustomizableConfirmDialog extends StatelessWidget {
+  const CustomizableConfirmDialog({
+    super.key,
+    this.toDo,
+    this.text,
+    this.subtitle,
+    this.yesText,
+    this.noText,
+    this.subtitleColor,
+    this.textColor,
+  });
+
+  final void Function()? toDo;
+  final String? text;
+  final String? subtitle;
+  final String? noText;
+  final String? yesText;
+  final Color? textColor;
+  final Color? subtitleColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.isDarkMode ? Color(0xff1E1E1E) : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              text?.tr() ?? LocaleKeys.areYouSure.tr(),
+              style: MyUtilAppTextStyle.getTextStyle(
+                fontSize: 16,
+                fontWeight: 600,
+                color: textColor != null ? textColor! : context.isDarkMode
+                    ? Color(0xfff1f1f1)
+                    : Color(0xff2b2e59),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            if(subtitle != null)
+              Text(
+                subtitle!.tr(),
+                style: MyUtilAppTextStyle.getTextStyle(
+                  fontSize: 13,
+                  color: subtitleColor != null ? subtitleColor! : context
+                      .isDarkMode ?
+                  Colors.grey[100] : Colors.grey[500],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context, false);
+                    },
+                    child: Text(
+                      (noText ?? LocaleKeys.no).tr(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                      toDo?.call();
+                    },
+                    child: Text(
+                      (yesText ?? LocaleKeys.yes).tr(),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
