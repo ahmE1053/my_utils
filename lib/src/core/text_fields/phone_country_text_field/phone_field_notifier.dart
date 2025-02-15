@@ -28,7 +28,10 @@ class PhoneFieldNotifier {
         final pattern = RegExp('^\\${element.phoneCode}\\d+\$');
         return pattern.hasMatch(previousValue);
       },
-    ).first;
+    ).firstOrNull;
+    if(country==null){
+      return PhoneFieldNotifier(null);
+    }
     final value = previousValue.replaceAll(
       country.phoneCode,
       '',
