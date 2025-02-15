@@ -20,7 +20,7 @@ class MyRatingBar extends StatelessWidget {
     return Row(
       children: List.generate(
         5,
-        (innerIndex) {
+            (innerIndex) {
           final currentNumber = numOfStars - (innerIndex + 1);
           late Widget child;
           if (currentNumber > -0.2) {
@@ -84,7 +84,7 @@ class MyRatingBarSelection extends StatelessWidget {
         return Row(
           children: List.generate(
             5,
-            (index) {
+                (index) {
               final currentNumber = rating.value - (index + 1);
               late Widget child;
               if (currentNumber > -0.2) {
@@ -127,6 +127,72 @@ class MyRatingBarSelection extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class MyRatingBarSelectionWithoutNotifier extends StatelessWidget {
+  const MyRatingBarSelectionWithoutNotifier({
+    super.key,
+    required this.rating,
+    required this.onRate,
+    this.padding,
+    this.size,
+    this.starColor,
+  });
+
+  final int rating;
+  final void Function(int newRating) onRate;
+  final EdgeInsets? padding;
+  final double? size;
+  final Color? starColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        5,
+            (index) {
+          final currentNumber = rating - (index + 1);
+          late Widget child;
+          if (currentNumber > -0.2) {
+            child = SvgPicture.asset(
+              'assets/icons/star.svg',
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
+                BlendMode.srcIn,
+              ),
+            );
+          } else if (currentNumber < -0.2 && currentNumber > -0.8) {
+            child = SvgPicture.asset(
+              'assets/icons/half_star.svg',
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
+                BlendMode.srcIn,
+              ),
+            );
+          } else {
+            child = SvgPicture.asset(
+              'assets/icons/empty_star.svg',
+              colorFilter: ColorFilter.mode(
+                starColor ?? Colors.amber,
+                BlendMode.srcIn,
+              ),
+            );
+          }
+          return SizedBox(
+            height: size,
+            width: size,
+            child: Padding(
+              padding: padding ?? const EdgeInsetsDirectional.only(end: 8),
+              child: GestureDetector(
+                onTap: () => onRate(index + 1),
+                child: child,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

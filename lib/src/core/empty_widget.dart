@@ -103,9 +103,10 @@ class EmptyFlexibleWidget extends StatelessWidget {
         Flexible(
           child: SizedBox(
             height: 300,
-            child: imageWidget ?? Lottie.asset(
-              'assets/lottie/empty.json',
-              fit: BoxFit.fill,
+            child: Center(
+              child: imageWidget ?? Lottie.asset(
+                'assets/lottie/empty.json',
+              ),
             ),
           ),
         ),
