@@ -26,33 +26,35 @@ class SmallErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final canShowErrorMessage = errorMessage != null &&
         errorMessage!.length < 200;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          canShowErrorMessage ? (errorMessage?.tr() ??
-              LocaleKeys.errorOccurred.tr()) : LocaleKeys.errorOccurred.tr(),
-          textAlign: TextAlign.center,
-          style: errorTextStyle ??
-              const MyUtilAppTextStyle.getTextStyle(
-                fontSize: 14,
-                fontWeight: 500,
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            canShowErrorMessage ? (errorMessage?.tr() ??
+                LocaleKeys.errorOccurred.tr()) : LocaleKeys.errorOccurred.tr(),
+            textAlign: TextAlign.center,
+            style: errorTextStyle ??
+                const MyUtilAppTextStyle.getTextStyle(
+                  fontSize: 14,
+                  fontWeight: 500,
+                ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 48,
+            child: ElevatedButton(
+              style: elevatedErrorButtonStyle,
+              onPressed: onTap,
+              child: Text(
+                (buttonMessage ?? LocaleKeys.retry).tr(),
+                style: buttonTextStyle,
               ),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 48,
-          child: ElevatedButton(
-            style: elevatedErrorButtonStyle,
-            onPressed: onTap,
-            child: Text(
-              (buttonMessage ?? LocaleKeys.retry).tr(),
-              style: buttonTextStyle,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
