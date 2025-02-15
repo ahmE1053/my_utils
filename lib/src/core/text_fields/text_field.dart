@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_utils/my_utils.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 import '../consts/app_localization_keys.g.dart';
 
@@ -50,7 +51,7 @@ class _MyTextFieldState extends State<MyTextField> {
       if (value.isEmpty) {
         try {
           textFieldDirection.value =
-          context.isArabic ? TextDirection.rtl : TextDirection.ltr;
+              context.isArabic ? TextDirection.rtl : TextDirection.ltr;
         } catch (e) {}
       }
       for (int i = 0; i < value.length; i++) {
@@ -83,16 +84,13 @@ class _MyTextFieldState extends State<MyTextField> {
           textFieldDirectionListener();
         }
       }
-    }
-    catch (e) {}
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
     changeCursorLocation();
-    final inputDecorationTheme = Theme
-        .of(context)
-        .inputDecorationTheme;
+    final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
     textFieldModel = widget.textFieldModel;
     return ListenableBuilder(
       listenable: Listenable.merge([textFieldDirection, obscureText]),
@@ -125,11 +123,11 @@ class _MyTextFieldState extends State<MyTextField> {
           maxLength: textFieldModel.maxLength,
           focusNode: textFieldModel.focusNode,
           textDirection:
-          textFieldModel.textDirection ?? textFieldDirection.value,
+              textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
           validator: textFieldModel.validator,
-          autovalidateMode: textFieldModel.validationMode ??
-              AutovalidateMode.onUnfocus,
+          autovalidateMode:
+              textFieldModel.validationMode ?? AutovalidateMode.onUnfocus,
           onEditingComplete: () {
             if (textFieldModel.onEditingComplete != null) {
               textFieldModel.onEditingComplete!(textFieldModel.controller);
@@ -153,11 +151,11 @@ class _MyTextFieldState extends State<MyTextField> {
             alignLabelWithHint: (textFieldModel.maxLines) > 1 ? true : false,
             floatingLabelStyle: textFieldModel.floatingLabelStyle,
             fillColor:
-            textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
+                textFieldModel.fillColor ?? inputDecorationTheme.fillColor,
             errorStyle: textFieldModel.errorStyle,
             filled:
-            (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
-                null,
+                (textFieldModel.fillColor ?? inputDecorationTheme.fillColor) !=
+                    null,
             isDense: textFieldModel.isDense ?? true,
             border: changeBorderDetails(
               inputDecorationTheme.border,
@@ -190,27 +188,29 @@ class _MyTextFieldState extends State<MyTextField> {
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
             hintText:
-            textFieldModel.useHint == false ? null : textFieldModel.hint,
+                textFieldModel.useHint == false ? null : textFieldModel.hint,
             label:
-            textFieldModel.label == null || textFieldModel.useLabel == false
-                ? null
-                : Text(textFieldModel.label!),
+                textFieldModel.label == null || textFieldModel.useLabel == false
+                    ? null
+                    : Text(textFieldModel.label!),
             hintStyle:
-            textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
+                textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
-            textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
+                textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
             suffixIcon: textFieldModel.isPassword &&
-                textFieldModel.suffix == null &&
-                textFieldModel.showPasswordVisibleIcon
+                    textFieldModel.suffix == null &&
+                    textFieldModel.showPasswordVisibleIcon
                 ? IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {
-                obscureText.value = !obscureText.value;
-              },
-              icon: SvgPicture.asset(
-                'assets/icons/eye${obscureText.value ? '_slash' : ''}.svg',
-              ),
-            )
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      obscureText.value = !obscureText.value;
+                    },
+                    icon: SvgPicture(
+                      AssetBytesLoader(
+                        'packages/my_utils/assets/eye${obscureText.value ? '_slash' : ''}.svg.vec',
+                      ),
+                    ),
+                  )
                 : textFieldModel.suffix,
           ),
         );
@@ -226,23 +226,24 @@ class _MyTextFieldState extends State<MyTextField> {
     return TextFieldModel.globalTextStyle;
   }
 
-  InputBorder changeBorderDetails(InputBorder? defaultDecoration, {
+  InputBorder changeBorderDetails(
+    InputBorder? defaultDecoration, {
     Color? newColor,
     double? newBorderRadius,
   }) =>
       defaultDecoration == null
           ? OutlineInputBorder(
-        borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
-        borderSide: BorderSide(color: newColor ?? Colors.red),
-      )
+              borderRadius: BorderRadius.circular(newBorderRadius ?? 4),
+              borderSide: BorderSide(color: newColor ?? Colors.red),
+            )
           : (defaultDecoration as OutlineInputBorder).copyWith(
-        borderRadius: newBorderRadius == null
-            ? defaultDecoration.borderRadius
-            : BorderRadius.circular(newBorderRadius),
-        borderSide: BorderSide(
-          color: newColor ?? defaultDecoration.borderSide.color,
-        ),
-      );
+              borderRadius: newBorderRadius == null
+                  ? defaultDecoration.borderRadius
+                  : BorderRadius.circular(newBorderRadius),
+              borderSide: BorderSide(
+                color: newColor ?? defaultDecoration.borderSide.color,
+              ),
+            );
 }
 
 class TextFieldValidators {
@@ -251,5 +252,5 @@ class TextFieldValidators {
   TextFieldValidators([this.message]);
 
   String? requiredField(String? value) =>
-      value!.trim().isEmpty ?(message ?? LocaleKeys.requiredField).tr() : null;
+      value!.trim().isEmpty ? (message ?? LocaleKeys.requiredField).tr() : null;
 }

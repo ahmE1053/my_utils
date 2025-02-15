@@ -1,3 +1,4 @@
+import 'package:vector_graphics/vector_graphics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -24,24 +25,24 @@ class MyRatingBar extends StatelessWidget {
           final currentNumber = numOfStars - (innerIndex + 1);
           late Widget child;
           if (currentNumber > -0.2) {
-            child = SvgPicture.asset(
-              'assets/icons/star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else if (currentNumber < -0.2 && currentNumber > -0.8) {
-            child = SvgPicture.asset(
-              'assets/icons/half_star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/half_star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else {
-            child = SvgPicture.asset(
-              'assets/icons/empty_star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/empty_star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
@@ -88,24 +89,24 @@ class MyRatingBarSelection extends StatelessWidget {
               final currentNumber = rating.value - (index + 1);
               late Widget child;
               if (currentNumber > -0.2) {
-                child = SvgPicture.asset(
-                  'assets/icons/star.svg',
+                child = SvgPicture(
+                  AssetBytesLoader('packages/my_utils/assets/star.svg.vec'),
                   colorFilter: ColorFilter.mode(
                     starColor ?? Colors.amber,
                     BlendMode.srcIn,
                   ),
                 );
               } else if (currentNumber < -0.2 && currentNumber > -0.8) {
-                child = SvgPicture.asset(
-                  'assets/icons/half_star.svg',
+                child = SvgPicture(
+                  AssetBytesLoader('packages/my_utils/assets/half_star.svg.vec'),
                   colorFilter: ColorFilter.mode(
                     starColor ?? Colors.amber,
                     BlendMode.srcIn,
                   ),
                 );
               } else {
-                child = SvgPicture.asset(
-                  'assets/icons/empty_star.svg',
+                child = SvgPicture(
+                  AssetBytesLoader('packages/my_utils/assets/empty_star.svg.vec'),
                   colorFilter: ColorFilter.mode(
                     starColor ?? Colors.amber,
                     BlendMode.srcIn,
@@ -156,24 +157,24 @@ class MyRatingBarSelectionWithoutNotifier extends StatelessWidget {
           final currentNumber = rating - (index + 1);
           late Widget child;
           if (currentNumber > -0.2) {
-            child = SvgPicture.asset(
-              'assets/icons/star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else if (currentNumber < -0.2 && currentNumber > -0.8) {
-            child = SvgPicture.asset(
-              'assets/icons/half_star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/half_star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
               ),
             );
           } else {
-            child = SvgPicture.asset(
-              'assets/icons/empty_star.svg',
+            child = SvgPicture(
+              AssetBytesLoader('packages/my_utils/assets/empty_star.svg.vec'),
               colorFilter: ColorFilter.mode(
                 starColor ?? Colors.amber,
                 BlendMode.srcIn,
