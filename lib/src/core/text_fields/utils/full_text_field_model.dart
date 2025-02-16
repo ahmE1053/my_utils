@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../phone_country_text_field/phone_field_notifier.dart';
 
 class TextFieldModel {
   final bool isPassword;
@@ -94,6 +95,54 @@ class TextFieldModel {
     this.onTapOutside,
     this.onEditingComplete,
   });
+
+  TextFieldModel.fromPhoneNotifier({
+    required PhoneFieldNotifier phoneFieldNotifier,
+    this.isPassword = false,
+    this.showPasswordVisibleIcon = true,
+    this.enableInteractiveSelection = true,
+    this.enableAutoCorrection = true,
+    this.expands = false,
+    this.useLabel,
+    this.allBorderRadius,
+    this.useHint,
+    this.onTap,
+    this.validator,
+    this.obscureText,
+    this.onChanged,
+    this.maxLength,
+    this.label,
+    this.errorStyle,
+    this.fieldFormStateKey,
+    this.hint,
+    this.style,
+    this.inputFormatters,
+    this.action,
+    this.textInputType,
+    this.fillColor,
+    this.hintStyle,
+    this.labelStyle,
+    this.floatingLabelStyle,
+    this.suffix,
+    this.prefix,
+    this.maxLines = 1,
+    this.minLines,
+    this.textDirection,
+    this.suffixBoxConstraints,
+    this.padding,
+    this.contentPadding,
+    this.isDense,
+    this.textAlign,
+    this.validationMode,
+    this.textColor,
+    this.enabled,
+    this.focusedBorder,
+    this.enabledBorder,
+    this.autofillHints,
+    this.onTapOutside,
+    this.onEditingComplete,
+  })  : controller = phoneFieldNotifier.controller,
+        focusNode = phoneFieldNotifier.focusNode;
 
   TextFieldModel replaceIfNull({
     bool? isPassword,
