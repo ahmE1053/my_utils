@@ -184,7 +184,7 @@ class _MyTextFieldState extends State<MyTextField> {
               newColor: textFieldModel.enabledBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
-            errorMaxLines: 5,
+            errorMaxLines: 10,
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
             hintText:

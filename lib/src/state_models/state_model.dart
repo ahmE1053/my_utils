@@ -5,30 +5,30 @@ import '../core/exceptions/general_exception.dart';
 
 abstract class StateModelWithListenable<T> extends ChangeNotifier {
   StateModel<T> currentState;
-  void Function()? wrappedInPostFrameCallBack;
+  void Function()? _wrappedInPostFrameCallBack;
 
   void init(void Function()? listener) {
     if (listener != null) {
-      wrappedInPostFrameCallBack = () {
+      _wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
               (timeStamp) => listener(),
         );
       };
-      addListener(wrappedInPostFrameCallBack!);
+      addListener(_wrappedInPostFrameCallBack!);
     }
   }
 
   void myDispose(void Function()? listener) {
     if (listener != null) {
-      removeListener(wrappedInPostFrameCallBack!);
+      removeListener(_wrappedInPostFrameCallBack!);
     }
     super.dispose();
   }
 
   @override
   void dispose() {
-    if (wrappedInPostFrameCallBack != null) {
-      removeListener(wrappedInPostFrameCallBack!);
+    if (_wrappedInPostFrameCallBack != null) {
+      removeListener(_wrappedInPostFrameCallBack!);
     }
     super.dispose();
   }
@@ -37,31 +37,31 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     this.currentState = const StateInitial(),
   ]);
 
-  void changeValue(StateModel<T> model) {
+  void _changeValue(StateModel<T> model) {
     currentState = model;
     notifyListeners();
   }
 
-  void toLoading([double? progress]) => changeValue(StateLoading(progress));
+  void toLoading([double? progress]) => _changeValue(StateLoading(progress));
 
   void toSuccess([T? data]) {
     if (isSuccess) return;
-    changeValue(StateSuccess(data));
+    _changeValue(StateSuccess(data));
   }
 
   void toSuccessForce([T? data]) {
-    changeValue(StateSuccess(data));
+    _changeValue(StateSuccess(data));
   }
 
-  void toError([String? errorMessage]) => changeValue(StateError(errorMessage));
+  void toError([String? errorMessage]) => _changeValue(StateError(errorMessage));
 
   void toErrorWithException(Object? exc) =>
-      changeValue(
+      _changeValue(
         StateErrorWithException(exc),
       );
 
   void toErrorFromException(Object? exc) =>
-      changeValue(
+      _changeValue(
         StateError.fromException(exc),
       );
 
@@ -72,10 +72,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   Object? get getException =>
       (currentState as StateErrorWithException).exception;
 
-  String get getErrorMessage =>
-      (currentState as StateError).errorMessage.length > 200
-          ? 'errorOccurred'
-          : (currentState as StateError).errorMessage;
+  String get getErrorMessage => (currentState as StateError).errorMessage;
 
   String? get tryGetErrorMessage =>
       currentState is StateError

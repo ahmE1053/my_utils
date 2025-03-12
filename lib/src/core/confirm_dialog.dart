@@ -136,8 +136,11 @@ class CustomizableConfirmDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context, false);
                     },
-                    child: Text(
-                      (noText ?? LocaleKeys.no).tr(),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        (noText ?? LocaleKeys.no).tr(),
+                      ),
                     ),
                   ),
                 ),
@@ -148,9 +151,9 @@ class CustomizableConfirmDialog extends StatelessWidget {
                       Navigator.pop(context, true);
                       toDo?.call();
                     },
-                    child: Text(
+                    child: FittedBox(fit: BoxFit.scaleDown, child: Text(
                       (yesText ?? LocaleKeys.yes).tr(),
-                    ),
+                    ),),
                   ),
                 ),
               ],
