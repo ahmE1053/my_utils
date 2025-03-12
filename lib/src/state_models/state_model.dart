@@ -5,6 +5,7 @@ import '../core/exceptions/general_exception.dart';
 
 abstract class StateModelWithListenable<T> extends ChangeNotifier {
   StateModel<T> currentState;
+  @protected
   void Function()? _wrappedInPostFrameCallBack;
 
   void init(void Function()? listener) {
@@ -41,25 +42,25 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     currentState = model;
     notifyListeners();
   }
-
+  @protected
   void toLoading([double? progress]) => _changeValue(StateLoading(progress));
-
+  @protected
   void toSuccess([T? data]) {
     if (isSuccess) return;
     _changeValue(StateSuccess(data));
   }
-
+  @protected
   void toSuccessForce([T? data]) {
     _changeValue(StateSuccess(data));
   }
-
+  @protected
   void toError([String? errorMessage]) => _changeValue(StateError(errorMessage));
-
+  @protected
   void toErrorWithException(Object? exc) =>
       _changeValue(
         StateErrorWithException(exc),
       );
-
+  @protected
   void toErrorFromException(Object? exc) =>
       _changeValue(
         StateError.fromException(exc),
