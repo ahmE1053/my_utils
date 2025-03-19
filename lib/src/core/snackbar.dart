@@ -63,11 +63,12 @@ void showSnackBarMessenger(ScaffoldMessengerState messenger,
   );
 }
 
-void showSuccessSnackBar(BuildContext context, String text) {
+void showSuccessSnackBar(BuildContext context, String text,
+    [bool useBottomInsets = true]) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       margin: EdgeInsets.only(
-        bottom: context.bottomViewInsets + 24,
+        bottom: useBottomInsets ? context.bottomViewInsets + 24 : 12,
         left: 16,
         right: 16,
       ),
