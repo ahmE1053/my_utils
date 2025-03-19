@@ -150,6 +150,10 @@ class _MyPhoneWithCountryTextFieldState
                   focusNode: phoneValueNotifier.focusNode,
                   hint: phoneValueNotifier.country.hintText,
                   isDense: false,
+                  inputFormatters:
+                      phoneValueNotifier.country.inputFormatter != null
+                          ? [phoneValueNotifier.country.inputFormatter!]
+                          : null,
                   validator: (_) {
                     final validator = widget.textFieldModel.validator;
                     final fullNumber =

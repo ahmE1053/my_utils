@@ -1,3 +1,6 @@
+import 'package:flutter/services.dart';
+import 'package:my_utils/src/core/text_fields/phone_country_text_field/countries_input_formatter/egypt.dart';
+
 import '../../string_extensions.dart';
 
 class CountryInfo {
@@ -5,6 +8,7 @@ class CountryInfo {
   final String phoneCode;
   final bool Function(String value) validator;
   final String hintText;
+  final TextInputFormatter? inputFormatter;
   final String phonePrefix;
 
   CountryInfo({
@@ -13,6 +17,7 @@ class CountryInfo {
     required this.validator,
     required this.hintText,
     required this.phonePrefix,
+    this.inputFormatter,
   });
 
   factory CountryInfo.egypt() => CountryInfo(
@@ -21,6 +26,7 @@ class CountryInfo {
         validator: (value) => value.isPhoneValidWithCountryCode(),
         hintText: '01XXXXXXXXX',
         phonePrefix: '+2',
+        inputFormatter: EgyptianPhoneNumberFormatter(),
       );
 
   factory CountryInfo.saudiArabia() => CountryInfo(
