@@ -1,5 +1,6 @@
 
 import 'package:flutter/services.dart';
+import 'package:my_utils/my_utils.dart';
 
 class EgyptianPhoneNumberFormatter extends TextInputFormatter {
   // Map of Arabic digits to English digits

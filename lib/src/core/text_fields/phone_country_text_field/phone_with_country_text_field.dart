@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart'
     show StringTranslateExtension;
 import 'package:flutter/material.dart';
+import 'package:my_utils/src/core/text_fields/phone_country_text_field/countries_input_formatter/country_changer_formatter.dart';
 
 import '../../../../my_utils.dart';
 import 'countries_overlay.dart';
@@ -150,10 +151,11 @@ class _MyPhoneWithCountryTextFieldState
                   focusNode: phoneValueNotifier.focusNode,
                   hint: phoneValueNotifier.country.hintText,
                   isDense: false,
-                  inputFormatters:
-                      phoneValueNotifier.country.inputFormatter != null
-                          ? [phoneValueNotifier.country.inputFormatter!]
-                          : null,
+                  inputFormatters: [
+                    if (phoneValueNotifier.country.inputFormatter != null)
+                      phoneValueNotifier.country.inputFormatter!,
+                    // CountryChangerFormatter(widget.phoneValueNotifier),
+                  ],
                   validator: (_) {
                     final validator = widget.textFieldModel.validator;
                     final fullNumber =
