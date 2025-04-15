@@ -43,6 +43,7 @@ class TextFieldModel {
   final bool? enabled;
   final Color? focusedBorder;
   final Color? enabledBorder;
+  final Color? disabledBorder;
   final double? allBorderRadius;
   final Iterable<String>? autofillHints;
   final void Function(dynamic event)? onTapOutside;
@@ -91,6 +92,7 @@ class TextFieldModel {
     this.enabled,
     this.focusedBorder,
     this.enabledBorder,
+    this.disabledBorder,
     this.autofillHints,
     this.onTapOutside,
     this.onEditingComplete,
@@ -137,6 +139,7 @@ class TextFieldModel {
     this.textColor,
     this.enabled,
     this.focusedBorder,
+    this.disabledBorder,
     this.enabledBorder,
     this.autofillHints,
     this.onTapOutside,
@@ -183,6 +186,7 @@ class TextFieldModel {
     Color? textColor,
     bool? enabled,
     Color? focusedBorder,
+    Color? disabledBorder,
     Color? enabledBorder,
     Iterable<String>? autofillHints,
     void Function(dynamic event)? onTapOutside,
@@ -231,6 +235,7 @@ class TextFieldModel {
         enabled: this.enabled ?? enabled,
         focusedBorder: this.focusedBorder ?? focusedBorder,
         enabledBorder: this.enabledBorder ?? enabledBorder,
+        disabledBorder: this.disabledBorder ?? disabledBorder,
         autofillHints: this.autofillHints ?? autofillHints,
         onTapOutside: this.onTapOutside ?? onTapOutside,
         onEditingComplete: this.onEditingComplete ?? onEditingComplete,

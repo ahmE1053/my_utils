@@ -163,6 +163,7 @@ class _MyTextFieldState extends State<MyTextField> {
             ),
             disabledBorder: changeBorderDetails(
               inputDecorationTheme.disabledBorder,
+              newColor: textFieldModel.disabledBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             errorBorder: changeBorderDetails(

@@ -27,10 +27,11 @@ class ErrorColumn extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           text.tr(),
-          style: errorTextStyle ?? MyUtilAppTextStyle.getTextStyle(
-            fontSize: 16,
-            color: errorTextColor ?? Colors.redAccent,
-          ),
+          style: errorTextStyle ??
+              MyUtilAppTextStyle.getTextStyle(
+                fontSize: 16,
+                color: errorTextColor ?? Colors.redAccent,
+              ),
           textAlign: TextAlign.center,
         ),
       ],
@@ -44,11 +45,13 @@ class FormErrorColumn extends StatelessWidget {
     required this.text,
     this.errorTextColor,
     this.errorPadding,
+    this.height = 8,
     required this.child,
   });
 
   final Widget child;
   final String text;
+  final double height;
   final Color? errorTextColor;
   final EdgeInsetsGeometry? errorPadding;
 
@@ -58,19 +61,23 @@ class FormErrorColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         child,
-        const SizedBox(height: 8),
-        Builder(builder: (context) {
-          final child = Text(
-            text.tr(),
-            style: MyUtilAppTextStyle.getTextStyle(
-              fontSize: 12,
-              color: errorTextColor ?? Colors.redAccent,
-            ),
-          );
-          if (errorPadding == null) return child;
-          return Padding(padding: errorPadding!, child: child,);
-        },),
-
+        SizedBox(height: height),
+        Builder(
+          builder: (context) {
+            final child = Text(
+              text.tr(),
+              style: MyUtilAppTextStyle.getTextStyle(
+                fontSize: 12,
+                color: errorTextColor ?? Colors.redAccent,
+              ),
+            );
+            if (errorPadding == null) return child;
+            return Padding(
+              padding: errorPadding!,
+              child: child,
+            );
+          },
+        ),
       ],
     );
   }
