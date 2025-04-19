@@ -43,8 +43,8 @@ void showSnackBarFromState(ScaffoldMessengerState state, String text) {
   );
 }
 
-void showSnackBarMessenger(ScaffoldMessengerState messenger,
-    BuildContext context, String text) {
+void showSnackBarMessenger(
+    ScaffoldMessengerState messenger, BuildContext context, String text) {
   messenger.showSnackBar(
     SnackBar(
       margin: EdgeInsets.only(
@@ -63,8 +63,12 @@ void showSnackBarMessenger(ScaffoldMessengerState messenger,
   );
 }
 
-void showSuccessSnackBar(BuildContext context, String text,
-    [bool useBottomInsets = true]) {
+void showSuccessSnackBar(
+  BuildContext context,
+  String text, [
+  bool useBottomInsets = true,
+  Duration? duration,
+]) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       margin: EdgeInsets.only(
@@ -73,6 +77,7 @@ void showSuccessSnackBar(BuildContext context, String text,
         right: 16,
       ),
       backgroundColor: Colors.green,
+      duration: duration ?? Duration(seconds: 4),
       content: Text(
         text.tr(),
         style: const MyUtilAppTextStyle.getTextStyle(
