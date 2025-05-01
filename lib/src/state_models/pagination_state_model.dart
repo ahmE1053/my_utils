@@ -3,7 +3,9 @@ import 'package:my_utils/my_utils.dart';
 
 @immutable
 sealed class PaginationStateModel<T> {
-  const PaginationStateModel();
+  const PaginationStateModel([this.totalCount]);
+
+  final int? totalCount;
 
   factory PaginationStateModel.fromException(dynamic l) {
     return PaginationStateError(
@@ -12,7 +14,9 @@ sealed class PaginationStateModel<T> {
   }
 
   factory PaginationStateModel.fromExceptionWithData(
-      List<T> oldData, dynamic l) {
+    List<T> oldData,
+    dynamic l,
+  ) {
     return PaginationStateErrorWithData(
       oldData,
       l is GeneralException ? l.message : 'errorOccurred',
@@ -22,14 +26,16 @@ sealed class PaginationStateModel<T> {
   const factory PaginationStateModel.initial() = PaginationStateInitial;
 
   const factory PaginationStateModel.success(
-    List<T> data,
-  ) = PaginationStateSuccess;
+    List<T> data, [
+    int? totalCount,
+  ]) = PaginationStateSuccess;
 
   const factory PaginationStateModel.loading() = PaginationStateLoading;
 
   const factory PaginationStateModel.loadingWithData(
-    List<T> oldData,
-  ) = PaginationStateLoadingWithData;
+    List<T> oldData, [
+    int? totalCount,
+  ]) = PaginationStateLoadingWithData;
 
   const factory PaginationStateModel.error(
     String errorMessage,
@@ -37,8 +43,9 @@ sealed class PaginationStateModel<T> {
 
   const factory PaginationStateModel.errorWithData(
     List<T> oldData,
-    String errorMessage,
-  ) = PaginationStateErrorWithData;
+    String errorMessage, [
+    int? totalCount,
+  ]) = PaginationStateErrorWithData;
 }
 
 class PaginationStateInitial<T> extends PaginationStateModel<T> {
@@ -48,7 +55,10 @@ class PaginationStateInitial<T> extends PaginationStateModel<T> {
 class PaginationStateSuccess<T> extends PaginationStateModel<T> {
   final List<T> data;
 
-  const PaginationStateSuccess(this.data);
+  const PaginationStateSuccess(
+    this.data, [
+    super.totalCount,
+  ]);
 }
 
 class PaginationStateError<T> extends PaginationStateModel<T> {
@@ -64,12 +74,19 @@ class PaginationStateLoading<T> extends PaginationStateModel<T> {
 class PaginationStateLoadingWithData<T> extends PaginationStateModel<T> {
   final List<T> oldData;
 
-  const PaginationStateLoadingWithData(this.oldData);
+  const PaginationStateLoadingWithData(
+    this.oldData, [
+    super.totalCount,
+  ]);
 }
 
 class PaginationStateErrorWithData<T> extends PaginationStateModel<T> {
   final String errorMessage;
   final List<T> oldData;
 
-  const PaginationStateErrorWithData(this.oldData, this.errorMessage);
+  const PaginationStateErrorWithData(
+    this.oldData,
+    this.errorMessage, [
+    super.totalCount,
+  ]);
 }

@@ -34,6 +34,7 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     this.initialErrorWidget,
     this.pageStorageKey,
     this.physics,
+    this.childWrapper,
     this.scrollDirection = Axis.vertical,
     this.shimmerBorderRadius = 12,
     this.animatedSwitcherAlignment = Alignment.topCenter,
@@ -45,6 +46,13 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
 
   ///the model that data and states will come from
   final PaginationStateModel<T> stateModel;
+
+  ///A wrapper for wrapping the child with any other widgets, while having access
+  ///to the state of the model
+  final Widget Function(
+    Widget paginationContent,
+    PaginationStateModel state,
+  )? childWrapper;
 
   ///What the actual child will be
   final Widget Function(T item) child;
@@ -122,6 +130,9 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
 
 class _PaginationStateModelWidgetState<T>
     extends State<PaginationStateModelWidget<T>> {
+  Widget child(Widget child, PaginationStateModel state) =>
+      widget.childWrapper?.call(child, state) ?? child;
+
   bool isLoading = false;
   ScrollController? _scrollController;
   Timer? timer;
@@ -202,42 +213,51 @@ class _PaginationStateModelWidgetState<T>
                 exception: GeneralException(state.errorMessage),
               ),
         ),
-      PaginationStateSuccess<T>(data: var data) => getChildWidget(
-          data: data,
-          disableBottomInsets: false,
+      PaginationStateSuccess<T>(data: var data) => child(
+          getChildWidget(
+            data: data,
+            disableBottomInsets: false,
+          ),
+          state,
         ),
-      PaginationStateLoadingWithData<T>(oldData: var data) => getChildWidget(
-          data: data,
-          disableBottomInsets: true,
-          additionalWidgets: [
-            const SizedBox(height: 8),
-            const MyUtilLoadingIndicator(),
-          ],
+      PaginationStateLoadingWithData<T>(oldData: var data) => child(
+          getChildWidget(
+            data: data,
+            disableBottomInsets: true,
+            additionalWidgets: [
+              const SizedBox(height: 8),
+              const MyUtilLoadingIndicator(),
+            ],
+          ),
+          state,
         ),
       PaginationStateErrorWithData<T>(
         oldData: var data,
         errorMessage: var error
       ) =>
-        getChildWidget(
-          data: data,
-          disableBottomInsets: false,
-          additionalWidgets: [
-            const SizedBox(height: 8),
-            Text(
-              error.tr(),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 48,
-              child: ElevatedButton(
-                onPressed: () => widget.onErrorRetry(data),
-                child: Text(
-                  LocaleKeys.retry.tr(),
+        child(
+          getChildWidget(
+            data: data,
+            disableBottomInsets: false,
+            additionalWidgets: [
+              const SizedBox(height: 8),
+              Text(
+                error.tr(),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () => widget.onErrorRetry(data),
+                  child: Text(
+                    LocaleKeys.retry.tr(),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          state,
         ),
     };
     return AnimatedSwitcher(
