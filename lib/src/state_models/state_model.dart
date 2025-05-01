@@ -12,7 +12,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     if (listener != null) {
       _wrappedInPostFrameCallBack = () {
         WidgetsBinding.instance.addPostFrameCallback(
-              (timeStamp) => listener(),
+          (timeStamp) => listener(),
         );
       };
       addListener(_wrappedInPostFrameCallBack!);
@@ -42,27 +42,35 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
     currentState = model;
     notifyListeners();
   }
+
+  @protected
+  void toInit() => _changeValue(const StateInitial());
+
   @protected
   void toLoading([double? progress]) => _changeValue(StateLoading(progress));
+
   @protected
   void toSuccess([T? data]) {
     if (isSuccess) return;
     _changeValue(StateSuccess(data));
   }
+
   @protected
   void toSuccessForce([T? data]) {
     _changeValue(StateSuccess(data));
   }
+
   @protected
-  void toError([String? errorMessage]) => _changeValue(StateError(errorMessage));
+  void toError([String? errorMessage]) =>
+      _changeValue(StateError(errorMessage));
+
   @protected
-  void toErrorWithException(Object? exc) =>
-      _changeValue(
+  void toErrorWithException(Object? exc) => _changeValue(
         StateErrorWithException(exc),
       );
+
   @protected
-  void toErrorFromException(Object? exc) =>
-      _changeValue(
+  void toErrorFromException(Object? exc) => _changeValue(
         StateError.fromException(exc),
       );
 
@@ -75,10 +83,9 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage =>
-      currentState is StateError
-          ? (currentState as StateError).errorMessage
-          : null;
+  String? get tryGetErrorMessage => currentState is StateError
+      ? (currentState as StateError).errorMessage
+      : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
@@ -122,9 +129,9 @@ class StateSuccess<T> extends StateModel<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is StateSuccess &&
-              runtimeType == other.runtimeType &&
-              data == other.data;
+      other is StateSuccess &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
 
   @override
   int get hashCode => data.hashCode;
