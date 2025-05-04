@@ -35,6 +35,7 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     this.pageStorageKey,
     this.physics,
     this.childWrapper,
+    this.useMaterialForChildren = false,
     this.scrollDirection = Axis.vertical,
     this.shimmerBorderRadius = 12,
     this.animatedSwitcherAlignment = Alignment.topCenter,
@@ -53,6 +54,9 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     Widget paginationContent,
     PaginationStateModel state,
   )? childWrapper;
+
+  ///Wrap children with transparent material for InkWell effects
+  final bool useMaterialForChildren;
 
   ///What the actual child will be
   final Widget Function(T item) child;
@@ -269,7 +273,12 @@ class _PaginationStateModelWidgetState<T>
           if (currentChild != null) currentChild,
         ],
       ),
-      child: thisWidget,
+      child: widget.useMaterialForChildren
+          ? Material(
+              type: MaterialType.transparency,
+              child: thisWidget,
+            )
+          : thisWidget,
     );
   }
 
