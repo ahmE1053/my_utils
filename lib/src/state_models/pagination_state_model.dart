@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:my_utils/my_utils.dart';
 
@@ -59,12 +60,34 @@ class PaginationStateSuccess<T> extends PaginationStateModel<T> {
     this.data, [
     super.totalCount,
   ]);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is PaginationStateSuccess &&
+          runtimeType == other.runtimeType &&
+          DeepCollectionEquality.unordered().equals(data, other.data);
+
+  @override
+  int get hashCode => super.hashCode ^ data.hashCode;
 }
 
 class PaginationStateError<T> extends PaginationStateModel<T> {
   final String errorMessage;
 
   const PaginationStateError(this.errorMessage);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is PaginationStateError &&
+          runtimeType == other.runtimeType &&
+          errorMessage == other.errorMessage;
+
+  @override
+  int get hashCode => super.hashCode ^ errorMessage.hashCode;
 }
 
 class PaginationStateLoading<T> extends PaginationStateModel<T> {
@@ -78,6 +101,17 @@ class PaginationStateLoadingWithData<T> extends PaginationStateModel<T> {
     this.oldData, [
     super.totalCount,
   ]);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is PaginationStateLoadingWithData &&
+          runtimeType == other.runtimeType &&
+          DeepCollectionEquality.unordered().equals(oldData, other.oldData);
+
+  @override
+  int get hashCode => super.hashCode ^ oldData.hashCode;
 }
 
 class PaginationStateErrorWithData<T> extends PaginationStateModel<T> {
@@ -89,4 +123,16 @@ class PaginationStateErrorWithData<T> extends PaginationStateModel<T> {
     this.errorMessage, [
     super.totalCount,
   ]);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is PaginationStateErrorWithData &&
+          runtimeType == other.runtimeType &&
+          errorMessage == other.errorMessage &&
+          DeepCollectionEquality.unordered().equals(oldData, other.oldData);
+
+  @override
+  int get hashCode => super.hashCode ^ errorMessage.hashCode ^ oldData.hashCode;
 }

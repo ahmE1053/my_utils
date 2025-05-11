@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 import '../core/exceptions/general_exception.dart';
 
@@ -11,9 +10,9 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   void init(void Function()? listener) {
     if (listener != null) {
       _wrappedInPostFrameCallBack = () {
-        WidgetsBinding.instance.addPostFrameCallback(
-          (timeStamp) => listener(),
-        );
+        Future(() {
+          listener();
+        });
       };
       addListener(_wrappedInPostFrameCallBack!);
     }
@@ -65,12 +64,14 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
       _changeValue(StateError(errorMessage));
 
   @protected
-  void toErrorWithException(Object? exc) => _changeValue(
+  void toErrorWithException(Object? exc) =>
+      _changeValue(
         StateErrorWithException(exc),
       );
 
   @protected
-  void toErrorFromException(Object? exc) => _changeValue(
+  void toErrorFromException(Object? exc) =>
+      _changeValue(
         StateError.fromException(exc),
       );
 
@@ -83,9 +84,10 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage => currentState is StateError
-      ? (currentState as StateError).errorMessage
-      : null;
+  String? get tryGetErrorMessage =>
+      currentState is StateError
+          ? (currentState as StateError).errorMessage
+          : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
@@ -129,9 +131,9 @@ class StateSuccess<T> extends StateModel<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is StateSuccess &&
-          runtimeType == other.runtimeType &&
-          data == other.data;
+          other is StateSuccess &&
+              runtimeType == other.runtimeType &&
+              data == other.data;
 
   @override
   int get hashCode => data.hashCode;

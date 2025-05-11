@@ -78,13 +78,13 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
   final double? bottomInset;
 
   ///send if you want to use a custom padding for shimmer
-  final EdgeInsets? shimmerPadding;
+  final EdgeInsetsGeometry? shimmerPadding;
 
   ///Padding for initial error widget
-  final EdgeInsets? initialErrorPadding;
+  final EdgeInsetsGeometry? initialErrorPadding;
 
   ///Padding for scrollables
-  final EdgeInsets? scrollablePadding;
+  final EdgeInsetsGeometry? scrollablePadding;
 
   ///send if you want to offset from the top by this value
   final double? topInset;
@@ -282,7 +282,7 @@ class _PaginationStateModelWidgetState<T>
     );
   }
 
-  EdgeInsets getScrollablePadding(disableBottomInsets) =>
+  EdgeInsetsGeometry getScrollablePadding(disableBottomInsets) =>
       widget.scrollablePadding ??
       EdgeInsets.only(
         top: widget.topInset ?? 0.0,
