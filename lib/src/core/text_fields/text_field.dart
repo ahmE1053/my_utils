@@ -172,7 +172,7 @@ class _MyTextFieldState extends State<MyTextField> {
             ),
             focusedErrorBorder: changeBorderDetails(
               inputDecorationTheme.focusedErrorBorder,
-              newColor: textFieldModel.enabledBorder,
+              newColor: textFieldModel.focusedBorder,
               newBorderRadius: textFieldModel.allBorderRadius,
             ),
             focusedBorder: changeBorderDetails(
