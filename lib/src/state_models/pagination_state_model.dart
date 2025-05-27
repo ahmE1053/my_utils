@@ -16,11 +16,13 @@ sealed class PaginationStateModel<T> {
 
   factory PaginationStateModel.fromExceptionWithData(
     List<T> oldData,
-    dynamic l,
-  ) {
+    dynamic l, [
+    int? totalCount,
+  ]) {
     return PaginationStateErrorWithData(
       oldData,
       l is GeneralException ? l.message : 'errorOccurred',
+      totalCount,
     );
   }
 
