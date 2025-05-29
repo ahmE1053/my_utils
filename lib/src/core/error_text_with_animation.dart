@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:my_utils/src/translator.dart';
 
 import 'consts/text_styles.dart';
 
@@ -55,7 +55,7 @@ class _ErrorTextWithAnimationState extends State<ErrorTextWithAnimation>
         children: [
           if (widget.useTopPadding) const SizedBox(height: 8),
           Text(
-            widget.errorText.translate(context),
+            widget.errorText.tr(),
             style: const MyUtilAppTextStyle.getTextStyle(
               color: Colors.redAccent,
               fontSize: 13,

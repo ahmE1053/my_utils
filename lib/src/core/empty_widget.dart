@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_utils/src/core/consts/app_localization_keys.g.dart';
@@ -41,7 +42,7 @@ class EmptyWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          title.translate(context),
+          title.tr(),
           textAlign: TextAlign.center,
           style: titleStyle ?? const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
@@ -50,7 +51,7 @@ class EmptyWidget extends StatelessWidget {
         if(subtitle != null)...[
           const SizedBox(height: 8),
           Text(
-            subtitle!.translate(context),
+            subtitle!.tr(),
             textAlign: TextAlign.center,
             style: subtitleStyle ?? const MyUtilAppTextStyle.getTextStyle(
               fontSize: 12,
@@ -63,7 +64,7 @@ class EmptyWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: goBack,
               child: Text(
-                goBackText?.translate(context) ?? LocaleKeys.goBack.translate(context),
+                goBackText?.tr() ?? LocaleKeys.goBack.tr(),
               ),
             ),
           ),
@@ -111,7 +112,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          title.translate(context),
+          title.tr(),
           textAlign: TextAlign.center,
           style: titleStyle ?? const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
@@ -120,7 +121,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
         if(subtitle != null)...[
           const SizedBox(height: 8),
           Text(
-            subtitle!.translate(context),
+            subtitle!.tr(),
             textAlign: TextAlign.center,
             style: subtitleStyle ?? const MyUtilAppTextStyle.getTextStyle(
               fontSize: 12,
@@ -133,7 +134,7 @@ class EmptyFlexibleWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: goBack,
               child: Text(
-                goBackText?.translate(context) ?? LocaleKeys.goBack.translate(context),
+                goBackText?.tr() ?? LocaleKeys.goBack.tr(),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_utils/my_utils.dart';
@@ -76,10 +77,10 @@ class _MyTextFieldState extends State<MyTextField> {
   void changeCursorLocation() {
     try {
       if (languageCode == null) {
-        languageCode = Localizations.localeOf(context).languageCode;
+        languageCode = context.locale.languageCode;
       } else {
-        if (languageCode != Localizations.localeOf(context).languageCode) {
-          languageCode = Localizations.localeOf(context).languageCode;
+        if (languageCode != context.locale.languageCode) {
+          languageCode = context.locale.languageCode;
           textFieldDirectionListener();
         }
       }
@@ -252,5 +253,5 @@ class TextFieldValidators {
   TextFieldValidators([this.message]);
 
   String? requiredField(String? value) =>
-      value!.trim().isEmpty ? (message ?? LocaleKeys.requiredField).translate() : null;
+      value!.trim().isEmpty ? (message ?? LocaleKeys.requiredField).tr() : null;
 }

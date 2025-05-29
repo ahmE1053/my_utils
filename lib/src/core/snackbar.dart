@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:my_utils/src/translator.dart';
 
 import 'consts/text_styles.dart';
 import 'context_extensions.dart';
@@ -13,7 +13,7 @@ void showSnackBar(BuildContext context, String text) {
         right: 16,
       ),
       content: Text(
-        text.translate(context),
+        text.tr(),
       ),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
@@ -33,7 +33,7 @@ void showSnackBarFromState(ScaffoldMessengerState state, String text) {
         right: 16,
       ),
       content: Text(
-        text.translate(state.context),
+        text.tr(),
       ),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
@@ -53,7 +53,7 @@ void showSnackBarMessenger(
         right: 16,
       ),
       content: Text(
-        text.translate(context),
+        text.tr(),
       ),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
@@ -79,7 +79,7 @@ void showSuccessSnackBar(
       backgroundColor: Colors.green,
       duration: duration ?? Duration(seconds: 4),
       content: Text(
-        text.translate(context),
+        text.tr(),
         style: const MyUtilAppTextStyle.getTextStyle(
           fontSize: 14,
           fontWeight: 500,
@@ -104,7 +104,7 @@ void showErrorSnackBar(BuildContext context, String text) {
       ),
       backgroundColor: Colors.redAccent,
       content: Text(
-        text.translate(context),
+        text.tr(),
         style: const MyUtilAppTextStyle.getTextStyle(
           fontSize: 14,
           fontWeight: 500,
