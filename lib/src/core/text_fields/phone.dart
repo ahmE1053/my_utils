@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_utils/src/translator.dart';
 import '../consts/app_localization_keys.g.dart';
 import 'text_field.dart';
 import 'utils/full_text_field_model.dart';
@@ -21,12 +21,12 @@ class MyPhoneTextField extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
         ],
         textDirection: TextDirection.ltr,
-        label: LocaleKeys.phoneNumber.tr(),
-        hint: LocaleKeys.phoneNumber.tr(),
+        label: LocaleKeys.phoneNumber.translate(context),
+        hint: LocaleKeys.phoneNumber.translate(context),
         textInputType: TextInputType.phone,
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyPhone.tr();
+            return LocaleKeys.emptyPhone.translate(context);
           }
           return null;
         },

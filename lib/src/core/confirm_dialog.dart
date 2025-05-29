@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:my_utils/src/translator.dart';
 
 import 'consts/app_localization_keys.g.dart';
 import 'consts/text_styles.dart';
@@ -29,7 +29,7 @@ class ConfirmDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              text?.tr() ?? LocaleKeys.areYouSure.tr(),
+              text?.translate(context) ?? LocaleKeys.areYouSure.translate(context),
               style: MyUtilAppTextStyle.getTextStyle(
                 fontSize: 16,
                 fontWeight: 600,
@@ -47,7 +47,7 @@ class ConfirmDialog extends StatelessWidget {
                       Navigator.pop(context, false);
                     },
                     child: Text(
-                      LocaleKeys.no.tr(),
+                      LocaleKeys.no.translate(context),
                     ),
                   ),
                 ),
@@ -59,7 +59,7 @@ class ConfirmDialog extends StatelessWidget {
                       toDo?.call();
                     },
                     child: Text(
-                      LocaleKeys.yes.tr(),
+                      LocaleKeys.yes.translate(context),
                     ),
                   ),
                 ),
@@ -106,7 +106,7 @@ class CustomizableConfirmDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              text?.tr() ?? LocaleKeys.areYouSure.tr(),
+              text?.translate(context) ?? LocaleKeys.areYouSure.translate(context),
               style: MyUtilAppTextStyle.getTextStyle(
                 fontSize: 16,
                 fontWeight: 600,
@@ -119,7 +119,7 @@ class CustomizableConfirmDialog extends StatelessWidget {
             const SizedBox(height: 8),
             if(subtitle != null)
               Text(
-                subtitle!.tr(),
+                subtitle!.translate(context),
                 style: MyUtilAppTextStyle.getTextStyle(
                   fontSize: 13,
                   color: subtitleColor != null ? subtitleColor! : context
@@ -139,7 +139,7 @@ class CustomizableConfirmDialog extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        (noText ?? LocaleKeys.no).tr(),
+                        (noText ?? LocaleKeys.no).translate(context),
                       ),
                     ),
                   ),
@@ -152,7 +152,7 @@ class CustomizableConfirmDialog extends StatelessWidget {
                       toDo?.call();
                     },
                     child: FittedBox(fit: BoxFit.scaleDown, child: Text(
-                      (yesText ?? LocaleKeys.yes).tr(),
+                      (yesText ?? LocaleKeys.yes).translate(context),
                     ),),
                   ),
                 ),

@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart' as ez;
 import 'package:flutter/material.dart';
+import 'package:my_utils/src/translator.dart';
 
 import '../consts/app_localization_keys.g.dart';
 import '../string_extensions.dart';
@@ -19,13 +19,13 @@ class MyPasswordTextField extends StatelessWidget {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
         textDirection: TextDirection.ltr,
-        label: LocaleKeys.password.tr(),
-        hint: LocaleKeys.password.tr(),
+        label: LocaleKeys.password.translate(context),
+        hint: LocaleKeys.password.translate(context),
         textInputType: TextInputType.visiblePassword,
         isPassword: true,
         validator: (value) {
           if (value!.trim().isEmpty) {
-            return LocaleKeys.emptyPassword.tr();
+            return LocaleKeys.emptyPassword.translate(context);
           }
           return null;
         },
@@ -47,16 +47,16 @@ class MyRegisterPasswordTextField extends StatelessWidget {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
         textDirection: TextDirection.ltr,
-        label: LocaleKeys.password.tr(),
-        hint: LocaleKeys.password.tr(),
+        label: LocaleKeys.password.translate(context),
+        hint: LocaleKeys.password.translate(context),
         textInputType: TextInputType.visiblePassword,
         isPassword: true,
         validator: (value) {
           if (value!.trim().isEmpty) {
-            return LocaleKeys.emptyPassword.tr();
+            return LocaleKeys.emptyPassword.translate(context);
           }
           if (!value.isStrongPassword()) {
-            return LocaleKeys.weakPassword.tr();
+            return LocaleKeys.weakPassword.translate(context);
           }
           return null;
         },
@@ -80,16 +80,16 @@ class MyConfirmPasswordField extends StatelessWidget {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
         textDirection: TextDirection.ltr,
-        label: LocaleKeys.confirmPassword.tr(),
-        hint: LocaleKeys.confirmPassword.tr(),
+        label: LocaleKeys.confirmPassword.translate(context),
+        hint: LocaleKeys.confirmPassword.translate(context),
         textInputType: TextInputType.visiblePassword,
         isPassword: true,
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyPassword.tr();
+            return LocaleKeys.emptyPassword.translate(context);
           }
           if (value != passwordController.text) {
-            return LocaleKeys.wrongConfirmPassword.tr();
+            return LocaleKeys.wrongConfirmPassword.translate(context);
           }
           return null;
         },

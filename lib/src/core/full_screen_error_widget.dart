@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_utils/src/core/exceptions/general_exception.dart';
+import 'package:my_utils/src/translator.dart';
 
 import 'consts/app_localization_keys.g.dart';
 import 'consts/text_styles.dart';
@@ -39,8 +39,8 @@ class FullScreenError extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           exception is GeneralException
-              ? (exception as GeneralException).message.tr()
-              : LocaleKeys.errorOccurred.tr(),
+              ? (exception as GeneralException).message.translate(context)
+              : LocaleKeys.errorOccurred.translate(context),
           textAlign: TextAlign.center,
           style: const MyUtilAppTextStyle.getTextStyle(
             fontSize: 14,
@@ -53,7 +53,7 @@ class FullScreenError extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onTap,
             child: Text(
-              LocaleKeys.retry.tr(),
+              LocaleKeys.retry.translate(context),
             ),
           ),
         ),

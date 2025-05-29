@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:my_utils/my_utils.dart';
 import '../consts/app_localization_keys.g.dart';
-import 'text_field.dart';
-import 'utils/full_text_field_model.dart';
 
 class MyNameTextField extends StatelessWidget {
   const MyNameTextField({
@@ -16,18 +14,18 @@ class MyNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
-        label: LocaleKeys.fullName.tr(),
-        hint: LocaleKeys.fullName.tr(),
+        label: LocaleKeys.fullName.translate(context),
+        hint: LocaleKeys.fullName.translate(context),
         textInputType: TextInputType.name,
         inputFormatters: [
           textFieldModel.getNameFormatter,
         ],
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyName.tr();
+            return LocaleKeys.emptyName.translate(context);
           }
           if (value.length < 2) {
-            return LocaleKeys.smallName.tr();
+            return LocaleKeys.smallName.translate(context);
           }
           return null;
         },
@@ -48,18 +46,18 @@ class MyFirstNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
-        label: LocaleKeys.firstName.tr(),
-        hint: LocaleKeys.firstName.tr(),
+        label: LocaleKeys.firstName.translate(context),
+        hint: LocaleKeys.firstName.translate(context),
         textInputType: TextInputType.name,
         inputFormatters: [
           textFieldModel.getNameFormatter,
         ],
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyName.tr();
+            return LocaleKeys.emptyName.translate(context);
           }
           if (value.length < 2) {
-            return LocaleKeys.smallName.tr();
+            return LocaleKeys.smallName.translate(context);
           }
           return null;
         },
@@ -80,18 +78,18 @@ class MySecondNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
-        label: LocaleKeys.secondName.tr(),
-        hint: LocaleKeys.secondName.tr(),
+        label: LocaleKeys.secondName.translate(context),
+        hint: LocaleKeys.secondName.translate(context),
         textInputType: TextInputType.name,
         inputFormatters: [
           textFieldModel.getNameFormatter,
         ],
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyName.tr();
+            return LocaleKeys.emptyName.translate(context);
           }
           if (value.length < 2) {
-            return LocaleKeys.smallName.tr();
+            return LocaleKeys.smallName.translate(context);
           }
           return null;
         },
@@ -112,18 +110,18 @@ class MyLastNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyTextField(
       textFieldModel: textFieldModel.replaceIfNull(
-        label: LocaleKeys.lastName.tr(),
-        hint: LocaleKeys.lastName.tr(),
+        label: LocaleKeys.lastName.translate(context),
+        hint: LocaleKeys.lastName.translate(context),
         textInputType: TextInputType.name,
         inputFormatters: [
           textFieldModel.getNameFormatter,
         ],
         validator: (value) {
           if (value!.isEmpty) {
-            return LocaleKeys.emptyName.tr();
+            return LocaleKeys.emptyName.translate(context);
           }
           if (value.length < 2) {
-            return LocaleKeys.smallName.tr();
+            return LocaleKeys.smallName.translate(context);
           }
           return null;
         },

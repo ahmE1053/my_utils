@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:my_utils/src/translator.dart';
 
 import '../core/base_shimmer.dart';
 import '../core/consts/app_localization_keys.g.dart';
@@ -246,7 +246,7 @@ class _PaginationStateModelWidgetState<T>
             additionalWidgets: [
               const SizedBox(height: 8),
               Text(
-                error.tr(),
+                error.translate(context),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
@@ -255,7 +255,7 @@ class _PaginationStateModelWidgetState<T>
                 child: ElevatedButton(
                   onPressed: () => widget.onErrorRetry(data),
                   child: Text(
-                    LocaleKeys.retry.tr(),
+                    LocaleKeys.retry.translate(context),
                   ),
                 ),
               ),

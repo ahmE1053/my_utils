@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:my_utils/src/translator.dart';
 
 import 'consts/text_styles.dart';
 
@@ -26,7 +26,7 @@ class ErrorColumn extends StatelessWidget {
         child,
         const SizedBox(height: 16),
         Text(
-          text.tr(),
+          text.translate(context),
           style: errorTextStyle ??
               MyUtilAppTextStyle.getTextStyle(
                 fontSize: 16,
@@ -65,7 +65,7 @@ class FormErrorColumn extends StatelessWidget {
         Builder(
           builder: (context) {
             final child = Text(
-              text.tr(),
+              text.translate(context),
               style: MyUtilAppTextStyle.getTextStyle(
                 fontSize: 12,
                 color: errorTextColor ?? Colors.redAccent,

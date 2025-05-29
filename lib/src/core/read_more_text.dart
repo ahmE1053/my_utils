@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:my_utils/my_utils.dart';
 
 class ReadMoreText extends StatefulWidget {
   const ReadMoreText({
@@ -61,7 +61,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
               children: [
                 if (!showAll)
                   TextSpan(
-                    text: 'seeMore'.tr(context: context),
+                    text: 'seeMore'.translate(context),
                     style: widget.buttonStyle,
                   ),
               ],

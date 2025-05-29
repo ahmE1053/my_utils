@@ -48,6 +48,7 @@ export "src/state_models/state_model_listener_widget.dart";
 export "src/state_models/state_model_overlay_loading.dart";
 export "src/state_models/state_model_widget.dart";
 export "src/state_models/state_model_with_opacity_widget.dart";
+export 'src/translator.dart';
 
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,

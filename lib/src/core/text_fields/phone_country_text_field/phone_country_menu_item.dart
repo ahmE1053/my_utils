@@ -1,5 +1,4 @@
 import 'package:country_flags/country_flags.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_utils/src/core/text_fields/utils/phone_country_name_localizer.dart';
 
@@ -54,10 +53,9 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       countryInfo.phoneCode,
                       style: textStyle ??
                           const MyUtilAppTextStyle.getTextStyle(
-                            color: Colors.black87,
-                            fontSize: 12,
-                            fontWeight: 500
-                          ),
+                              color: Colors.black87,
+                              fontSize: 12,
+                              fontWeight: 500),
                     ),
                   ),
                   Flexible(
@@ -66,7 +64,9 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       child: Text(
                         phoneCountryNameLocalizer(
                           countryInfo.countryName,
-                          context.locale.languageCode.toLowerCase(),
+                          Localizations.localeOf(context)
+                              .languageCode
+                              .toLowerCase(),
                         ),
                         style: MyUtilAppTextStyle.getTextStyle(
                           fontSize: 12,

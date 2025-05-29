@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 extension MediaQueryHelper on BuildContext {
@@ -25,20 +24,22 @@ extension MediaQueryHelper on BuildContext {
   double get bottomViewInsets => MediaQuery.viewInsetsOf(this).bottom;
 
   bool get isPortrait => MediaQuery.orientationOf(this) == Orientation.portrait;
+
   //
   // AppColors get colors => Theme.of(this).extension<AppColors>()!;
   //
   // NewAppColors get newColors => Theme.of(this).extension<NewAppColors>()!;
 
-  bool get isArabic => locale.languageCode == 'ar';
+  bool get isArabic => Localizations.localeOf(this).languageCode == 'ar';
 
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 
   bool get isShowingCurrentContext => ModalRoute.of(this)?.isCurrent == true;
+
   RelativeRect get getPlace {
     final RenderBox button = findRenderObject()! as RenderBox;
     final RenderBox overlay =
-    Navigator.of(this).overlay!.context.findRenderObject()! as RenderBox;
+        Navigator.of(this).overlay!.context.findRenderObject()! as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(Offset.zero, ancestor: overlay),

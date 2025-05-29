@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart'
-    show StringTranslateExtension;
 import 'package:flutter/material.dart';
-import 'package:my_utils/src/core/text_fields/phone_country_text_field/countries_input_formatter/country_changer_formatter.dart';
+import 'package:my_utils/src/translator.dart';
 
 import '../../../../my_utils.dart';
 import 'countries_overlay.dart';
@@ -107,7 +105,7 @@ class _MyPhoneWithCountryTextFieldState
                   child: Padding(
                     padding: const EdgeInsetsDirectional.only(start: 12.0),
                     child: Text(
-                      field.errorText?.tr() ?? '',
+                      field.errorText?.translate(context) ?? '',
                       style: const MyUtilAppTextStyle.getTextStyle(
                         fontSize: 12,
                         color: Colors.redAccent,
