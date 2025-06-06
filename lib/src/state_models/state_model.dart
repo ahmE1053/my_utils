@@ -5,30 +5,26 @@ import '../core/exceptions/general_exception.dart';
 abstract class StateModelWithListenable<T> extends ChangeNotifier {
   StateModel<T> currentState;
   @protected
-  void Function()? _wrappedInPostFrameCallBack;
+  void Function()? _listenerCallback;
 
   void init(void Function()? listener) {
     if (listener != null) {
-      _wrappedInPostFrameCallBack = () {
-        Future(() {
-          listener();
-        });
-      };
-      addListener(_wrappedInPostFrameCallBack!);
+      _listenerCallback = listener;
+      addListener(_listenerCallback!);
     }
   }
 
   void myDispose(void Function()? listener) {
     if (listener != null) {
-      removeListener(_wrappedInPostFrameCallBack!);
+      removeListener(_listenerCallback!);
     }
     super.dispose();
   }
 
   @override
   void dispose() {
-    if (_wrappedInPostFrameCallBack != null) {
-      removeListener(_wrappedInPostFrameCallBack!);
+    if (_listenerCallback != null) {
+      removeListener(_listenerCallback!);
     }
     super.dispose();
   }
@@ -64,14 +60,12 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
       _changeValue(StateError(errorMessage));
 
   @protected
-  void toErrorWithException(Object? exc) =>
-      _changeValue(
+  void toErrorWithException(Object? exc) => _changeValue(
         StateErrorWithException(exc),
       );
 
   @protected
-  void toErrorFromException(Object? exc) =>
-      _changeValue(
+  void toErrorFromException(Object? exc) => _changeValue(
         StateError.fromException(exc),
       );
 
@@ -84,10 +78,9 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   String get getErrorMessage => (currentState as StateError).errorMessage;
 
-  String? get tryGetErrorMessage =>
-      currentState is StateError
-          ? (currentState as StateError).errorMessage
-          : null;
+  String? get tryGetErrorMessage => currentState is StateError
+      ? (currentState as StateError).errorMessage
+      : null;
 
   bool get isSuccess => currentState is StateSuccess;
 
@@ -131,9 +124,9 @@ class StateSuccess<T> extends StateModel<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is StateSuccess &&
-              runtimeType == other.runtimeType &&
-              data == other.data;
+      other is StateSuccess &&
+          runtimeType == other.runtimeType &&
+          data == other.data;
 
   @override
   int get hashCode => data.hashCode;
