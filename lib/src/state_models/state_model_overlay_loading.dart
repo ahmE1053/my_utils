@@ -8,6 +8,7 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
     this.loadingIndicator,
     this.errorTextColor,
     this.backgroundColor,
+    this.modelStateListener,
     this.errorTextStyle,
     this.loadingIndicatorWithProgress,
     this.canPopWhileLoading = false,
@@ -17,6 +18,7 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
 
   final Widget? loadingIndicator;
   final Widget Function(double progress)? loadingIndicatorWithProgress;
+  final void Function()? modelStateListener;
   final Color? backgroundColor;
   final Color? errorTextColor;
   final TextStyle? errorTextStyle;
@@ -59,12 +61,18 @@ class _StateModelOverlayLoadingState<T>
   @override
   void initState() {
     stateModel.addListener(stateModelListener);
+    if (widget.modelStateListener != null) {
+      stateModel.addListener(widget.modelStateListener!);
+    }
     super.initState();
   }
 
   @override
   void dispose() {
     stateModel.removeListener(stateModelListener);
+    if (widget.modelStateListener != null) {
+      stateModel.removeListener(widget.modelStateListener!);
+    }
     super.dispose();
   }
 
