@@ -23,6 +23,7 @@ export "src/core/error_text_with_animation.dart";
 export "src/core/exceptions/general_exception.dart";
 export "src/core/full_screen_error_widget.dart";
 export "src/core/loading_indicator.dart";
+export "src/core/my_user_avatar.dart";
 export "src/core/num_extensions.dart";
 export "src/core/rating_bar.dart";
 export "src/core/read_more_text.dart";
