@@ -188,6 +188,7 @@ class _MyTextFieldState extends State<MyTextField> {
             errorMaxLines: 10,
             contentPadding: textFieldModel.contentPadding,
             prefixIcon: textFieldModel.prefix,
+            prefixIconConstraints: textFieldModel.prefixBoxConstraints,
             hintText:
                 textFieldModel.useHint == false ? null : textFieldModel.hint,
             label:
@@ -198,6 +199,7 @@ class _MyTextFieldState extends State<MyTextField> {
                 textFieldModel.hintStyle ?? inputDecorationTheme.hintStyle,
             labelStyle:
                 textFieldModel.labelStyle ?? inputDecorationTheme.labelStyle,
+            suffixIconConstraints: textFieldModel.suffixBoxConstraints,
             suffixIcon: textFieldModel.isPassword &&
                     textFieldModel.suffix == null &&
                     textFieldModel.showPasswordVisibleIcon

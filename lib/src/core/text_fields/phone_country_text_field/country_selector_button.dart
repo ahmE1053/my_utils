@@ -1,6 +1,7 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 
+import 'country_picker_placement_enum.dart';
 import 'phone_field_notifier.dart';
 
 class CountrySelectorButton extends StatelessWidget {
@@ -13,6 +14,7 @@ class CountrySelectorButton extends StatelessWidget {
     required this.codePickerDecoration,
     required this.codePickerArrowColor,
     required this.codePickerTextStyle,
+    required this.pickerPlacement,
     this.codePadding = EdgeInsets.zero,
     this.enabled = true,
   });
@@ -23,6 +25,7 @@ class CountrySelectorButton extends StatelessWidget {
   final PhoneFieldNotifier phoneValueNotifier;
   final BoxDecoration? codePickerDecoration;
   final EdgeInsets codePadding;
+  final CountryPickerPlacementEnum pickerPlacement;
   final bool enabled;
   final Color? codePickerArrowColor;
   final TextStyle? codePickerTextStyle;
@@ -51,6 +54,7 @@ class CountrySelectorButton extends StatelessWidget {
             builder: (context, _) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   CountryFlag.fromCountryCode(
                     phoneValueNotifier.country.countryCode,

@@ -49,6 +49,7 @@ export "src/state_models/state_model_listener_widget.dart";
 export "src/state_models/state_model_overlay_loading.dart";
 export "src/state_models/state_model_widget.dart";
 export "src/state_models/state_model_with_opacity_widget.dart";
+export "src/core/text_fields/phone_country_text_field/country_picker_placement_enum.dart";
 
 void setMyUtils({
   TextStyle? globalTextFieldTextStyle,

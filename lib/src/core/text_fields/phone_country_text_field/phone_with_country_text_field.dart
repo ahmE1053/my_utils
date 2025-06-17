@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart'
     show StringTranslateExtension;
 import 'package:flutter/material.dart';
-import 'package:my_utils/src/core/text_fields/phone_country_text_field/countries_input_formatter/country_changer_formatter.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../my_utils.dart';
 import 'countries_overlay.dart';
+import 'country_picker_placement_enum.dart';
 import 'country_selector_button.dart';
 
 class MyPhoneWithCountryTextField extends StatefulWidget {
@@ -19,6 +20,8 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
     this.codePickerTextStyle,
     this.overlayDecoration,
     this.textDirection,
+    this.dividerColor,
+    required this.pickerPlacement,
     this.codePadding = EdgeInsets.zero,
     this.enabled = true,
   });
@@ -28,10 +31,12 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
   final TextDirection? textDirection;
   final double? height;
   final bool enabled;
+  final CountryPickerPlacementEnum pickerPlacement;
   final BoxDecoration? codePickerDecoration;
   final BoxDecoration? overlayDecoration;
   final EdgeInsets codePadding;
   final Color? codePickerArrowColor;
+  final Color? dividerColor;
   final TextStyle? codePickerTextStyle;
   final TextStyle? overlayTextStyle;
 
@@ -49,6 +54,19 @@ class _MyPhoneWithCountryTextFieldState
   late final OverlayPortalController overlayController;
   late final PhoneFieldNotifier phoneValueNotifier;
   final textFieldKey = GlobalKey<FormFieldState>();
+  void Function()? currentFocusValidator;
+
+  void Function() setFocusNodeFormFieldListener(FormFieldState state) {
+    return () {
+      if (!phoneValueNotifier.focusNode.hasPrimaryFocus) {
+        state.validate();
+      }
+    };
+  }
+
+  void focusNodeListener() {
+    currentFocusValidator?.call();
+  }
 
   @override
   void initState() {
@@ -59,10 +77,12 @@ class _MyPhoneWithCountryTextFieldState
       duration: const Duration(milliseconds: 250),
     );
     overlayController = OverlayPortalController();
+    phoneValueNotifier.focusNode.addListener(focusNodeListener);
   }
 
   @override
   void dispose() {
+    phoneValueNotifier.focusNode.removeListener(focusNodeListener);
     animationController.dispose();
     super.dispose();
   }
@@ -82,6 +102,7 @@ class _MyPhoneWithCountryTextFieldState
           animationController: animationController,
           overlayController: overlayController,
           phoneFieldNotifier: widget.phoneValueNotifier,
+          pickerPlacement: widget.pickerPlacement,
         ),
         child: FormField(
           validator: (value) {
@@ -92,12 +113,20 @@ class _MyPhoneWithCountryTextFieldState
                 : validator(fullNumber);
           },
           builder: (field) {
-            if (!field.hasError) return buttonWithTextField;
+            final child = switch (widget.pickerPlacement) {
+              CountryPickerPlacementEnum.outside => buttonWithTextField,
+              CountryPickerPlacementEnum.insidePrefix =>
+                textFieldWithPrefixButton,
+              CountryPickerPlacementEnum.insideSuffix =>
+                textFieldWithSuffixButton,
+            };
+            currentFocusValidator = setFocusNodeFormFieldListener(field);
+            if (!field.hasError) return child;
             textFieldKey.currentState?.validate();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                buttonWithTextField,
+                child,
                 const SizedBox(height: 8),
                 Directionality(
                   textDirection: widget.textDirection ??
@@ -136,6 +165,7 @@ class _MyPhoneWithCountryTextFieldState
           codePickerArrowColor: widget.codePickerArrowColor,
           codePickerTextStyle: widget.codePickerTextStyle,
           codePadding: widget.codePadding,
+          pickerPlacement: widget.pickerPlacement,
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -173,6 +203,148 @@ class _MyPhoneWithCountryTextFieldState
           ),
         ),
       ],
+    );
+    if (widget.height == null) {
+      return IntrinsicHeight(
+        child: child,
+      );
+    }
+    return SizedBox(
+      height: widget.height,
+      child: child,
+    );
+  }
+
+  Widget get textFieldWithSuffixButton {
+    final child = Directionality(
+      textDirection: widget.textDirection ??
+          (context.isArabic ? TextDirection.rtl : TextDirection.ltr),
+      child: ListenableBuilder(
+        listenable: phoneValueNotifier.countryListener,
+        builder: (context, child) => MyPhoneTextField(
+          textFieldModel: widget.textFieldModel.replaceIfNull(
+            fieldFormStateKey: textFieldKey,
+            enabled: widget.enabled,
+            focusNode: phoneValueNotifier.focusNode,
+            hint: phoneValueNotifier.country.hintText,
+            validationMode: AutovalidateMode.onUserInteraction,
+            isDense: false,
+            suffix: Row(
+              spacing: 4,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 20,
+                  child: VerticalDivider(
+                    color: widget.dividerColor ?? Colors.grey[200],
+                  ),
+                ),
+                CountrySelectorButton(
+                  buttonRectKey: buttonRectKey,
+                  overlayController: overlayController,
+                  animationController: animationController,
+                  phoneValueNotifier: phoneValueNotifier,
+                  codePickerDecoration: widget.codePickerDecoration,
+                  codePickerArrowColor: widget.codePickerArrowColor,
+                  codePickerTextStyle: widget.codePickerTextStyle,
+                  codePadding: widget.codePadding,
+                  pickerPlacement: widget.pickerPlacement,
+                ),
+                SizedBox()
+              ],
+            ),
+            // suffixBoxConstraints: BoxConstraints(maxWidth: 110),
+            inputFormatters: [
+              if (phoneValueNotifier.country.inputFormatter != null)
+                phoneValueNotifier.country.inputFormatter!,
+              // CountryChangerFormatter(widget.phoneValueNotifier),
+            ],
+            validator: (_) {
+              final validator = widget.textFieldModel.validator;
+              final fullNumber =
+                  widget.phoneValueNotifier.numberWithCountryCode;
+              return validator == null
+                  ? phoneValueNotifier.validator
+                  : validator(fullNumber);
+            },
+            errorStyle: const TextStyle(
+              fontSize: 0,
+            ),
+          ),
+        ),
+      ),
+    );
+    if (widget.height == null) {
+      return IntrinsicHeight(
+        child: child,
+      );
+    }
+    return SizedBox(
+      height: widget.height,
+      child: child,
+    );
+  }
+
+  Widget get textFieldWithPrefixButton {
+    final child = Directionality(
+      textDirection: widget.textDirection ??
+          (context.isArabic ? TextDirection.rtl : TextDirection.ltr),
+      child: ListenableBuilder(
+        listenable: phoneValueNotifier.countryListener,
+        builder: (context, child) => MyPhoneTextField(
+          textFieldModel: widget.textFieldModel.replaceIfNull(
+            fieldFormStateKey: textFieldKey,
+            enabled: widget.enabled,
+            focusNode: phoneValueNotifier.focusNode,
+            hint: phoneValueNotifier.country.hintText,
+            validationMode: AutovalidateMode.onUserInteraction,
+            isDense: false,
+            prefix: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(width: 12),
+                Flexible(
+                  child: CountrySelectorButton(
+                    buttonRectKey: buttonRectKey,
+                    overlayController: overlayController,
+                    animationController: animationController,
+                    phoneValueNotifier: phoneValueNotifier,
+                    codePickerDecoration: widget.codePickerDecoration,
+                    codePickerArrowColor: widget.codePickerArrowColor,
+                    codePickerTextStyle: widget.codePickerTextStyle,
+                    codePadding: widget.codePadding,
+                    pickerPlacement: widget.pickerPlacement,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                  child: VerticalDivider(
+                    color: widget.dividerColor ?? Colors.grey[200],
+                  ),
+                ),
+              ],
+            ),
+            inputFormatters: [
+              if (phoneValueNotifier.country.inputFormatter != null)
+                phoneValueNotifier.country.inputFormatter!,
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            validator: (_) {
+              final validator = widget.textFieldModel.validator;
+              final fullNumber =
+                  widget.phoneValueNotifier.numberWithCountryCode;
+              return validator == null
+                  ? phoneValueNotifier.validator
+                  : validator(fullNumber);
+            },
+            errorStyle: const TextStyle(
+              fontSize: 0,
+            ),
+          ),
+        ),
+      ),
     );
     if (widget.height == null) {
       return IntrinsicHeight(

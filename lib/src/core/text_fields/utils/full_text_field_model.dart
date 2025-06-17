@@ -28,6 +28,7 @@ class TextFieldModel {
   final int? maxLength;
   final TextDirection? textDirection;
   final BoxConstraints? suffixBoxConstraints;
+  final BoxConstraints? prefixBoxConstraints;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? contentPadding;
   final bool? isDense;
@@ -83,6 +84,7 @@ class TextFieldModel {
     this.minLines,
     this.textDirection,
     this.suffixBoxConstraints,
+    this.prefixBoxConstraints,
     this.padding,
     this.contentPadding,
     this.isDense,
@@ -131,6 +133,7 @@ class TextFieldModel {
     this.minLines,
     this.textDirection,
     this.suffixBoxConstraints,
+    this.prefixBoxConstraints,
     this.padding,
     this.contentPadding,
     this.isDense,
@@ -178,6 +181,7 @@ class TextFieldModel {
     int? maxLength,
     TextDirection? textDirection,
     BoxConstraints? suffixBoxConstraints,
+    BoxConstraints? prefixBoxConstraints,
     EdgeInsets? padding,
     EdgeInsets? contentPadding,
     bool? isDense,
@@ -226,6 +230,7 @@ class TextFieldModel {
         maxLength: this.maxLength ?? maxLength,
         textDirection: this.textDirection ?? textDirection,
         suffixBoxConstraints: this.suffixBoxConstraints ?? suffixBoxConstraints,
+        prefixBoxConstraints: this.prefixBoxConstraints ?? prefixBoxConstraints,
         padding: this.padding ?? padding,
         contentPadding: this.contentPadding ?? contentPadding,
         isDense: this.isDense ?? isDense,
