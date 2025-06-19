@@ -68,6 +68,7 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   void dispose() {
     textFieldDirection.dispose();
+    textFieldModel.controller.removeListener(textFieldDirectionListener);
     if (textFieldModel.obscureText == null) {
       obscureText.dispose();
     }
