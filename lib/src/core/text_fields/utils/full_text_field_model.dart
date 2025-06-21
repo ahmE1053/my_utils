@@ -23,6 +23,7 @@ class TextFieldModel {
   final TextStyle? hintStyle, labelStyle, floatingLabelStyle;
   final Widget? suffix, prefix;
   final TextEditingController controller;
+  final ScrollController? scrollController;
   final int maxLines;
   final int? minLines;
   final int? maxLength;
@@ -98,6 +99,7 @@ class TextFieldModel {
     this.autofillHints,
     this.onTapOutside,
     this.onEditingComplete,
+    this.scrollController,
   });
 
   TextFieldModel.fromPhoneNotifier({
@@ -147,6 +149,7 @@ class TextFieldModel {
     this.autofillHints,
     this.onTapOutside,
     this.onEditingComplete,
+    this.scrollController,
   })  : controller = phoneFieldNotifier.controller,
         focusNode = phoneFieldNotifier.focusNode;
 
@@ -192,6 +195,7 @@ class TextFieldModel {
     Color? focusedBorder,
     Color? disabledBorder,
     Color? enabledBorder,
+    ScrollController? scrollController,
     Iterable<String>? autofillHints,
     void Function(dynamic event)? onTapOutside,
     void Function(TextEditingController value)? onEditingComplete,
@@ -244,6 +248,7 @@ class TextFieldModel {
         autofillHints: this.autofillHints ?? autofillHints,
         onTapOutside: this.onTapOutside ?? onTapOutside,
         onEditingComplete: this.onEditingComplete ?? onEditingComplete,
+        scrollController: this.scrollController ?? scrollController,
       );
 
   TextInputFormatter get getNameFormatter => TextInputFormatter.withFunction(

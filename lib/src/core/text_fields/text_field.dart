@@ -123,6 +123,7 @@ class _MyTextFieldState extends State<MyTextField> {
           onTapOutside: textFieldModel.onTapOutside,
           maxLength: textFieldModel.maxLength,
           focusNode: textFieldModel.focusNode,
+          scrollController: textFieldModel.scrollController,
           textDirection:
               textFieldModel.textDirection ?? textFieldDirection.value,
           controller: textFieldModel.controller,
