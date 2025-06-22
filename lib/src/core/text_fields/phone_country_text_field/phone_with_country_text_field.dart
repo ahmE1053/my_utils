@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import '../../../../my_utils.dart';
 import 'countries_overlay.dart';
-import 'country_picker_placement_enum.dart';
 import 'country_selector_button.dart';
 
 class MyPhoneWithCountryTextField extends StatefulWidget {
@@ -21,7 +20,7 @@ class MyPhoneWithCountryTextField extends StatefulWidget {
     this.overlayDecoration,
     this.textDirection,
     this.dividerColor,
-    required this.pickerPlacement,
+    this.pickerPlacement = CountryPickerPlacementEnum.outside,
     this.codePadding = EdgeInsets.zero,
     this.enabled = true,
   });
