@@ -66,7 +66,7 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       child: Text(
                         phoneCountryNameLocalizer(
                           countryInfo.countryName,
-                          context.locale.languageCode.toLowerCase(),
+                          EasyLocalization.of(context)?.locale.languageCode.toLowerCase()??Localizations.maybeLocaleOf(context)?.languageCode??'ar',
                         ),
                         style: MyUtilAppTextStyle.getTextStyle(
                           fontSize: 12,
