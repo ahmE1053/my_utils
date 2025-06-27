@@ -10,41 +10,68 @@ class MyUserAvatar extends StatelessWidget {
     this.shape,
     this.borderRadius,
     this.boxFit,
+    this.useInk = false,
+    this.imageAlignment,
   });
 
   final String userId;
   final String userName;
   final BoxFit? boxFit;
+  final Alignment? imageAlignment;
   final BoxShape? shape;
   final BorderRadiusGeometry? borderRadius;
   final String? userImage;
+  final bool useInk;
 
   @override
   Widget build(BuildContext context) {
-    final namedAvatar = Ink(
-      decoration: BoxDecoration(
-        shape: shape ?? BoxShape.circle,
-        borderRadius: borderRadius,
-        color: getColorFromStringHSL(userId),
-      ),
-      padding: EdgeInsets.all(8),
-      child: FittedBox(
-        fit: boxFit ?? BoxFit.scaleDown,
-        child: Text(
-          userName[0],
-          style: MyUtilAppTextStyle.getTextStyle(
-            fontWeight: 500,
-            color: Colors.white,
+    late Widget namedAvatar;
+    if (useInk) {
+      namedAvatar = Ink(
+        decoration: BoxDecoration(
+          shape: shape ?? BoxShape.circle,
+          borderRadius: borderRadius,
+          color: getColorFromStringHSL(userId),
+        ),
+        padding: EdgeInsets.all(8),
+        child: FittedBox(
+          fit: boxFit ?? BoxFit.scaleDown,
+          child: Text(
+            userName[0],
+            style: MyUtilAppTextStyle.getTextStyle(
+              fontWeight: 500,
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      namedAvatar = Container(
+        decoration: BoxDecoration(
+          shape: shape ?? BoxShape.circle,
+          borderRadius: borderRadius,
+          color: getColorFromStringHSL(userId),
+        ),
+        padding: EdgeInsets.all(8),
+        child: FittedBox(
+          fit: boxFit ?? BoxFit.scaleDown,
+          child: Text(
+            userName[0],
+            style: MyUtilAppTextStyle.getTextStyle(
+              fontWeight: 500,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
     return SizedBox.expand(
       child: ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.circular(100),
         child: CachedNetworkImageWithLoader(
           imageUrl: userImage ?? '-',
           fit: BoxFit.cover,
+          alignment: imageAlignment,
           error: namedAvatar,
         ),
       ),
