@@ -1,39 +1,50 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+This is a package to offer some convenient methods, extension, shortcut and a custom simple
+state management solution to speed up the development
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+besides the extensions and methods which can be explored simply by looking at the files of the package
+there are three noticeable things
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+## MyTextField
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+They are used to simplify dealing with text fields by offering multiple ready for use fields like
+MyPasswordTextField which automatically configured to hide the password and show with a suffix eye button
+MyRegisterPasswordTextField which applies a strong password regex to the password
+MyConfirmPasswordField which takes another password controllers and compares it own text to the
+provided one and throws an error if they are not the same
 
-## Features
+MyNameTextField, MyFirstNameTextField, MySecondNameTextField, MyLastNameTextField
+which does not allow numbers to be entered and offer labels directly
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+MyEmailTextField which allows applies an email regex and keyboard
 
-## Getting started
+MyPhoneTextField which allows only numbers and applies a number keyboard
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+MyPhoneWithCountryTextField which places a country picker before, or in the field as a suffix or a prefix
+and applies a quick formatter and regex for Egyptian numbers
 
-## Usage
+the main parameter they take is the TextFieldModel
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## TextFieldModel
 
-```dart
-const like = 'sample';
-```
+The parameter taken by all MyTextFields
 
-## Additional information
+It is used to automatically applies different styles and info for the text fields while allowing all of them
+to be completely customizable, you can replace any behavior in them by just providing it for the specific field
+and it will be automatically replaced with what you provided, and it has some helpful parameters like
+showPasswordVisibleIcon, enableAutoCorrection, focusedBorder (color) and so on
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## state management and StateModel
+
+This package has a very simple state management solution and a sealed class StateModel
+
+### StateModel
+
+this is a generic model that wraps it with the most common states like StateInitial, StateSuccess, StateError, StateLoading
+
+instead of defining 4 states for each model in the client app which adds a significant amount of boilerplate
+
+any model can be wrapped directly in it, it has valid equality checks and is state management independent, so it can
+work with any solution (Riverpod, BLoC, Provider or GetX)
+
+### state management
+
