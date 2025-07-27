@@ -10,12 +10,18 @@ class MyUserAvatar extends StatelessWidget {
     this.shape,
     this.borderRadius,
     this.boxFit,
+    this.padding,
+    this.width = 24,
+    this.height = 24,
     this.useInk = false,
     this.imageAlignment,
   });
 
   final String userId;
   final String userName;
+  final double width;
+  final double height;
+  final EdgeInsets? padding;
   final BoxFit? boxFit;
   final Alignment? imageAlignment;
   final BoxShape? shape;
@@ -33,7 +39,7 @@ class MyUserAvatar extends StatelessWidget {
           borderRadius: borderRadius,
           color: getColorFromStringHSL(userId),
         ),
-        padding: EdgeInsets.all(8),
+        padding: padding ?? EdgeInsets.all(8),
         child: FittedBox(
           fit: boxFit ?? BoxFit.scaleDown,
           child: Text(
@@ -52,7 +58,7 @@ class MyUserAvatar extends StatelessWidget {
           borderRadius: borderRadius,
           color: getColorFromStringHSL(userId),
         ),
-        padding: EdgeInsets.all(8),
+        padding: padding ?? EdgeInsets.all(8),
         child: FittedBox(
           fit: boxFit ?? BoxFit.scaleDown,
           child: Text(
@@ -65,14 +71,16 @@ class MyUserAvatar extends StatelessWidget {
         ),
       );
     }
-    return SizedBox.expand(
-      child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.circular(100),
-        child: CachedNetworkImageWithLoader(
-          imageUrl: userImage ?? '-',
-          fit: BoxFit.cover,
-          alignment: imageAlignment,
-          error: namedAvatar,
+    return ClipRRect(
+      borderRadius: borderRadius ?? BorderRadius.circular(100),
+      child: CachedNetworkImageWithLoader(
+        imageUrl: userImage ?? '-',
+        fit: BoxFit.cover,
+        alignment: imageAlignment,
+        error: SizedBox(
+          width: width,
+          height: height,
+          child: namedAvatar,
         ),
       ),
     );
