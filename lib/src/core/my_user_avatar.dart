@@ -11,6 +11,9 @@ class MyUserAvatar extends StatelessWidget {
     this.borderRadius,
     this.boxFit,
     this.padding,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.letters = 1,
     this.width = 24,
     this.height = 24,
     this.useInk = false,
@@ -23,6 +26,9 @@ class MyUserAvatar extends StatelessWidget {
   final double height;
   final EdgeInsets? padding;
   final BoxFit? boxFit;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final int letters;
   final Alignment? imageAlignment;
   final BoxShape? shape;
   final BorderRadiusGeometry? borderRadius;
@@ -32,21 +38,23 @@ class MyUserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget namedAvatar;
+    final lettersText =
+        userName.split(' ').take(letters).map((e) => e[0]).join('');
     if (useInk) {
       namedAvatar = Ink(
         decoration: BoxDecoration(
           shape: shape ?? BoxShape.circle,
           borderRadius: borderRadius,
-          color: getColorFromStringHSL(userId),
+          color: backgroundColor ?? getColorFromStringHSL(userId),
         ),
         padding: padding ?? EdgeInsets.all(8),
         child: FittedBox(
           fit: boxFit ?? BoxFit.scaleDown,
           child: Text(
-            userName[0],
+            lettersText,
             style: MyUtilAppTextStyle.getTextStyle(
               fontWeight: 500,
-              color: Colors.white,
+              color: foregroundColor ?? Colors.white,
             ),
           ),
         ),
@@ -56,16 +64,16 @@ class MyUserAvatar extends StatelessWidget {
         decoration: BoxDecoration(
           shape: shape ?? BoxShape.circle,
           borderRadius: borderRadius,
-          color: getColorFromStringHSL(userId),
+          color: backgroundColor ?? getColorFromStringHSL(userId),
         ),
         padding: padding ?? EdgeInsets.all(8),
         child: FittedBox(
           fit: boxFit ?? BoxFit.scaleDown,
           child: Text(
-            userName[0],
+            lettersText,
             style: MyUtilAppTextStyle.getTextStyle(
               fontWeight: 500,
-              color: Colors.white,
+              color: foregroundColor ?? Colors.white,
             ),
           ),
         ),
