@@ -62,7 +62,8 @@ class MyUserAvatar extends StatelessWidget {
     } else {
       namedAvatar = Container(
         decoration: BoxDecoration(
-          shape: shape ?? BoxShape.circle,
+          shape: shape ??
+              (borderRadius != null ? BoxShape.rectangle : BoxShape.circle),
           borderRadius: borderRadius,
           color: backgroundColor ?? getColorFromStringHSL(userId),
         ),
