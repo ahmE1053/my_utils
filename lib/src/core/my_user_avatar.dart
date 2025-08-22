@@ -38,8 +38,11 @@ class MyUserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget namedAvatar;
-    final lettersText =
-        userName.split(' ').take(letters).map((e) => e[0]).join('');
+    final lettersText = userName
+        .split(' ')
+        .take(letters)
+        .map((e) => e.isEmpty ? '' : e[0])
+        .join('');
     if (useInk) {
       namedAvatar = Ink(
         decoration: BoxDecoration(

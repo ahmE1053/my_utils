@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'consts/text_styles.dart';
 
@@ -74,7 +75,7 @@ class FormErrorColumn extends StatelessWidget {
             if (errorPadding == null) return child;
             return Padding(
               padding: errorPadding!,
-              child: child,
+              child: child.animate().fadeIn().slideX(),
             );
           },
         ),
