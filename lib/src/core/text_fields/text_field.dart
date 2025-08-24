@@ -116,7 +116,6 @@ class _MyTextFieldState extends State<MyTextField> {
               textFieldModel.onTap!();
             }
           },
-          errorBuilder: (context, errorText) => SizedBox(),
           autocorrect: textFieldModel.enableAutoCorrection,
           enableIMEPersonalizedLearning: textFieldModel.enableAutoCorrection,
           enableSuggestions: textFieldModel.enableAutoCorrection,
