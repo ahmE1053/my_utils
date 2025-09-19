@@ -42,6 +42,7 @@ class CountrySelectorButton extends StatelessWidget {
         key: buttonRectKey,
         onTap: enabled
             ? () {
+                primaryFocus?.unfocus();
                 overlayController.show();
                 animationController.forward();
               }
@@ -58,9 +59,11 @@ class CountrySelectorButton extends StatelessWidget {
                 children: [
                   CountryFlag.fromCountryCode(
                     phoneValueNotifier.country.countryCode,
-                    height: 20,
-                    width: 28,
-                    shape: const RoundedRectangle(4),
+                    theme: ImageTheme(
+                      height: 20,
+                      width: 28,
+                      shape: const RoundedRectangle(4),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Text(

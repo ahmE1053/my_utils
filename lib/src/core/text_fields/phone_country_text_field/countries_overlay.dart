@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../context_extensions.dart';
 import 'country_info.dart';
@@ -33,11 +34,13 @@ class CountriesOverlay extends StatefulWidget {
   State<CountriesOverlay> createState() => _CountriesOverlayState();
 }
 
-class _CountriesOverlayState extends State<CountriesOverlay> {
+class _CountriesOverlayState extends State<CountriesOverlay>
+    with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
   final thisWidgetKey = GlobalKey();
   double? smallScreenTopRect;
-  late Timer timer;
+  late Ticker ticker;
+  double? lateTopRect;
 
   void resetTopRect() {
     if (smallScreenTopRect != null) {
@@ -52,6 +55,10 @@ class _CountriesOverlayState extends State<CountriesOverlay> {
     final buttonRect = widget.buttonRectKey.globalPaintBounds;
     if (buttonRect == null) return;
     final topRect = buttonRect.top;
+    if (lateTopRect != topRect) {
+      lateTopRect = topRect;
+      setState(() {});
+    }
     final totalHeight = context.height;
     final totalHeightWithPadding = totalHeight - 50;
     final currentOverlayHeight = overlaySize.height;
@@ -67,10 +74,12 @@ class _CountriesOverlayState extends State<CountriesOverlay> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(
-      Duration(milliseconds: 50),
-      (timer) => animationControllerListener(),
+    ticker = Ticker(
+      (elapsed) {
+        animationControllerListener();
+      },
     );
+    ticker.start();
     widget.animationController.addListener(animationControllerListener);
     widget.animationController.addStatusListener(
       (status) => animationControllerListener(),
@@ -79,7 +88,8 @@ class _CountriesOverlayState extends State<CountriesOverlay> {
 
   @override
   void dispose() {
-    timer.cancel();
+    ticker.stop();
+    ticker.dispose();
     widget.animationController.removeListener(animationControllerListener);
     widget.animationController.removeStatusListener(
       (status) => animationControllerListener(),

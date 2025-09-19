@@ -43,9 +43,11 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                 children: [
                   CountryFlag.fromCountryCode(
                     countryInfo.countryCode,
-                    height: 20,
-                    width: 28,
-                    shape: const RoundedRectangle(3),
+                    theme: ImageTheme(
+                      height: 20,
+                      width: 28,
+                      shape: const RoundedRectangle(3),
+                    ),
                   ),
                   FittedBox(
                     fit: BoxFit.scaleDown,
@@ -54,10 +56,9 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       countryInfo.phoneCode,
                       style: textStyle ??
                           const MyUtilAppTextStyle.getTextStyle(
-                            color: Colors.black87,
-                            fontSize: 12,
-                            fontWeight: 500
-                          ),
+                              color: Colors.black87,
+                              fontSize: 12,
+                              fontWeight: 500),
                     ),
                   ),
                   Flexible(
@@ -66,7 +67,13 @@ class PhoneCountryCodeMenuItem extends StatelessWidget {
                       child: Text(
                         phoneCountryNameLocalizer(
                           countryInfo.countryName,
-                          EasyLocalization.of(context)?.locale.languageCode.toLowerCase()??Localizations.maybeLocaleOf(context)?.languageCode??'ar',
+                          EasyLocalization.of(context)
+                                  ?.locale
+                                  .languageCode
+                                  .toLowerCase() ??
+                              Localizations.maybeLocaleOf(context)
+                                  ?.languageCode ??
+                              'ar',
                         ),
                         style: MyUtilAppTextStyle.getTextStyle(
                           fontSize: 12,
