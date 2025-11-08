@@ -11,6 +11,7 @@ class TextFieldModel {
   final void Function()? onTap;
   final void Function(String? value)? onChanged;
   final String? label, hint;
+  final TextAlignVertical? textAlignVertical;
   final TextStyle? style;
   static TextStyle? globalTextStyle;
   static TextStyle? globalDarkTextFieldTextStyle;
@@ -59,6 +60,7 @@ class TextFieldModel {
     this.enableAutoCorrection = true,
     this.expands = false,
     this.useLabel,
+    this.textAlignVertical,
     this.allBorderRadius,
     this.useHint,
     this.validator,
@@ -110,6 +112,7 @@ class TextFieldModel {
     this.enableAutoCorrection = true,
     this.expands = false,
     this.useLabel,
+    this.textAlignVertical,
     this.allBorderRadius,
     this.useHint,
     this.onTap,
@@ -160,6 +163,7 @@ class TextFieldModel {
     bool? enableInteractiveSelection,
     bool? enableAutoCorrection,
     bool? expands,
+    TextAlignVertical? textAlignVertical,
     bool? useHint,
     double? allBorderRadius,
     String? Function(String? value)? validator,
@@ -210,6 +214,7 @@ class TextFieldModel {
         enableAutoCorrection: enableAutoCorrection ?? this.enableAutoCorrection,
         expands: expands ?? this.expands,
         validator: this.validator ?? validator,
+        textAlignVertical: this.textAlignVertical ?? textAlignVertical,
         onChanged: this.onChanged ?? onChanged,
         label: this.label ?? label,
         hint: this.hint ?? hint,

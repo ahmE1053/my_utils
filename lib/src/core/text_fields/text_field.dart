@@ -139,6 +139,7 @@ class _MyTextFieldState extends State<MyTextField> {
           onChanged: textFieldModel.onChanged,
           inputFormatters: textFieldModel.inputFormatters,
           autofocus: false,
+          textAlignVertical: textFieldModel.textAlignVertical,
           textInputAction: textFieldModel.action,
           keyboardType: textFieldModel.textInputType,
           obscureText: obscureText.value,
