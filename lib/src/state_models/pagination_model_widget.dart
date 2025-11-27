@@ -19,6 +19,7 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
     required this.onError,
     required this.child,
     this.shimmerPadding,
+    this.shimmerItemCount = 10,
     this.initialCall,
     this.isLastPage,
     this.bottomInset,
@@ -91,6 +92,9 @@ class PaginationStateModelWidget<T> extends StatefulWidget {
 
   ///limit [child] size by shimmer extent + bottom padding or not
   final bool useItemExtent;
+
+  ///Number of shimmer items that will be displayed when loading
+  final int shimmerItemCount;
 
   ///what to do when scrolling to the bottom
   final void Function(List<T> oldData) onRequestNewData;
@@ -382,7 +386,7 @@ class _PaginationStateModelWidgetState<T>
                       borderRadius: widget.shimmerBorderRadius,
                     ),
               ),
-        itemCount: 10,
+        itemCount: widget.shimmerItemCount,
         padding: widget.scrollablePadding ??
             EdgeInsets.only(
               top: widget.topInset ?? 0.0,
@@ -393,7 +397,7 @@ class _PaginationStateModelWidgetState<T>
     }
     return GridView.builder(
       key: const ValueKey('LoadingCards'),
-      itemCount: 10,
+      itemCount: widget.shimmerItemCount,
       shrinkWrap: shrinkWrap,
       physics: _scrollController == null
           ? const NeverScrollableScrollPhysics()
