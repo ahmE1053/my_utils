@@ -103,6 +103,7 @@ void showErrorSnackBar(BuildContext context, String text) {
         right: 16,
       ),
       backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 8),
       content: Text(
         text.tr(),
         style: const MyUtilAppTextStyle.getTextStyle(
