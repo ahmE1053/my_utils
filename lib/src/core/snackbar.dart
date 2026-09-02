@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'consts/text_styles.dart';
 import 'context_extensions.dart';
 
+/// Brand-overridable background color for error snackbars. Apps can set this
+/// (e.g. to the brand-brown palette) so error toasts match the design system
+/// instead of a hardcoded red.
+Color myUtilsErrorSnackBarColor = Colors.redAccent;
+
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -102,7 +107,7 @@ void showErrorSnackBar(BuildContext context, String text) {
         left: 16,
         right: 16,
       ),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: myUtilsErrorSnackBarColor,
       duration: Duration(seconds: 8),
       content: Text(
         text.tr(),

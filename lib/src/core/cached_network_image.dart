@@ -14,6 +14,8 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
     this.alignment,
     this.inkImageBorder,
     this.useInk = false,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   final BoxFit? fit;
@@ -25,32 +27,64 @@ class CachedNetworkImageWithLoader extends StatelessWidget {
   static Widget? errorWidget;
   final Alignment? alignment;
 
+  /// Optional override for the decode width (in logical pixels) used for the
+  /// in-memory cache. When null the widget derives it from the laid-out
+  /// constraints and the device pixel ratio so images are never decoded at
+  /// their full source resolution.
+  final int? memCacheWidth;
+
+  /// Optional override for the decode height. See [memCacheWidth].
+  final int? memCacheHeight;
+
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      alignment: alignment ?? Alignment.center,
-      imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
-      imageBuilder: useInk
-          ? (context, imageProvider) =>
-          Ink(
-            decoration: BoxDecoration(
-                borderRadius: inkImageBorder,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: fit,
-                  alignment: alignment ?? Alignment.center,
-                )
-            ),
-          )
-          : null,
-      fit: fit,
-      errorWidget: error == null && errorWidget == null ? null : (_, __,
-          ___) => error ?? errorWidget!,
-      progressIndicatorBuilder: (context, url, progress) =>
-          BaseShimmer(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final dpr = MediaQuery.devicePixelRatioOf(context);
+        int? resolvedCacheWidth = memCacheWidth;
+        int? resolvedCacheHeight = memCacheHeight;
+        // Derive a sensible decode size from the actual layout so thumbnails
+        // are not decoded at full source resolution.
+        if (resolvedCacheWidth == null && resolvedCacheHeight == null) {
+          if (constraints.maxWidth.isFinite && constraints.maxWidth > 0) {
+            resolvedCacheWidth = (constraints.maxWidth * dpr).round();
+          } else if (constraints.maxHeight.isFinite &&
+              constraints.maxHeight > 0) {
+            resolvedCacheHeight = (constraints.maxHeight * dpr).round();
+          }
+        }
+        if (resolvedCacheWidth != null && resolvedCacheWidth <= 0) {
+          resolvedCacheWidth = null;
+        }
+        if (resolvedCacheHeight != null && resolvedCacheHeight <= 0) {
+          resolvedCacheHeight = null;
+        }
+        return CachedNetworkImage(
+          imageUrl: imageUrl,
+          alignment: alignment ?? Alignment.center,
+          imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
+          memCacheWidth: resolvedCacheWidth,
+          memCacheHeight: resolvedCacheHeight,
+          imageBuilder: useInk
+              ? (context, imageProvider) => Ink(
+                    decoration: BoxDecoration(
+                        borderRadius: inkImageBorder,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: fit,
+                          alignment: alignment ?? Alignment.center,
+                        )),
+                  )
+              : null,
+          fit: fit,
+          errorWidget: error == null && errorWidget == null
+              ? null
+              : (_, __, ___) => error ?? errorWidget!,
+          progressIndicatorBuilder: (context, url, progress) => BaseShimmer(
             borderRadius: borderRadius,
           ),
+        );
+      },
     );
   }
 }

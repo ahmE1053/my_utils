@@ -7,6 +7,13 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   @protected
   void Function()? _listenerCallback;
 
+  /// Tracks whether this notifier has been disposed so we never call
+  /// [notifyListeners] after disposal (which throws in debug and is a no-op
+  /// leak in release).
+  bool _disposed = false;
+
+  bool get isDisposed => _disposed;
+
   void init(void Function()? listener) {
     if (listener != null) {
       _listenerCallback = listener;
@@ -15,6 +22,8 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   }
 
   void myDispose(void Function()? listener) {
+    if (_disposed) return;
+    _disposed = true;
     if (listener != null) {
       removeListener(_listenerCallback!);
     }
@@ -23,10 +32,18 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
 
   @override
   void dispose() {
+    if (_disposed) return;
+    _disposed = true;
     if (_listenerCallback != null) {
       removeListener(_listenerCallback!);
     }
     super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (_disposed) return;
+    super.notifyListeners();
   }
 
   StateModelWithListenable([
@@ -34,6 +51,7 @@ abstract class StateModelWithListenable<T> extends ChangeNotifier {
   ]);
 
   void _changeValue(StateModel<T> model) {
+    if (_disposed) return;
     currentState = model;
     notifyListeners();
   }

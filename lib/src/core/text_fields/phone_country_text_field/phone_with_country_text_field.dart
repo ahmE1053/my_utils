@@ -183,6 +183,7 @@ class _MyPhoneWithCountryTextFieldState
                   inputFormatters: [
                     if (phoneValueNotifier.country.inputFormatter != null)
                       phoneValueNotifier.country.inputFormatter!,
+                    FilteringTextInputFormatter.digitsOnly,
                     // CountryChangerFormatter(widget.phoneValueNotifier),
                   ],
                   validator: (_) {
@@ -257,6 +258,7 @@ class _MyPhoneWithCountryTextFieldState
             inputFormatters: [
               if (phoneValueNotifier.country.inputFormatter != null)
                 phoneValueNotifier.country.inputFormatter!,
+              FilteringTextInputFormatter.digitsOnly,
               // CountryChangerFormatter(widget.phoneValueNotifier),
             ],
             validator: (_) {
