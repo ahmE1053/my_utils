@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart' as ez;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_utils/my_utils.dart';
@@ -52,7 +53,10 @@ class _MyTextFieldState extends State<MyTextField> {
         try {
           textFieldDirection.value =
               context.isArabic ? TextDirection.rtl : TextDirection.ltr;
-        } catch (e) {}
+        } catch (e) {
+          // Localization context may not be ready yet; keep current direction.
+          if (kDebugMode) debugPrint('MyTextField direction resolve: $e');
+        }
       }
       for (int i = 0; i < value.length; i++) {
         if (value[i] == ' ') continue;
@@ -85,7 +89,10 @@ class _MyTextFieldState extends State<MyTextField> {
           textFieldDirectionListener();
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      // Locale not available from this context yet; retry on next rebuild.
+      if (kDebugMode) debugPrint('MyTextField locale resolve: $e');
+    }
   }
 
   @override

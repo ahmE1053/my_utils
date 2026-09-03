@@ -30,6 +30,12 @@ class StateModelOverlayLoading<T> extends StatefulWidget {
   static Widget? defaultLoadingIndicator;
   static TextStyle? globalStateModelErrorTextStyle;
 
+  /// Optional hook to map a raw (possibly server-provided) error message to a
+  /// localized, user-friendly string before it is shown. Apps can wire this to
+  /// their localization/error-code table so raw backend strings never leak to
+  /// users. When null the original message is used unchanged.
+  static String Function(String rawMessage)? errorMessageResolver;
+
   @override
   State<StateModelOverlayLoading<T>> createState() =>
       _StateModelOverlayLoadingState<T>();
@@ -111,8 +117,11 @@ class _StateModelOverlayLoadingState<T>
       child: Builder(
         builder: (context) {
           if (stateModel.isError && widget.showError) {
+            final rawMessage = stateModel.getErrorMessage;
             return ErrorColumn(
-              text: stateModel.getErrorMessage,
+              text: StateModelOverlayLoading.errorMessageResolver
+                      ?.call(rawMessage) ??
+                  rawMessage,
               errorTextColor: widget.errorTextColor,
               errorTextStyle: widget.errorTextStyle ??
                   StateModelOverlayLoading.globalStateModelErrorTextStyle,

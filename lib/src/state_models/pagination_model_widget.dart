@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../core/base_shimmer.dart';
@@ -145,6 +146,9 @@ class _PaginationStateModelWidgetState<T>
   ScrollController? _scrollController;
   Timer? timer;
 
+  /// Guards against re-arming a new post-frame callback on every rebuild.
+  bool _fillCheckScheduled = false;
+
   ScrollController get scrollController =>
       widget.upperScrollController ?? _scrollController!;
 
@@ -193,6 +197,8 @@ class _PaginationStateModelWidgetState<T>
   }
 
   void checkIfNotScrollable(_) {
+    _fillCheckScheduled = false;
+    if (!mounted) return;
     final state = widget.stateModel;
     try {
       if (scrollController.hasClients &&
@@ -201,14 +207,22 @@ class _PaginationStateModelWidgetState<T>
           widget.onRequestNewData(state.data);
         }
       }
-      // ignore: empty_catches
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('PaginationStateModelWidget.checkIfNotScrollable: $e');
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final state = widget.stateModel;
-    WidgetsBinding.instance.addPostFrameCallback(checkIfNotScrollable);
+    // Only arm a fill-check when we actually have a success page rendered and
+    // one is not already pending, instead of re-registering on every build.
+    if (state is PaginationStateSuccess<T> && !_fillCheckScheduled) {
+      _fillCheckScheduled = true;
+      WidgetsBinding.instance.addPostFrameCallback(checkIfNotScrollable);
+    }
     final thisWidget = switch (state) {
       PaginationStateInitial<T>() ||
       PaginationStateLoading<T>() =>
@@ -299,11 +313,22 @@ class _PaginationStateModelWidgetState<T>
     List<Widget>? additionalWidgets,
   }) {
     if (data.isEmpty) {
-      return widget.emptyState ??
+      final empty = widget.emptyState ??
           const Text(
             key: ValueKey('No Data Text'),
             'No Data',
           );
+      // When this widget owns its scroll, make the empty state scroll-safe so
+      // it never overflows on small viewports and still supports pull-to-refresh.
+      if (_scrollController == null) return empty;
+      return ListView(
+        key: widget.pageStorageKey,
+        controller: _scrollController,
+        physics: widget.physics ?? const AlwaysScrollableScrollPhysics(),
+        padding: getScrollablePadding(disableBottomInsets),
+        scrollDirection: widget.scrollDirection,
+        children: [empty],
+      );
     }
     if (widget.sliverGridDelegate == null) {
       final list = ListView.builder(
@@ -337,27 +362,33 @@ class _PaginationStateModelWidgetState<T>
         ],
       );
     }
-    final grid = GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      scrollDirection: widget.scrollDirection,
-      itemCount: data.length,
-      padding: getScrollablePadding(disableBottomInsets),
-      itemBuilder: (context, index) => widget.child(data[index]),
-      gridDelegate: widget.sliverGridDelegate!,
-    );
-    return ListView(
+    // Use a sliver-based grid so items are built lazily by the viewport instead
+    // of a shrink-wrapped GridView (which eagerly builds every child and
+    // defeats pagination laziness) nested inside a ListView.
+    return CustomScrollView(
       key: widget.pageStorageKey,
       controller: _scrollController,
       physics: _scrollController == null
           ? const NeverScrollableScrollPhysics()
           : widget.physics,
       shrinkWrap: shrinkWrap,
-      padding: getScrollablePadding(disableBottomInsets),
       scrollDirection: widget.scrollDirection,
-      children: [
-        grid,
-        ...?additionalWidgets,
+      slivers: [
+        SliverPadding(
+          padding: getScrollablePadding(disableBottomInsets),
+          sliver: SliverGrid.builder(
+            itemCount: data.length,
+            gridDelegate: widget.sliverGridDelegate!,
+            itemBuilder: (context, index) => widget.child(data[index]),
+          ),
+        ),
+        if (additionalWidgets != null)
+          SliverToBoxAdapter(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: additionalWidgets,
+            ),
+          ),
       ],
     );
   }

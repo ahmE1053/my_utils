@@ -14,10 +14,10 @@ class BaseShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: context.isDarkMode
-          ? Colors.grey.shade300.withOpacity(0.3)
+          ? Colors.grey.shade300.withValues(alpha: 0.3)
           : Colors.grey.shade300,
       highlightColor: context.isDarkMode
-          ? Colors.grey.shade100.withOpacity(0.3)
+          ? Colors.grey.shade100.withValues(alpha: 0.3)
           : Colors.grey.shade100,
       enabled: true,
       child: Container(
